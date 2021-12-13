@@ -1,0 +1,2 @@
+# Qlimitive
+Primitive SQL generator
