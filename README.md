@@ -1,2 +1,2 @@
-# Qlimitive
-Primitive SQL generator
+# QLimitive
+**QLimitive** is a primitive SQL generator called '*Primitive*'.
