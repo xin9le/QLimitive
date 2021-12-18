@@ -17,7 +17,7 @@ public readonly struct Query
     /// <summary>
     /// Gets the bind parameter collection.
     /// </summary>
-    public BindParameter? Parameters { get; }
+    public BindParameterCollection? Parameters { get; }
     #endregion
 
 
@@ -25,7 +25,7 @@ public readonly struct Query
     /// <summary>
     /// Creates instance.
     /// </summary>
-    internal Query(string text, BindParameter? parameters)
+    internal Query(string text, BindParameterCollection? parameters)
     {
         this.Text = text;
         this.Parameters = parameters;

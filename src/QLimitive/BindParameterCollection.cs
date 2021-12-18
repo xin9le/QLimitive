@@ -12,7 +12,7 @@ namespace QLimitive;
 /// <summary>
 /// Represents bind parameters.
 /// </summary>
-public sealed class BindParameter : IDictionary<string, object?>, IReadOnlyDictionary<string, object?>
+public sealed class BindParameterCollection : IDictionary<string, object?>, IReadOnlyDictionary<string, object?>
 {
     #region Properties
     /// <summary>
@@ -26,7 +26,7 @@ public sealed class BindParameter : IDictionary<string, object?>, IReadOnlyDicti
     /// <summary>
     /// Creates instance.
     /// </summary>
-    public BindParameter()
+    public BindParameterCollection()
         : this(new Dictionary<string, object?>())
     { }
 
@@ -35,7 +35,7 @@ public sealed class BindParameter : IDictionary<string, object?>, IReadOnlyDicti
     /// Creates instance.
     /// </summary>
     /// <param name="source"></param>
-    public BindParameter(IDictionary<string, object?> source)
+    public BindParameterCollection(IDictionary<string, object?> source)
         => this.Inner = source;
     #endregion
 
@@ -200,9 +200,9 @@ public sealed class BindParameter : IDictionary<string, object?>, IReadOnlyDicti
     /// <typeparam name="T"></typeparam>
     /// <param name="obj"></param>
     /// <returns></returns>
-    public static BindParameter From<T>(T obj)
+    public static BindParameterCollection From<T>(T obj)
     {
-        var result = new BindParameter();
+        var result = new BindParameterCollection();
         var members = TypeAccessor.Create(typeof(T)).GetMembers();
         var accessor = ObjectAccessor.Create(obj);
         for (var i = 0; i < members.Count; i++)
@@ -219,12 +219,12 @@ public sealed class BindParameter : IDictionary<string, object?>, IReadOnlyDicti
     /// Clones the instance.
     /// </summary>
     /// <returns></returns>
-    public BindParameter Clone()
+    public BindParameterCollection Clone()
     {
-        IDictionary<string, object?> result = new BindParameter();
+        IDictionary<string, object?> result = new BindParameterCollection();
         foreach (var x in this)
             result.Add(x);
-        return (BindParameter)result;
+        return (BindParameterCollection)result;
     }
     #endregion
 
