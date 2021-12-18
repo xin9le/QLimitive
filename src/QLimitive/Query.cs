@@ -3,21 +3,21 @@
 
 
 /// <summary>
-/// Represents a query statement and parameter pair.
+/// Represents a query text and bind parameter pair.
 /// </summary>
 public readonly struct Query
 {
     #region Properties
     /// <summary>
-    /// Gets SQL statement.
+    /// Gets the SQL text.
     /// </summary>
-    public string Statement { get; }
+    public string Text { get; }
 
 
     /// <summary>
-    /// Gets bind parameter collection.
+    /// Gets the bind parameter collection.
     /// </summary>
-    public BindParameter? BindParameter { get; }
+    public BindParameter? Parameters { get; }
     #endregion
 
 
@@ -25,10 +25,10 @@ public readonly struct Query
     /// <summary>
     /// Creates instance.
     /// </summary>
-    internal Query(string statement, BindParameter? bindParameter)
+    internal Query(string text, BindParameter? parameters)
     {
-        this.Statement = statement;
-        this.BindParameter = bindParameter;
+        this.Text = text;
+        this.Parameters = parameters;
     }
     #endregion
 }
