@@ -30,7 +30,7 @@ internal readonly struct Count<T> : IQueryBuildable
 
     #region IQueryBuildable implementations
     /// <inheritdoc/>
-    public void Build(in Utf16ValueStringBuilder builder, ref BindParameterCollection? parameters)
+    public void Build(ref Utf16ValueStringBuilder builder, ref BindParameterCollection? parameters)
     {
         var bracket = this.Dialect.KeywordBracket;
         builder.Append("select count(*) as ");

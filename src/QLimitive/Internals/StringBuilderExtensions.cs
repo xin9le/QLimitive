@@ -17,7 +17,7 @@ internal static class StringBuilderExtensions
     /// <param name="builder"></param>
     /// <param name="dialect"></param>
     /// <remarks>- i.g.) [dbo].[TableName]</remarks>
-    public static void AppendTableName<T>(in this Utf16ValueStringBuilder builder, DbDialect dialect)
+    public static void AppendTableName<T>(ref this Utf16ValueStringBuilder builder, DbDialect dialect)
     {
         var table = TableMappingInfo.Get<T>();
         var schema = table.Schema ?? dialect.DefaultSchema;

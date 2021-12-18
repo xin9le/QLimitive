@@ -14,5 +14,5 @@ internal interface IQueryBuildable
     /// </summary>
     /// <param name="builder"></param>
     /// <param name="parameters"></param>
-    void Build(in Utf16ValueStringBuilder builder, ref BindParameterCollection? parameters);
+    void Build(ref Utf16ValueStringBuilder builder, ref BindParameterCollection? parameters);
 }
