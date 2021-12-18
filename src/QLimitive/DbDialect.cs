@@ -30,6 +30,12 @@ public readonly struct DbDialect
 
 
     /// <summary>
+    /// Gets the maximum number of elements that can be included in an in operator.
+    /// </summary>
+    public int InOperatorMaxCount { get; }
+
+
+    /// <summary>
     /// Gets the default schema.
     /// </summary>
     public string? DefaultSchema { get; }
@@ -40,15 +46,12 @@ public readonly struct DbDialect
     /// <summary>
     /// Creates instance.
     /// </summary>
-    /// <param name="database"></param>
-    /// <param name="bindParameterPrefix"></param>
-    /// <param name="keywordBracket"></param>
-    /// <param name="defaultSchema"></param>
-    private DbDialect(DbKind database, char bindParameterPrefix, in BracketPair keywordBracket, string? defaultSchema)
+    private DbDialect(DbKind database, char bindParameterPrefix, in BracketPair keywordBracket, int inOperatorMaxCount, string? defaultSchema)
     {
         this.Database = database;
         this.BindParameterPrefix = bindParameterPrefix;
         this.KeywordBracket = keywordBracket;
+        this.InOperatorMaxCount = inOperatorMaxCount;
         this.DefaultSchema = defaultSchema;
     }
 
@@ -92,6 +95,7 @@ public readonly struct DbDialect
         DbKind.SqlServer,
         '@',
         new BracketPair('[', ']'),
+        1000,
         "dbo"
     );
 
@@ -104,7 +108,8 @@ public readonly struct DbDialect
         DbKind.MySql,
         '@',
         new BracketPair('`', '`'),
-        null
+        1000,
+       null
     );
 
 
@@ -116,6 +121,7 @@ public readonly struct DbDialect
         DbKind.Sqlite,
         '@',
         new BracketPair('"', '"'),
+        1000,
         null
     );
 
@@ -128,6 +134,7 @@ public readonly struct DbDialect
         DbKind.PostgreSql,
         ':',
         new BracketPair('"', '"'),
+        1000,
         null
    );
 
@@ -140,6 +147,7 @@ public readonly struct DbDialect
         DbKind.Oracle,
         ':',
         new BracketPair('"', '"'),
+        1000,
         null
     );
     #endregion
