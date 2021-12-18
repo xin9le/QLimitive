@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net6</TargetFramework>
@@ -17,7 +17,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\QLimitive\QLimitive.csproj" />
+        <ProjectReference Include="..\QLimitive\QLimitive.csproj" />
     </ItemGroup>
 
 </Project>
