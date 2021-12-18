@@ -65,3 +65,28 @@ public ref struct QueryBuilder<T> //: IDisposable
     }
     #endregion
 }
+
+
+
+/// <summary>
+/// Provides shorthand notation for <see cref="QueryBuilder{T}"/>.
+/// </summary>
+public static class QueryBuilder
+{
+    #region Count
+    /// <summary>
+    /// Builds count statement.
+    /// </summary>
+    /// <typeparam name="T">Table mapping type</typeparam>
+    /// <param name="dialect"></param>
+    /// <returns></returns>
+    public static Query Count<T>(DbDialect dialect)
+    {
+        using (var builder = new QueryBuilder<T>(dialect))
+        {
+            builder.Count();
+            return builder.Build();
+        }
+    }
+    #endregion
+}
