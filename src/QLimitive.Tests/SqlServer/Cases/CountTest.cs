@@ -1,5 +1,4 @@
-﻿using Cysharp.Text;
-using FluentAssertions;
+﻿using FluentAssertions;
 using QLimitive.Tests.SqlServer.Models;
 using Xunit;
 
