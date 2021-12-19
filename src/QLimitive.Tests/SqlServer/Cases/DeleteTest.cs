@@ -12,7 +12,7 @@ public sealed class DeleteTest
 
 
     [Fact]
-    public void Create()
+    public void All()
     {
         var actual = QueryBuilder.Delete<Person>(this.Dialect);
         var expect = "delete from [dbo].[T_People]";
