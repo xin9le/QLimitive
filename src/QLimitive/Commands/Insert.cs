@@ -7,7 +7,7 @@ namespace QLimitive.Commands;
 
 
 /// <summary>
-/// Represents delete command.
+/// Represents insert command.
 /// </summary>
 /// <typeparam name="T"></typeparam>
 internal readonly struct Insert<T> : IQueryBuildable
