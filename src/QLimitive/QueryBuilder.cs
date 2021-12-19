@@ -63,6 +63,17 @@ public ref struct QueryBuilder<T> //: IDisposable
         var command = new Count<T>(this.dialect);
         command.Build(ref this.stringBuilder, ref this.bindParameters);
     }
+
+
+    /// <summary>
+    /// Builds truncate statement.
+    /// </summary>
+    /// <returns></returns>
+    public void Truncate()
+    {
+        var command = new Truncate<T>(this.dialect);
+        command.Build(ref this.stringBuilder, ref this.bindParameters);
+    }
     #endregion
 }
 
@@ -85,6 +96,24 @@ public static class QueryBuilder
         using (var builder = new QueryBuilder<T>(dialect))
         {
             builder.Count();
+            return builder.Build();
+        }
+    }
+    #endregion
+
+
+    #region Truncate
+    /// <summary>
+    /// Builds truncate statement.
+    /// </summary>
+    /// <typeparam name="T">Table mapping type</typeparam>
+    /// <param name="dialect"></param>
+    /// <returns></returns>
+    public static Query Truncate<T>(DbDialect dialect)
+    {
+        using (var builder = new QueryBuilder<T>(dialect))
+        {
+            builder.Truncate();
             return builder.Build();
         }
     }
