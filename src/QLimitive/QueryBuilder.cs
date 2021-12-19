@@ -1,4 +1,6 @@
-﻿using Cysharp.Text;
+﻿using System;
+using System.Linq.Expressions;
+using Cysharp.Text;
 using QLimitive.Commands;
 
 namespace QLimitive;
@@ -66,6 +68,18 @@ public ref struct QueryBuilder<T> //: IDisposable
 
 
     /// <summary>
+    /// Builds select statement.
+    /// </summary>
+    /// <param name="members">Members that mapped to the target column. If null, all columns are targeted.</param>
+    /// <returns></returns>
+    public void Select(Expression<Func<T, object?>>? members = null)
+    {
+        var command = new Select<T>(this.dialect, members);
+        command.Build(ref this.stringBuilder, ref this.bindParameters);
+    }
+
+
+    /// <summary>
     /// Builds insert statement.
     /// </summary>
     /// <param name="useDefaultValue"></param>
@@ -119,6 +133,25 @@ public static class QueryBuilder
         using (var builder = new QueryBuilder<T>(dialect))
         {
             builder.Count();
+            return builder.Build();
+        }
+    }
+    #endregion
+
+
+    #region Select
+    /// <summary>
+    /// Builds select statement.
+    /// </summary>
+    /// <typeparam name="T">Table mapping type</typeparam>
+    /// <param name="dialect"></param>
+    /// <param name="members">Members that mapped to the target column. If null, all columns are targeted.</param>
+    /// <returns></returns>
+    public static Query Select<T>(DbDialect dialect, Expression<Func<T, object?>>? members = null)
+    {
+        using (var builder = new QueryBuilder<T>(dialect))
+        {
+            builder.Select(members);
             return builder.Build();
         }
     }
