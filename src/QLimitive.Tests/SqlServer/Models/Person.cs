@@ -15,8 +15,16 @@ public sealed class Person
     public int Id { get; init; }
 
 
-    [Column("名前")]
-    public string Name { get; init; }
+    [Column("姓")]
+    public string LastName { get; init; }
+
+
+    [Column("名")]
+    public string FirstName { get; init; }
+
+
+    [NotMapped]
+    public string FullName => $"{this.LastName} {this.FirstName}";
 
 
     public int Age { get; init; }
