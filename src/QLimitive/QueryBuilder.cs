@@ -66,6 +66,18 @@ public ref struct QueryBuilder<T> //: IDisposable
 
 
     /// <summary>
+    /// Builds insert statement.
+    /// </summary>
+    /// <param name="useDefaultValue"></param>
+    /// <returns></returns>
+    public void Insert(bool useDefaultValue = false)
+    {
+        var command = new Insert<T>(this.dialect, useDefaultValue);
+        command.Build(ref this.stringBuilder, ref this.bindParameters);
+    }
+
+
+    /// <summary>
     /// Builds delete statement.
     /// </summary>
     /// <returns></returns>
@@ -107,6 +119,25 @@ public static class QueryBuilder
         using (var builder = new QueryBuilder<T>(dialect))
         {
             builder.Count();
+            return builder.Build();
+        }
+    }
+    #endregion
+
+
+    #region Insert
+    /// <summary>
+    /// Builds insert statement.
+    /// </summary>
+    /// <typeparam name="T">Table mapping type</typeparam>
+    /// <param name="dialect"></param>
+    /// <param name="useDefaultValue"></param>
+    /// <returns></returns>
+    public static Query Insert<T>(DbDialect dialect, bool useDefaultValue = false)
+    {
+        using (var builder = new QueryBuilder<T>(dialect))
+        {
+            builder.Insert(useDefaultValue);
             return builder.Build();
         }
     }
