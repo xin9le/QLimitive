@@ -80,6 +80,19 @@ public ref struct QueryBuilder<T> //: IDisposable
 
 
     /// <summary>
+    /// Builds update statement.
+    /// </summary>
+    /// <param name="members">Members that mapped to the target column. If null, all columns are targeted.</param>
+    /// <param name="useDefaultValue"></param>
+    /// <returns></returns>
+    public void Update(Expression<Func<T, object?>>? members = null, bool useDefaultValue = false)
+    {
+        var command = new Update<T>(this.dialect, members, useDefaultValue);
+        command.Build(ref this.stringBuilder, ref this.bindParameters);
+    }
+
+
+    /// <summary>
     /// Builds insert statement.
     /// </summary>
     /// <param name="useDefaultValue"></param>
@@ -152,6 +165,26 @@ public static class QueryBuilder
         using (var builder = new QueryBuilder<T>(dialect))
         {
             builder.Select(members);
+            return builder.Build();
+        }
+    }
+    #endregion
+
+
+    #region Update
+    /// <summary>
+    /// Builds update statement.
+    /// </summary>
+    /// <typeparam name="T">Table mapping type</typeparam>
+    /// <param name="dialect"></param>
+    /// <param name="members">Members that mapped to the target column. If null, all columns are targeted.</param>
+    /// <param name="useDefaultValue"></param>
+    /// <returns></returns>
+    public static Query Update<T>(DbDialect dialect, Expression<Func<T, object?>>? members = null, bool useDefaultValue = false)
+    {
+        using (var builder = new QueryBuilder<T>(dialect))
+        {
+            builder.Update(members, useDefaultValue);
             return builder.Build();
         }
     }
