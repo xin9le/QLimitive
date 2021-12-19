@@ -66,6 +66,17 @@ public ref struct QueryBuilder<T> //: IDisposable
 
 
     /// <summary>
+    /// Builds delete statement.
+    /// </summary>
+    /// <returns></returns>
+    public void Delete()
+    {
+        var command = new Delete<T>(this.dialect);
+        command.Build(ref this.stringBuilder, ref this.bindParameters);
+    }
+
+
+    /// <summary>
     /// Builds truncate statement.
     /// </summary>
     /// <returns></returns>
@@ -96,6 +107,24 @@ public static class QueryBuilder
         using (var builder = new QueryBuilder<T>(dialect))
         {
             builder.Count();
+            return builder.Build();
+        }
+    }
+    #endregion
+
+
+    #region Delete
+    /// <summary>
+    /// Builds delete statement.
+    /// </summary>
+    /// <typeparam name="T">Table mapping type</typeparam>
+    /// <param name="dialect"></param>
+    /// <returns></returns>
+    public static Query Delete<T>(DbDialect dialect)
+    {
+        using (var builder = new QueryBuilder<T>(dialect))
+        {
+            builder.Delete();
             return builder.Build();
         }
     }
