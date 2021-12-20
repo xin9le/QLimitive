@@ -148,6 +148,30 @@ public ref struct QueryBuilder<T> //: IDisposable
         var command = new OrderBy<T>(this.dialect, member, false);
         command.Build(ref this.stringBuilder, ref this.bindParameters);
     }
+
+
+    /// <summary>
+    /// Builds ascending then-by clause.
+    /// </summary>
+    /// <param name="member"></param>
+    /// <returns></returns>
+    public void ThenBy(Expression<Func<T, object?>> member)
+    {
+        var command = new ThenBy<T>(this.dialect, member, true);
+        command.Build(ref this.stringBuilder, ref this.bindParameters);
+    }
+
+
+    /// <summary>
+    /// Builds descending then-by clause.
+    /// </summary>
+    /// <param name="member"></param>
+    /// <returns></returns>
+    public void ThenByDescending(Expression<Func<T, object?>> member)
+    {
+        var command = new ThenBy<T>(this.dialect, member, false);
+        command.Build(ref this.stringBuilder, ref this.bindParameters);
+    }
     #endregion
 }
 
