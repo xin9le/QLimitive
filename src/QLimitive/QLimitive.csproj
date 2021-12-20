@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
@@ -9,6 +9,31 @@
     <ItemGroup>
         <PackageReference Include="FastMember" Version="1.5.0" />
         <PackageReference Include="ZString" Version="2.4.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Update="Internals\EnumerableExtensions_ToFrozenDictionary.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>EnumerableExtensions_ToFrozenDictionary.tt</DependentUpon>
+        </Compile>
+        <Compile Update="Internals\FrozenDictionary.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>FrozenDictionary.tt</DependentUpon>
+        </Compile>
+        <None Update="Internals\EnumerableExtensions_ToFrozenDictionary.tt">
+            <Generator>TextTemplatingFileGenerator</Generator>
+            <LastGenOutput>EnumerableExtensions_ToFrozenDictionary.cs</LastGenOutput>
+        </None>
+        <None Update="Internals\FrozenDictionary.tt">
+            <Generator>TextTemplatingFileGenerator</Generator>
+            <LastGenOutput>FrozenDictionary.cs</LastGenOutput>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
     </ItemGroup>
 
 </Project>
