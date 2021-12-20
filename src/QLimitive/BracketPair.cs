@@ -32,5 +32,17 @@ public readonly struct BracketPair
         this.Begin = begin;
         this.End = end;
     }
+
+
+    /// <summary>
+    /// Deconstruct into begin and end.
+    /// </summary>
+    /// <param name="begin"></param>
+    /// <param name="end"></param>
+    public void Deconstruct(out char begin, out char end)
+    {
+        begin = this.Begin;
+        end = this.End;
+    }
     #endregion
 }
