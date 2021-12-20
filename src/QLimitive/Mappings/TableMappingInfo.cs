@@ -39,6 +39,12 @@ internal sealed class TableMappingInfo
     /// Gets the column mapping information.
     /// </summary>
     public ReadOnlyArray<ColumnMappingInfo> Columns { get; private init; }
+
+
+    /// <summary>
+    /// Gets the column mapping information by member name.
+    /// </summary>
+    public FrozenStringKeyDictionary<ColumnMappingInfo> ColumnByMemberName { get; private init; }
     #endregion
 
 
@@ -85,12 +91,14 @@ internal sealed class TableMappingInfo
         {
             var type = typeof(T);
             var tableAttr = type.GetCustomAttributes<TableAttribute>(true).FirstOrDefault();
+            var columns = getColumns().ToReadOnlyArray();
             Instance = new()
             {
                 Type = type,
                 Schema = tableAttr?.Schema,
                 Name = tableAttr?.Name ?? type.Name,
-                Columns = getColumns().ToReadOnlyArray(),
+                Columns = columns,
+                ColumnByMemberName = columns.ToFrozenStringKeyDictionary(x => x.MemberName),
             };
 
             #region Local Functions
