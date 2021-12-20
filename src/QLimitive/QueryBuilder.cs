@@ -133,7 +133,6 @@ public ref struct QueryBuilder<T> //: IDisposable
     /// <returns></returns>
     public void OrderBy(Expression<Func<T, object?>> member)
     {
-        this.AppendLineIfNotEmpty();
         var command = new OrderBy<T>(this.dialect, member, true);
         command.Build(ref this.stringBuilder, ref this.bindParameters);
     }
@@ -146,21 +145,8 @@ public ref struct QueryBuilder<T> //: IDisposable
     /// <returns></returns>
     public void OrderByDescending(Expression<Func<T, object?>> member)
     {
-        this.AppendLineIfNotEmpty();
         var command = new OrderBy<T>(this.dialect, member, false);
         command.Build(ref this.stringBuilder, ref this.bindParameters);
-    }
-    #endregion
-
-
-    #region Helpers
-    /// <summary>
-    /// Append default line terminator to the end, if statement isn't empty.
-    /// </summary>
-    private void AppendLineIfNotEmpty()
-    {
-        if (this.stringBuilder.Length > 0)
-            this.stringBuilder.AppendLine();
     }
     #endregion
 }

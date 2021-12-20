@@ -56,6 +56,9 @@ internal readonly struct OrderBy<T> : IQueryBuildable
         var columnName = table.ColumnByMemberName[memberName].ColumnName;
         var bracket = this.Dialect.KeywordBracket;
 
+        if (builder.Length > 0)
+            builder.AppendLine();
+
         builder.AppendLine("order by");
         builder.Append("    ");
         builder.Append(bracket.Begin);
