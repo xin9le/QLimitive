@@ -127,6 +127,18 @@ public ref struct QueryBuilder<T> //: IDisposable
 
 
     /// <summary>
+    /// Builds where clause.
+    /// </summary>
+    /// <param name="predicate"></param>
+    /// <returns></returns>
+    public void Where(Expression<Func<T, bool>> predicate)
+    {
+        var command = new Where<T>(this.dialect, predicate);
+        command.Build(ref this.stringBuilder, ref this.bindParameters);
+    }
+
+
+    /// <summary>
     /// Builds ascending order-by clause.
     /// </summary>
     /// <param name="member"></param>
