@@ -97,7 +97,7 @@ where
     [Age] as [Age],
     [HasChildren] as [HasChildren],
     [CreatedAt] as [CreatedAt],
-    [UpdatedOn] as [ModifiedAt]
+    [UpdatedAt] as [ModifiedAt]
 from [dbo].[T_People]
 where
     [Id] = @p1 or [姓] <> @p2";
@@ -130,7 +130,7 @@ where
     [Age] as [Age],
     [HasChildren] as [HasChildren],
     [CreatedAt] as [CreatedAt],
-    [UpdatedOn] as [ModifiedAt]
+    [UpdatedAt] as [ModifiedAt]
 from [dbo].[T_People]
 where
     [Id] = @p1 or ([姓] <> @p2 and [Age] > @p3)

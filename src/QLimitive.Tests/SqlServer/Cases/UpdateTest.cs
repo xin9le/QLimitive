@@ -25,7 +25,7 @@ set
     [Age] = @Age,
     [HasChildren] = @HasChildren,
     [CreatedAt] = @CreatedAt,
-    [UpdatedOn] = @ModifiedAt";
+    [UpdatedAt] = @ModifiedAt";
         actual.Text.Should().Be(expect);
         actual.Parameters.Should().NotBeNull();
         actual.Parameters.Should().Contain(new KeyValuePair<string, object?>[]
@@ -54,7 +54,7 @@ set
     [Age] = @Age,
     [HasChildren] = @HasChildren,
     [CreatedAt] = SYSDATETIME(),
-    [UpdatedOn] = SYSDATETIME()";
+    [UpdatedAt] = SYSDATETIME()";
         actual.Text.Should().Be(expect);
         actual.Parameters.Should().NotBeNull();
         actual.Parameters.Should().Contain(new KeyValuePair<string, object?>[]
@@ -104,7 +104,7 @@ set
 @"update [dbo].[T_People]
 set
     [姓] = @LastName,
-    [UpdatedOn] = @ModifiedAt";
+    [UpdatedAt] = @ModifiedAt";
         actual.Text.Should().Be(expect);
         actual.Parameters.Should().NotBeNull();
         actual.Parameters.Should().Contain(new KeyValuePair<string, object?>[]
@@ -123,7 +123,7 @@ set
 @"update [dbo].[T_People]
 set
     [姓] = @LastName,
-    [UpdatedOn] = SYSDATETIME()";
+    [UpdatedAt] = SYSDATETIME()";
         actual.Text.Should().Be(expect);
         actual.Parameters.Should().NotBeNull();
         actual.Parameters.Should().Contain(new KeyValuePair<string, object?>("LastName", null));

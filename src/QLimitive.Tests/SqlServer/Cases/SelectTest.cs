@@ -23,7 +23,7 @@ public sealed class SelectTest
     [Age] as [Age],
     [HasChildren] as [HasChildren],
     [CreatedAt] as [CreatedAt],
-    [UpdatedOn] as [ModifiedAt]
+    [UpdatedAt] as [ModifiedAt]
 from [dbo].[T_People]";
         actual.Text.Should().Be(expect);
         actual.Parameters.Should().BeNull();

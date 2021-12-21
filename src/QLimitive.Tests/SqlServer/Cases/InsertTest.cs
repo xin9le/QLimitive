@@ -24,7 +24,7 @@ public sealed class InsertTest
     [Age],
     [HasChildren],
     [CreatedAt],
-    [UpdatedOn]
+    [UpdatedAt]
 )
 values
 (
@@ -61,7 +61,7 @@ values
     [Age],
     [HasChildren],
     [CreatedAt],
-    [UpdatedOn]
+    [UpdatedAt]
 )
 values
 (

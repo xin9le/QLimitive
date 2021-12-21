@@ -37,7 +37,7 @@ public sealed class Person
     public DateTimeOffset CreatedAt { get; init; }
 
 
-    [Column("UpdatedOn")]
+    [Column("UpdatedAt")]
     [DefaultValue("SYSDATETIME()")]
     public DateTimeOffset ModifiedAt { get; init; }
 #pragma warning restore CS8618
