@@ -3,6 +3,8 @@
 **QLimitive** is an attribute-based primitive SQL generator that respects the Entity Framework Core and is called '*Primitive*'.
 
 
+[![Releases](https://img.shields.io/github/release/xin9le/QLimitive.svg)](https://github.com/xin9le/QLimitive/releases)
+
 
 ## Support Platform
 
