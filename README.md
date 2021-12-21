@@ -12,7 +12,7 @@
 
 ## Attribute-based O/R mapping information
 
-QLimitive performs O/R mapping and generates SQL based on the attributes used in Entity Framework Core.
+**QLimitive** performs O/R mapping and generates SQL based on the attributes used in Entity Framework Core.
 
 
 ```cs
