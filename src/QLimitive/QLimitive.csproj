@@ -11,7 +11,7 @@
         <IsPackable>true</IsPackable>
         <PackageId>QLimitive</PackageId>
         <Version>0.1.0.0</Version>
-        <Description>An attribute-based SQL generator that respects Entity Framework Core.</Description>
+        <Description>An attribute-based primitive SQL generator that respects Entity Framework Core.</Description>
         <PackageProjectUrl>https://github.com/xin9le/QLimitive</PackageProjectUrl>
         <PackageTags>Database, SQL, Generator</PackageTags>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
