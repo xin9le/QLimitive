@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
 using FluentAssertions;
-using QLimitive.Tests.SqlServer.Models;
+using QLimitive.UnitTests.SqlServer.Models;
 using Xunit;
 
-namespace QLimitive.Tests.SqlServer.Cases;
+namespace QLimitive.UnitTests.SqlServer.Cases;
 
 
 

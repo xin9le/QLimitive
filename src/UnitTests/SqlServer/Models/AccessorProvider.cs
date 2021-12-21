@@ -1,4 +1,4 @@
-﻿namespace QLimitive.Tests.SqlServer.Models;
+﻿namespace QLimitive.UnitTests.SqlServer.Models;
 
 
 
