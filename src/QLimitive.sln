@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QLimitive", "QLimitive\QLimitive.csproj", "{E9A553AC-29A7-41A4-AAF8-FD2C7BC93EBA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QLimitive.Tests", "QLimitive.Tests\QLimitive.Tests.csproj", "{02F436F0-DCA8-4D05-BF9C-C19C38610012}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "UnitTests\UnitTests.csproj", "{A15CC41F-EB36-4A26-A74C-3819C4A62FDF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{E9A553AC-29A7-41A4-AAF8-FD2C7BC93EBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E9A553AC-29A7-41A4-AAF8-FD2C7BC93EBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E9A553AC-29A7-41A4-AAF8-FD2C7BC93EBA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{02F436F0-DCA8-4D05-BF9C-C19C38610012}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{02F436F0-DCA8-4D05-BF9C-C19C38610012}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{02F436F0-DCA8-4D05-BF9C-C19C38610012}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{02F436F0-DCA8-4D05-BF9C-C19C38610012}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A15CC41F-EB36-4A26-A74C-3819C4A62FDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A15CC41F-EB36-4A26-A74C-3819C4A62FDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A15CC41F-EB36-4A26-A74C-3819C4A62FDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A15CC41F-EB36-4A26-A74C-3819C4A62FDF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
