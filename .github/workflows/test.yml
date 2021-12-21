@@ -25,4 +25,4 @@ jobs:
       - name: Build
         run: dotnet build --configuration Release --framework ${{ matrix.target-framework }} ./src/QLimitive/QLimitive.csproj
       - name: Test
-        run: dotnet test --verbosity normal --configuration Release --framework ${{ matrix.target-framework }} ./src/QLimitive/UnitTests.csproj
+        run: dotnet test --verbosity normal --configuration Release --framework ${{ matrix.target-framework }} ./src/UnitTests/UnitTests.csproj
