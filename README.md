@@ -5,7 +5,7 @@
 
 [![Releases](https://img.shields.io/github/release/xin9le/QLimitive.svg)](https://github.com/xin9le/QLimitive/releases)
 [![GitHub license](https://img.shields.io/github/license/xin9le/QLimitive)](https://github.com/xin9le/QLimitive/blob/master/LICENSE)
-
+[![Build and Test](https://github.com/xin9le/QLimitive/actions/workflows/test.yml/badge.svg)](https://github.com/xin9le/QLimitive/actions/workflows/test.yml)
 
 
 ## Support Platform
