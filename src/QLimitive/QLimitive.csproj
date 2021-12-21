@@ -22,6 +22,7 @@
         <Authors>xin9le</Authors>
         <Copyright>Copyright© xin9le, All rights reserved.</Copyright>
         <PackageReleaseNotes></PackageReleaseNotes>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
 
@@ -49,6 +50,7 @@
             <Generator>TextTemplatingFileGenerator</Generator>
             <LastGenOutput>FrozenDictionary.cs</LastGenOutput>
         </None>
+        <None Include="../../README.md" Pack="true" PackagePath="\" />
     </ItemGroup>
 
     <ItemGroup>
