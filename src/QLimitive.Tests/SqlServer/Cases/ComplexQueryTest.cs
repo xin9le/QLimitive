@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System.Collections.Generic;
+using FluentAssertions;
 using QLimitive.Tests.SqlServer.Models;
 using Xunit;
 
@@ -151,6 +152,63 @@ order by
                 builder.Where(static x => x.Id == 1 || x.LastName != "xin9le" && x.Age > 20);
                 builder.OrderBy(static x => x.Id);
                 builder.ThenByDescending(static x => x.Age);
+                return builder.Build();
+            }
+        }
+    }
+
+
+    [Fact]
+    public void UpdateWhere()
+    {
+        var actual = createQuery(this.Dialect);
+        var expect =
+@"update [dbo].[T_People]
+set
+    [Age] = @Age,
+    [UpdatedAt] = SYSDATETIME()
+where
+    [Id] = @p2 or [姓] <> @p3";
+        actual.Text.Should().Be(expect);
+        actual.Parameters.Should().NotBeNull();
+        actual.Parameters.Should().Contain(new KeyValuePair<string, object?>[]
+        {
+            new("Age", null),
+            new("p2", 1),
+            new("p3", "xin9le"),
+        });
+
+        static Query createQuery(DbDialect dialect)
+        {
+            using (var builder = new QueryBuilder<Person>(dialect))
+            {
+                builder.Update(static x => new { x.Age, x.ModifiedAt }, useDefaultValue: true);
+                builder.Where(static x => x.Id == 1 || x.LastName != "xin9le");
+                return builder.Build();
+            }
+        }
+    }
+
+
+    [Fact]
+    public void DeleteWhere()
+    {
+        var actual = createQuery(this.Dialect);
+        var expect =
+@"delete from [dbo].[T_People]
+where
+    [Id] = @p1 or [姓] <> @p2";
+        actual.Text.Should().Be(expect);
+        actual.Parameters.Should().NotBeNull();
+        actual.Parameters.Should().Contain("p1", 1);
+        actual.Parameters.Should().Contain("p2", "xin9le");
+
+        static Query createQuery(DbDialect dialect)
+        {
+            using (var builder = new QueryBuilder<Person>(dialect))
+            {
+                builder.Delete();
+                builder.Where(static x => x.Id == 1 || x.LastName != "xin9le");
                 return builder.Build();
             }
         }
