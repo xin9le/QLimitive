@@ -101,7 +101,7 @@ order by
 
 ```cs
 // Insert record to SQL Server
-var sql = QueryBuilder.Insert<Person>(DbDialect.SqlServer).Text;
+var sql = QueryBuilder.Insert<Person>(DbDialect.SqlServer, useAmbientValue: true).Text;
 
 /*
 insert into [dbo].[T_People]
