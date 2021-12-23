@@ -42,9 +42,9 @@ set
 
 
     [Fact]
-    public void AllColumns_UseDefaultValue()
+    public void AllColumns_UseAmbientValue()
     {
-        var actual = QueryBuilder.Update<Person>(this.Dialect, useDefaultValue: true);
+        var actual = QueryBuilder.Update<Person>(this.Dialect, useAmbientValue: true);
         var expect =
 @"update [dbo].[T_People]
 set
@@ -116,9 +116,9 @@ set
 
 
     [Fact]
-    public void MultiColumns_UseDefaultValue()
+    public void MultiColumns_UseAmbientValue()
     {
-        var actual = QueryBuilder.Update<Person>(this.Dialect, x => new { x.LastName, x.FullName, x.ModifiedAt }, useDefaultValue: true);
+        var actual = QueryBuilder.Update<Person>(this.Dialect, x => new { x.LastName, x.FullName, x.ModifiedAt }, useAmbientValue: true);
         var expect =
 @"update [dbo].[T_People]
 set

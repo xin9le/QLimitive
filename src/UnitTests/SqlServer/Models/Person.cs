@@ -33,12 +33,12 @@ public sealed class Person
     public bool HasChildren { get; init; }
 
 
-    [DefaultValue("SYSDATETIME()")]
+    [AmbientValue("SYSDATETIME()")]
     public DateTimeOffset CreatedAt { get; init; }
 
 
     [Column("UpdatedAt")]
-    [DefaultValue("SYSDATETIME()")]
+    [AmbientValue("SYSDATETIME()")]
     public DateTimeOffset ModifiedAt { get; init; }
 #pragma warning restore CS8618
 }

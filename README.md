@@ -47,11 +47,11 @@ public sealed class Person
 
     public bool HasChildren { get; init; }
 
-    [DefaultValue("SYSDATETIME()")]
+    [AmbientValue("SYSDATETIME()")]
     public DateTimeOffset CreatedAt { get; init; }
 
     [Column("UpdatedAt")]
-    [DefaultValue("SYSDATETIME()")]
+    [AmbientValue("SYSDATETIME()")]
     public DateTimeOffset ModifiedAt { get; init; }
 }
 ```
@@ -129,7 +129,7 @@ values
 // Update records with specified columns that matched specified condition
 using (var builder = new QueryBuilder<Person>(DbDialect.SqlServer))
 {
-    builder.Update(static x => new { x.LastName, x.Age, x.ModifiedAt }, useDefaultValue: true);
+    builder.Update(static x => new { x.LastName, x.Age, x.ModifiedAt }, useAmbientValue: true);
     builder.Where(static x => x.Age < 35 || x.LastName == "Suzuki");
     var sql = builder.Build().Text;
 }

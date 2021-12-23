@@ -20,9 +20,9 @@ internal readonly struct Insert<T> : IQueryBuildable
 
 
     /// <summary>
-    /// Gets whether or not to use the default value.
+    /// Gets whether or not to use the ambient value.
     /// </summary>
-    private bool UseDefaultValue { get; }
+    private bool UseAmbientValue { get; }
     #endregion
 
 
@@ -30,10 +30,10 @@ internal readonly struct Insert<T> : IQueryBuildable
     /// <summary>
     /// Creates instance.
     /// </summary>
-    public Insert(DbDialect dialect, bool useDefaultValue)
+    public Insert(DbDialect dialect, bool useAmbientValue)
     {
         this.Dialect = dialect;
-        this.UseDefaultValue = useDefaultValue;
+        this.UseAmbientValue = useAmbientValue;
     }
     #endregion
 
@@ -80,9 +80,9 @@ internal readonly struct Insert<T> : IQueryBuildable
 
             builder.AppendLine();
             builder.Append("    ");
-            if (this.UseDefaultValue && x.DefaultValue is not null)
+            if (this.UseAmbientValue && x.AmbientValue is not null)
             {
-                builder.Append(x.DefaultValue);
+                builder.Append(x.AmbientValue);
                 builder.Append(',');
                 continue;
             }

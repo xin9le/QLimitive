@@ -182,7 +182,7 @@ where
         {
             using (var builder = new QueryBuilder<Person>(dialect))
             {
-                builder.Update(static x => new { x.Age, x.ModifiedAt }, useDefaultValue: true);
+                builder.Update(static x => new { x.Age, x.ModifiedAt }, useAmbientValue: true);
                 builder.Where(static x => x.Id == 1 || x.LastName != "xin9le");
                 return builder.Build();
             }

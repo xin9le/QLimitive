@@ -83,11 +83,11 @@ public ref struct QueryBuilder<T> //: IDisposable
     /// Builds update statement.
     /// </summary>
     /// <param name="members">Members that mapped to the target column. If null, all columns are targeted.</param>
-    /// <param name="useDefaultValue"></param>
+    /// <param name="useAmbientValue"></param>
     /// <returns></returns>
-    public void Update(Expression<Func<T, object?>>? members = null, bool useDefaultValue = false)
+    public void Update(Expression<Func<T, object?>>? members = null, bool useAmbientValue = false)
     {
-        var command = new Update<T>(this.dialect, members, useDefaultValue);
+        var command = new Update<T>(this.dialect, members, useAmbientValue);
         command.Build(ref this.stringBuilder, ref this.bindParameters);
     }
 
@@ -95,11 +95,11 @@ public ref struct QueryBuilder<T> //: IDisposable
     /// <summary>
     /// Builds insert statement.
     /// </summary>
-    /// <param name="useDefaultValue"></param>
+    /// <param name="useAmbientValue"></param>
     /// <returns></returns>
-    public void Insert(bool useDefaultValue = false)
+    public void Insert(bool useAmbientValue = false)
     {
-        var command = new Insert<T>(this.dialect, useDefaultValue);
+        var command = new Insert<T>(this.dialect, useAmbientValue);
         command.Build(ref this.stringBuilder, ref this.bindParameters);
     }
 
@@ -238,13 +238,13 @@ public static class QueryBuilder
     /// <typeparam name="T">Table mapping type</typeparam>
     /// <param name="dialect"></param>
     /// <param name="members">Members that mapped to the target column. If null, all columns are targeted.</param>
-    /// <param name="useDefaultValue"></param>
+    /// <param name="useAmbientValue"></param>
     /// <returns></returns>
-    public static Query Update<T>(DbDialect dialect, Expression<Func<T, object?>>? members = null, bool useDefaultValue = false)
+    public static Query Update<T>(DbDialect dialect, Expression<Func<T, object?>>? members = null, bool useAmbientValue = false)
     {
         using (var builder = new QueryBuilder<T>(dialect))
         {
-            builder.Update(members, useDefaultValue);
+            builder.Update(members, useAmbientValue);
             return builder.Build();
         }
     }
@@ -257,13 +257,13 @@ public static class QueryBuilder
     /// </summary>
     /// <typeparam name="T">Table mapping type</typeparam>
     /// <param name="dialect"></param>
-    /// <param name="useDefaultValue"></param>
+    /// <param name="useAmbientValue"></param>
     /// <returns></returns>
-    public static Query Insert<T>(DbDialect dialect, bool useDefaultValue = false)
+    public static Query Insert<T>(DbDialect dialect, bool useAmbientValue = false)
     {
         using (var builder = new QueryBuilder<T>(dialect))
         {
-            builder.Insert(useDefaultValue);
+            builder.Insert(useAmbientValue);
             return builder.Build();
         }
     }

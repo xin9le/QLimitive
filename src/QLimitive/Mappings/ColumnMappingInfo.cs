@@ -52,6 +52,12 @@ internal sealed class ColumnMappingInfo
 
 
     /// <summary>
+    /// Gets the ambient value.
+    /// </summary>
+    public object? AmbientValue { get; }
+
+
+    /// <summary>
     /// Gets whether primary key.
     /// </summary>
     public bool IsPrimaryKey { get; }
@@ -100,6 +106,7 @@ internal sealed class ColumnMappingInfo
     {
         var columnAttr = member.GetCustomAttributes<ColumnAttribute>(true).FirstOrDefault();
         var defaultAttr = member.GetCustomAttributes<DefaultValueAttribute>(true).FirstOrDefault();
+        var ambientAttr = member.GetCustomAttributes<AmbientValueAttribute>(true).FirstOrDefault();
         var dbGeneratedAttr = member.GetCustomAttributes<DatabaseGeneratedAttribute>(true).FirstOrDefault();
 
         this.MemberName = member.Name;
@@ -108,6 +115,7 @@ internal sealed class ColumnMappingInfo
         this.ColumnTypeName = columnAttr?.TypeName;
         this.ColumnOrder = columnAttr?.Order ?? -1;
         this.DefaultValue = defaultAttr?.Value;
+        this.AmbientValue = ambientAttr?.Value;
         this.IsPrimaryKey = Attribute.IsDefined(member, typeof(KeyAttribute));
         this.IsNullable = nullability.ReadState == NullabilityState.Nullable;
         this.IsMapped = !Attribute.IsDefined(member, typeof(NotMappedAttribute));

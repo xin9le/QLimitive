@@ -15,7 +15,7 @@ public sealed class InsertTest
     [Fact]
     public void ReferencePropertyValue()
     {
-        var actual = QueryBuilder.Insert<Person>(this.Dialect, useDefaultValue: false);
+        var actual = QueryBuilder.Insert<Person>(this.Dialect, useAmbientValue: false);
         var expect =
 @"insert into [dbo].[T_People]
 (
@@ -50,9 +50,9 @@ values
 
 
     [Fact]
-    public void ReferenceDefaultValue()
+    public void ReferenceAmbientValue()
     {
-        var actual = QueryBuilder.Insert<Person>(this.Dialect, useDefaultValue: true);
+        var actual = QueryBuilder.Insert<Person>(this.Dialect, useAmbientValue: true);
         var expect =
 @"insert into [dbo].[T_People]
 (
