@@ -733,4 +733,49 @@ public sealed class WhereTest
             }
         }
     }
+
+
+    [Fact]
+    public void Enum_AsVariable()
+    {
+        var actual = createQuery(this.Dialect);
+        var expect =
+@"where
+    [Sex] = @p1";
+        actual.Text.Should().Be(expect);
+        actual.Parameters.Should().NotBeNull();
+        actual.Parameters.Should().Contain("p1", Sex.Male);
+
+        static Query createQuery(DbDialect dialect)
+        {
+            using (var builder = new QueryBuilder<Person>(dialect))
+            {
+                var sex = Sex.Male;  // as variable
+                builder.Where(x => x.Sex == sex);
+                return builder.Build();
+            }
+        }
+    }
+
+
+    [Fact]
+    public void Enum_AsConstant()
+    {
+        var actual = createQuery(this.Dialect);
+        var expect =
+@"where
+    [Sex] = @p1";
+        actual.Text.Should().Be(expect);
+        actual.Parameters.Should().NotBeNull();
+        actual.Parameters.Should().Contain("p1", (byte)Sex.Female);
+
+        static Query createQuery(DbDialect dialect)
+        {
+            using (var builder = new QueryBuilder<Person>(dialect))
+            {
+                builder.Where(static x => x.Sex == Sex.Female);
+                return builder.Build();
+            }
+        }
+    }
 }
