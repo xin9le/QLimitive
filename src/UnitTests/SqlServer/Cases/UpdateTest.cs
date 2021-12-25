@@ -23,6 +23,7 @@ set
     [姓] = @LastName,
     [名] = @FirstName,
     [Age] = @Age,
+    [Sex] = @Sex,
     [HasChildren] = @HasChildren,
     [CreatedAt] = @CreatedAt,
     [UpdatedAt] = @ModifiedAt";
@@ -34,6 +35,7 @@ set
             new("LastName", null),
             new("FirstName", null),
             new("Age", null),
+            new("Sex", null),
             new("HasChildren", null),
             new("CreatedAt", null),
             new("ModifiedAt", null),
@@ -52,6 +54,7 @@ set
     [姓] = @LastName,
     [名] = @FirstName,
     [Age] = @Age,
+    [Sex] = @Sex,
     [HasChildren] = @HasChildren,
     [CreatedAt] = SYSDATETIME(),
     [UpdatedAt] = SYSDATETIME()";
@@ -63,6 +66,7 @@ set
             new("LastName", null),
             new("FirstName", null),
             new("Age", null),
+            new("Sex", null),
             new("HasChildren", null),
         });
     }

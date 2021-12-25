@@ -96,6 +96,7 @@ where
     [姓] as [LastName],
     [名] as [FirstName],
     [Age] as [Age],
+    [Sex] as [Sex],
     [HasChildren] as [HasChildren],
     [CreatedAt] as [CreatedAt],
     [UpdatedAt] as [ModifiedAt]
@@ -129,6 +130,7 @@ where
     [姓] as [LastName],
     [名] as [FirstName],
     [Age] as [Age],
+    [Sex] as [Sex],
     [HasChildren] as [HasChildren],
     [CreatedAt] as [CreatedAt],
     [UpdatedAt] as [ModifiedAt]

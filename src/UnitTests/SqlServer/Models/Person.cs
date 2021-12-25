@@ -30,6 +30,9 @@ public sealed class Person
     public int Age { get; init; }
 
 
+    public Sex Sex { get; init; }
+
+
     public bool HasChildren { get; init; }
 
 

@@ -22,6 +22,7 @@ public sealed class InsertTest
     [姓],
     [名],
     [Age],
+    [Sex],
     [HasChildren],
     [CreatedAt],
     [UpdatedAt]
@@ -31,6 +32,7 @@ values
     @LastName,
     @FirstName,
     @Age,
+    @Sex,
     @HasChildren,
     @CreatedAt,
     @ModifiedAt
@@ -42,6 +44,7 @@ values
             new("LastName", null),
             new("FirstName", null),
             new("Age", null),
+            new("Sex", null),
             new("HasChildren", null),
             new("CreatedAt", null),
             new("ModifiedAt", null),
@@ -59,6 +62,7 @@ values
     [姓],
     [名],
     [Age],
+    [Sex],
     [HasChildren],
     [CreatedAt],
     [UpdatedAt]
@@ -68,6 +72,7 @@ values
     @LastName,
     @FirstName,
     @Age,
+    @Sex,
     @HasChildren,
     SYSDATETIME(),
     SYSDATETIME()
@@ -79,6 +84,7 @@ values
             new("LastName", null),
             new("FirstName", null),
             new("Age", null),
+            new("Sex", null),
             new("HasChildren", null),
         });
     }
