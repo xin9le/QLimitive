@@ -25,7 +25,7 @@ internal readonly struct Select<T> : IQueryBuildable
     /// <summary>
     /// Gets the members mapped to the column.
     /// </summary>
-    private Expression<Func<T, object?>>? Members { get; }
+    private Expression<Func<T, object>>? Members { get; }
     #endregion
 
 
@@ -33,7 +33,7 @@ internal readonly struct Select<T> : IQueryBuildable
     /// <summary>
     /// Creates instance.
     /// </summary>
-    public Select(DbDialect dialect, Expression<Func<T, object?>>? members)
+    public Select(DbDialect dialect, Expression<Func<T, object>>? members)
     {
         this.Dialect = dialect;
         this.Members = members;

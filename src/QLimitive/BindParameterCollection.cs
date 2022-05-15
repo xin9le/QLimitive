@@ -263,7 +263,7 @@ public sealed class BindParameterCollection : IDictionary<string, object?>, IRea
     /// </summary>
     /// <param name="obj"></param>
     /// <param name="targetProperties"></param>
-    public void Append<T>(T obj, Expression<Func<T, object?>> targetProperties)
+    public void Append<T>(T obj, Expression<Func<T, object>> targetProperties)
     {
         var memberNames = ExpressionHelper.GetMemberNames(targetProperties);
         var members = TypeAccessor.Create(typeof(T)).GetMembers();

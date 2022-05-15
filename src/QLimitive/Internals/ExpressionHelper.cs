@@ -17,7 +17,7 @@ internal static class ExpressionHelper
     /// <typeparam name="T"></typeparam>
     /// <param name="expression"></param>
     /// <returns></returns>
-    public static string? GetMemberName<T>(Expression<Func<T, object?>> expression)
+    public static string? GetMemberName<T>(Expression<Func<T, object>> expression)
     {
         var member = ExtractMemberExpression(expression);
         return member?.Member.Name;
@@ -30,7 +30,7 @@ internal static class ExpressionHelper
     /// <typeparam name="T"></typeparam>
     /// <param name="expression"></param>
     /// <returns></returns>
-    public static HashSet<string> GetMemberNames<T>(Expression<Func<T, object?>> expression)
+    public static HashSet<string> GetMemberNames<T>(Expression<Func<T, object>> expression)
     {
         var result = new HashSet<string>();
         if (expression.Body is UnaryExpression unary)  // for VB.NET

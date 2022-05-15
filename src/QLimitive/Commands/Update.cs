@@ -25,7 +25,7 @@ internal readonly struct Update<T> : IQueryBuildable
     /// <summary>
     /// Gets the members mapped to the column.
     /// </summary>
-    private Expression<Func<T, object?>>? Members { get; }
+    private Expression<Func<T, object>>? Members { get; }
 
 
     /// <summary>
@@ -39,7 +39,7 @@ internal readonly struct Update<T> : IQueryBuildable
     /// <summary>
     /// Creates instance.
     /// </summary>
-    public Update(DbDialect dialect, Expression<Func<T, object?>>? members, bool useAmbientValue)
+    public Update(DbDialect dialect, Expression<Func<T, object>>? members, bool useAmbientValue)
     {
         this.Dialect = dialect;
         this.Members = members;

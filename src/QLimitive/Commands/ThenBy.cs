@@ -24,7 +24,7 @@ internal readonly struct ThenBy<T> : IQueryBuildable
     /// <summary>
     /// Gets the expression for the member mapped to the column.
     /// </summary>
-    private Expression<Func<T, object?>> Member { get; }
+    private Expression<Func<T, object>> Member { get; }
 
 
     /// <summary>
@@ -38,7 +38,7 @@ internal readonly struct ThenBy<T> : IQueryBuildable
     /// <summary>
     /// Creates instance.
     /// </summary>
-    public ThenBy(DbDialect dialect, Expression<Func<T, object?>> member, bool isAscending)
+    public ThenBy(DbDialect dialect, Expression<Func<T, object>> member, bool isAscending)
     {
         this.Dialect = dialect;
         this.Member = member;

@@ -72,7 +72,7 @@ public ref struct QueryBuilder<T> //: IDisposable
     /// </summary>
     /// <param name="members">Members that mapped to the target column. If null, all columns are targeted.</param>
     /// <returns></returns>
-    public void Select(Expression<Func<T, object?>>? members = null)
+    public void Select(Expression<Func<T, object>>? members = null)
     {
         var command = new Select<T>(this.dialect, members);
         command.Build(ref this.stringBuilder, ref this.bindParameters);
@@ -85,7 +85,7 @@ public ref struct QueryBuilder<T> //: IDisposable
     /// <param name="members">Members that mapped to the target column. If null, all columns are targeted.</param>
     /// <param name="useAmbientValue"></param>
     /// <returns></returns>
-    public void Update(Expression<Func<T, object?>>? members = null, bool useAmbientValue = false)
+    public void Update(Expression<Func<T, object>>? members = null, bool useAmbientValue = false)
     {
         var command = new Update<T>(this.dialect, members, useAmbientValue);
         command.Build(ref this.stringBuilder, ref this.bindParameters);
@@ -143,7 +143,7 @@ public ref struct QueryBuilder<T> //: IDisposable
     /// </summary>
     /// <param name="member"></param>
     /// <returns></returns>
-    public void OrderBy(Expression<Func<T, object?>> member)
+    public void OrderBy(Expression<Func<T, object>> member)
     {
         var command = new OrderBy<T>(this.dialect, member, true);
         command.Build(ref this.stringBuilder, ref this.bindParameters);
@@ -155,7 +155,7 @@ public ref struct QueryBuilder<T> //: IDisposable
     /// </summary>
     /// <param name="member"></param>
     /// <returns></returns>
-    public void OrderByDescending(Expression<Func<T, object?>> member)
+    public void OrderByDescending(Expression<Func<T, object>> member)
     {
         var command = new OrderBy<T>(this.dialect, member, false);
         command.Build(ref this.stringBuilder, ref this.bindParameters);
@@ -167,7 +167,7 @@ public ref struct QueryBuilder<T> //: IDisposable
     /// </summary>
     /// <param name="member"></param>
     /// <returns></returns>
-    public void ThenBy(Expression<Func<T, object?>> member)
+    public void ThenBy(Expression<Func<T, object>> member)
     {
         var command = new ThenBy<T>(this.dialect, member, true);
         command.Build(ref this.stringBuilder, ref this.bindParameters);
@@ -179,7 +179,7 @@ public ref struct QueryBuilder<T> //: IDisposable
     /// </summary>
     /// <param name="member"></param>
     /// <returns></returns>
-    public void ThenByDescending(Expression<Func<T, object?>> member)
+    public void ThenByDescending(Expression<Func<T, object>> member)
     {
         var command = new ThenBy<T>(this.dialect, member, false);
         command.Build(ref this.stringBuilder, ref this.bindParameters);
@@ -220,7 +220,7 @@ public static class QueryBuilder
     /// <param name="dialect"></param>
     /// <param name="members">Members that mapped to the target column. If null, all columns are targeted.</param>
     /// <returns></returns>
-    public static Query Select<T>(DbDialect dialect, Expression<Func<T, object?>>? members = null)
+    public static Query Select<T>(DbDialect dialect, Expression<Func<T, object>>? members = null)
     {
         using (var builder = new QueryBuilder<T>(dialect))
         {
@@ -240,7 +240,7 @@ public static class QueryBuilder
     /// <param name="members">Members that mapped to the target column. If null, all columns are targeted.</param>
     /// <param name="useAmbientValue"></param>
     /// <returns></returns>
-    public static Query Update<T>(DbDialect dialect, Expression<Func<T, object?>>? members = null, bool useAmbientValue = false)
+    public static Query Update<T>(DbDialect dialect, Expression<Func<T, object>>? members = null, bool useAmbientValue = false)
     {
         using (var builder = new QueryBuilder<T>(dialect))
         {
