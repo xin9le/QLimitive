@@ -65,13 +65,17 @@ public sealed class TableMappingInfo
 
 
     #region Constructors
-#pragma warning disable CS8618
     /// <summary>
     /// Creates instance.
     /// </summary>
-    private TableMappingInfo()
-    { }
-#pragma warning restore CS8618
+    private TableMappingInfo(Type type, TableAttribute? table, IEnumerable<ColumnMappingInfo> columns)
+    {
+        this.Type = type;
+        this.Schema = table?.Schema;
+        this.Name = table?.Name ?? type.Name;
+        this.ColumnsInternal = columns.ToReadOnlyArray();
+        this.ColumnByMemberNameInternal = this.ColumnsInternal.ToFrozenStringKeyDictionary(static x => x.MemberName);
+    }
     #endregion
 
 
@@ -106,16 +110,9 @@ public sealed class TableMappingInfo
         static Cache()
         {
             var type = typeof(T);
-            var tableAttr = type.GetCustomAttributes<TableAttribute>(true).FirstOrDefault();
-            var columns = getColumns().ToReadOnlyArray();
-            Instance = new()
-            {
-                Type = type,
-                Schema = tableAttr?.Schema,
-                Name = tableAttr?.Name ?? type.Name,
-                ColumnsInternal = columns,
-                ColumnByMemberNameInternal = columns.ToFrozenStringKeyDictionary(x => x.MemberName),
-            };
+            var table = type.GetCustomAttributes<TableAttribute>(true).FirstOrDefault();
+            var columns = getColumns();
+            Instance = new(type, table, columns);
 
             #region Local Functions
             static IEnumerable<ColumnMappingInfo> getColumns()
