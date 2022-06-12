@@ -14,9 +14,9 @@ namespace QLimitive;
 public ref struct QueryBuilder<T> //: IDisposable
 {
     #region Fields
-    private readonly DbDialect dialect;
-    private Utf16ValueStringBuilder stringBuilder;
-    private BindParameterCollection? bindParameters;
+    private readonly DbDialect _dialect;
+    private Utf16ValueStringBuilder _stringBuilder;
+    private BindParameterCollection? _bindParameters;
     #endregion
 
 
@@ -28,9 +28,9 @@ public ref struct QueryBuilder<T> //: IDisposable
     /// <remarks>This instance must be call <see cref="Dispose"/> method after <see cref="Build"/>.</remarks>
     public QueryBuilder(DbDialect dialect)
     {
-        this.dialect = dialect;
-        this.stringBuilder = ZString.CreateStringBuilder();
-        this.bindParameters = null;
+        this._dialect = dialect;
+        this._stringBuilder = ZString.CreateStringBuilder();
+        this._bindParameters = null;
     }
     #endregion
 
@@ -40,7 +40,7 @@ public ref struct QueryBuilder<T> //: IDisposable
     /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
     /// </summary>
     public void Dispose()
-        => this.stringBuilder.Dispose();
+        => this._stringBuilder.Dispose();
     #endregion
 
 
@@ -50,8 +50,8 @@ public ref struct QueryBuilder<T> //: IDisposable
     /// <returns></returns>
     public Query Build()
     {
-        var text = this.stringBuilder.ToString();
-        return new Query(text, this.bindParameters);
+        var text = this._stringBuilder.ToString();
+        return new Query(text, this._bindParameters);
     }
 
 
@@ -62,8 +62,8 @@ public ref struct QueryBuilder<T> //: IDisposable
     /// <returns></returns>
     public void Count()
     {
-        var command = new Count<T>(this.dialect);
-        command.Build(ref this.stringBuilder, ref this.bindParameters);
+        var command = new Count<T>(this._dialect);
+        command.Build(ref this._stringBuilder, ref this._bindParameters);
     }
 
 
@@ -74,8 +74,8 @@ public ref struct QueryBuilder<T> //: IDisposable
     /// <returns></returns>
     public void Select(Expression<Func<T, object>>? members = null)
     {
-        var command = new Select<T>(this.dialect, members);
-        command.Build(ref this.stringBuilder, ref this.bindParameters);
+        var command = new Select<T>(this._dialect, members);
+        command.Build(ref this._stringBuilder, ref this._bindParameters);
     }
 
 
@@ -87,8 +87,8 @@ public ref struct QueryBuilder<T> //: IDisposable
     /// <returns></returns>
     public void Update(Expression<Func<T, object>>? members = null, bool useAmbientValue = false)
     {
-        var command = new Update<T>(this.dialect, members, useAmbientValue);
-        command.Build(ref this.stringBuilder, ref this.bindParameters);
+        var command = new Update<T>(this._dialect, members, useAmbientValue);
+        command.Build(ref this._stringBuilder, ref this._bindParameters);
     }
 
 
@@ -99,8 +99,8 @@ public ref struct QueryBuilder<T> //: IDisposable
     /// <returns></returns>
     public void Insert(bool useAmbientValue = false)
     {
-        var command = new Insert<T>(this.dialect, useAmbientValue);
-        command.Build(ref this.stringBuilder, ref this.bindParameters);
+        var command = new Insert<T>(this._dialect, useAmbientValue);
+        command.Build(ref this._stringBuilder, ref this._bindParameters);
     }
 
 
@@ -110,8 +110,8 @@ public ref struct QueryBuilder<T> //: IDisposable
     /// <returns></returns>
     public void Delete()
     {
-        var command = new Delete<T>(this.dialect);
-        command.Build(ref this.stringBuilder, ref this.bindParameters);
+        var command = new Delete<T>(this._dialect);
+        command.Build(ref this._stringBuilder, ref this._bindParameters);
     }
 
 
@@ -121,8 +121,8 @@ public ref struct QueryBuilder<T> //: IDisposable
     /// <returns></returns>
     public void Truncate()
     {
-        var command = new Truncate<T>(this.dialect);
-        command.Build(ref this.stringBuilder, ref this.bindParameters);
+        var command = new Truncate<T>(this._dialect);
+        command.Build(ref this._stringBuilder, ref this._bindParameters);
     }
 
 
@@ -133,8 +133,8 @@ public ref struct QueryBuilder<T> //: IDisposable
     /// <returns></returns>
     public void Where(Expression<Func<T, bool>> predicate)
     {
-        var command = new Where<T>(this.dialect, predicate);
-        command.Build(ref this.stringBuilder, ref this.bindParameters);
+        var command = new Where<T>(this._dialect, predicate);
+        command.Build(ref this._stringBuilder, ref this._bindParameters);
     }
 
 
@@ -145,8 +145,8 @@ public ref struct QueryBuilder<T> //: IDisposable
     /// <returns></returns>
     public void OrderBy(Expression<Func<T, object>> member)
     {
-        var command = new OrderBy<T>(this.dialect, member, true);
-        command.Build(ref this.stringBuilder, ref this.bindParameters);
+        var command = new OrderBy<T>(this._dialect, member, true);
+        command.Build(ref this._stringBuilder, ref this._bindParameters);
     }
 
 
@@ -157,8 +157,8 @@ public ref struct QueryBuilder<T> //: IDisposable
     /// <returns></returns>
     public void OrderByDescending(Expression<Func<T, object>> member)
     {
-        var command = new OrderBy<T>(this.dialect, member, false);
-        command.Build(ref this.stringBuilder, ref this.bindParameters);
+        var command = new OrderBy<T>(this._dialect, member, false);
+        command.Build(ref this._stringBuilder, ref this._bindParameters);
     }
 
 
@@ -169,8 +169,8 @@ public ref struct QueryBuilder<T> //: IDisposable
     /// <returns></returns>
     public void ThenBy(Expression<Func<T, object>> member)
     {
-        var command = new ThenBy<T>(this.dialect, member, true);
-        command.Build(ref this.stringBuilder, ref this.bindParameters);
+        var command = new ThenBy<T>(this._dialect, member, true);
+        command.Build(ref this._stringBuilder, ref this._bindParameters);
     }
 
 
@@ -181,8 +181,8 @@ public ref struct QueryBuilder<T> //: IDisposable
     /// <returns></returns>
     public void ThenByDescending(Expression<Func<T, object>> member)
     {
-        var command = new ThenBy<T>(this.dialect, member, false);
-        command.Build(ref this.stringBuilder, ref this.bindParameters);
+        var command = new ThenBy<T>(this._dialect, member, false);
+        command.Build(ref this._stringBuilder, ref this._bindParameters);
     }
     #endregion
 }

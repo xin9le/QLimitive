@@ -71,11 +71,11 @@ internal readonly struct Where<T> : IQueryBuildable
     private unsafe sealed class Parser : ExpressionVisitor
     {
         #region Fields
-        private readonly ParameterExpression parameter;
-        private readonly DbDialect dialect;
-        private readonly TableMappingInfo table;
-        private readonly void* stringBuilderPointer;
-        private readonly void* bindParametersPointer;
+        private readonly ParameterExpression _parameter;
+        private readonly DbDialect _dialect;
+        private readonly TableMappingInfo _table;
+        private readonly void* _stringBuilderPointer;
+        private readonly void* _bindParametersPointer;
         #endregion
 
 
@@ -90,11 +90,11 @@ internal readonly struct Where<T> : IQueryBuildable
         /// <param name="bindParameters"></param>
         public Parser(ParameterExpression parameter, DbDialect dialect, TableMappingInfo table, ref Utf16ValueStringBuilder builder, ref BindParameterCollection? bindParameters)
         {
-            this.parameter = parameter;
-            this.dialect = dialect;
-            this.table = table;
-            this.stringBuilderPointer = Unsafe.AsPointer(ref builder);
-            this.bindParametersPointer = Unsafe.AsPointer(ref bindParameters);
+            this._parameter = parameter;
+            this._dialect = dialect;
+            this._table = table;
+            this._stringBuilderPointer = Unsafe.AsPointer(ref builder);
+            this._bindParametersPointer = Unsafe.AsPointer(ref bindParameters);
         }
         #endregion
 
@@ -197,7 +197,7 @@ internal readonly struct Where<T> : IQueryBuildable
         /// <param name="expression"></param>
         private void BuildAndOr(BinaryExpression expression)
         {
-            ref var builder = ref Unsafe.AsRef<Utf16ValueStringBuilder>(this.stringBuilderPointer);
+            ref var builder = ref Unsafe.AsRef<Utf16ValueStringBuilder>(this._stringBuilderPointer);
             var @operator = OperatorHelper.From(expression.NodeType);
 
             //--- left
@@ -245,12 +245,12 @@ internal readonly struct Where<T> : IQueryBuildable
         /// <param name="value"></param>
         private void BuildBinary(Operator @operator, string memberName, object? value)
         {
-            ref var builder = ref Unsafe.AsRef<Utf16ValueStringBuilder>(this.stringBuilderPointer);
-            ref var bindParameters = ref Unsafe.AsRef<BindParameterCollection>(this.bindParametersPointer);
+            ref var builder = ref Unsafe.AsRef<Utf16ValueStringBuilder>(this._stringBuilderPointer);
+            ref var bindParameters = ref Unsafe.AsRef<BindParameterCollection>(this._bindParametersPointer);
 
             //--- Build sql
-            var bracket = this.dialect.KeywordBracket;
-            var columnName = table.ColumnByMemberName[memberName].ColumnName;
+            var bracket = this._dialect.KeywordBracket;
+            var columnName = _table.ColumnByMemberName[memberName].ColumnName;
             builder.Append(bracket.Begin);
             builder.Append(columnName);
             builder.Append(bracket.End);
@@ -303,7 +303,7 @@ internal readonly struct Where<T> : IQueryBuildable
             bindParameters ??= new BindParameterCollection();
             var name = $"p{bindParameters.Count + 1}";
             bindParameters.Add(name, value);
-            builder.Append(this.dialect.BindParameterPrefix);
+            builder.Append(this._dialect.BindParameterPrefix);
             builder.Append(name);
         }
 
@@ -334,11 +334,11 @@ internal readonly struct Where<T> : IQueryBuildable
             var source
                 = elements
                 .Cast<object>()
-                .Chunk(this.dialect.InOperatorMaxCount)
+                .Chunk(this._dialect.InOperatorMaxCount)
                 .ToArray();
 
             //--- Build sql
-            ref var builder = ref Unsafe.AsRef<Utf16ValueStringBuilder>(this.stringBuilderPointer);
+            ref var builder = ref Unsafe.AsRef<Utf16ValueStringBuilder>(this._stringBuilderPointer);
             if (source.Length == 0)
             {
                 //--- There is no element in the in clause, it is forced to false.
@@ -369,7 +369,7 @@ internal readonly struct Where<T> : IQueryBuildable
         /// <param name="value"></param>
         private void BuildBoolean(bool value)
         {
-            ref var builder = ref Unsafe.AsRef<Utf16ValueStringBuilder>(this.stringBuilderPointer);
+            ref var builder = ref Unsafe.AsRef<Utf16ValueStringBuilder>(this._stringBuilderPointer);
             var sql = value ? "1 = 1" : "1 = 0";
             builder.Append(sql);
         }
@@ -383,7 +383,7 @@ internal readonly struct Where<T> : IQueryBuildable
         private string? ExtractMemberName(Expression expression)
         {
             var member = ExpressionHelper.ExtractMemberExpression(expression);
-            return member?.Expression == this.parameter
+            return member?.Expression == this._parameter
                 ? member.Member.Name
                 : null;
         }
