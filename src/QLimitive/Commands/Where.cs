@@ -427,7 +427,7 @@ internal readonly struct Where<T> : IQueryBuildable
             //--- Delegate / Lambda
             if (expression is InvocationExpression invocation)
             {
-                var parameters = invocation.Arguments.Select(x => Expression.Parameter(x.Type)).ToArray();
+                var parameters = invocation.Arguments.Select(static x => Expression.Parameter(x.Type)).ToArray();
                 var arguments = invocation.Arguments.Select(this.ExtractValue).ToArray();
                 var lambda = Expression.Lambda(invocation, parameters);
                 var result = lambda.Compile().DynamicInvoke(arguments);

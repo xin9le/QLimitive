@@ -637,7 +637,7 @@ public sealed class WhereTest
         {
             using (var builder = new QueryBuilder<Person>(dialect))
             {
-                Func<int, string> getName = x => x.ToString();
+                Func<int, string> getName = static x => x.ToString();
                 builder.Where(x => x.LastName == getName(123));
                 return builder.Build();
             }
