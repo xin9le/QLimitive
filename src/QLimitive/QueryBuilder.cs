@@ -184,6 +184,33 @@ public ref struct QueryBuilder<T> //: IDisposable
         var command = new ThenBy<T>(this._dialect, member, false);
         command.Build(ref this._stringBuilder, ref this._bindParameters);
     }
+
+
+    /// <summary>
+    /// Builds custom query by delegate-style.<br/>
+    /// <b>This feature is provided for <i>as-is</i> use by those familiar with the internal implementation.</b>
+    /// </summary>
+    /// <param name="action"></param>
+    /// <returns></returns>
+    public void AsIs(QueryBuildAction action)
+    {
+        var command = new AsIs(action);
+        command.Build(ref this._stringBuilder, ref this._bindParameters);
+    }
+
+
+    /// <summary>
+    /// Builds custom query by delegate-style.<br/>
+    /// <b>This feature is provided for <i>as-is</i> use by those familiar with the internal implementation.</b>
+    /// </summary>
+    /// <param name="action"></param>
+    /// <param name="state"></param>
+    /// <returns></returns>
+    public void AsIs<TState>(QueryBuildAction<TState> action, TState state)
+    {
+        var command = new AsIs<TState>(action, state);
+        command.Build(ref this._stringBuilder, ref this._bindParameters);
+    }
     #endregion
 }
 
