@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
+using QLimitive.Internals;
 
 namespace QLimitive;
 
@@ -69,7 +69,7 @@ public readonly struct DbDialect
             PostgreSql,
             Oracle,
         };
-        ByDatabase = All.ToDictionary(static x => x.Database);
+        ByDatabase = All.ToFrozenDictionary(static x => x.Database);
     }
     #endregion
 
