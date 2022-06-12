@@ -53,7 +53,7 @@ internal readonly struct OrderBy<T> : IQueryBuildable
     {
         var memberName = ExpressionHelper.GetMemberName(this.Member);
         var table = TableMappingInfo.Get<T>();
-        var columnName = table.ColumnByMemberName[memberName].ColumnName;
+        var columnName = table.ColumnByMemberNameInternal[memberName].ColumnName;
         var bracket = this.Dialect.KeywordBracket;
 
         if (builder.Length > 0)

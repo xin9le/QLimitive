@@ -250,7 +250,7 @@ internal readonly struct Where<T> : IQueryBuildable
 
             //--- Build sql
             var bracket = this._dialect.KeywordBracket;
-            var columnName = _table.ColumnByMemberName[memberName].ColumnName;
+            var columnName = _table.ColumnByMemberNameInternal[memberName].ColumnName;
             builder.Append(bracket.Begin);
             builder.Append(columnName);
             builder.Append(bracket.End);

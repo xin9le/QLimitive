@@ -66,7 +66,7 @@ internal readonly struct Update<T> : IQueryBuildable
         builder.AppendTableName<T>(this.Dialect);
         builder.AppendLine();
         builder.Append("set");
-        foreach (var x in table.Columns)
+        foreach (var x in table.ColumnsInternal)
         {
             if (!x.IsMapped)
                 continue;

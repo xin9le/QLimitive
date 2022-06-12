@@ -50,7 +50,7 @@ internal readonly struct Insert<T> : IQueryBuildable
         builder.AppendTableName<T>(this.Dialect);
         builder.AppendLine();
         builder.Append("(");
-        foreach (var x in table.Columns)
+        foreach (var x in table.ColumnsInternal)
         {
             if (!x.IsMapped)
                 continue;
@@ -70,7 +70,7 @@ internal readonly struct Insert<T> : IQueryBuildable
         builder.AppendLine(")");
         builder.AppendLine("values");
         builder.Append("(");
-        foreach (var x in table.Columns)
+        foreach (var x in table.ColumnsInternal)
         {
             if (!x.IsMapped)
                 continue;

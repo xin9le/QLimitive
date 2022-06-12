@@ -14,7 +14,7 @@ namespace QLimitive.Mappings;
 /// <summary>
 /// Provides table mapping information.
 /// </summary>
-internal sealed class TableMappingInfo
+public sealed class TableMappingInfo
 {
     #region Properties
     /// <summary>
@@ -38,13 +38,29 @@ internal sealed class TableMappingInfo
     /// <summary>
     /// Gets the column mapping information.
     /// </summary>
-    public ReadOnlyArray<ColumnMappingInfo> Columns { get; private init; }
+    public IReadOnlyList<ColumnMappingInfo> Columns
+        => this.ColumnsInternal;
 
 
     /// <summary>
     /// Gets the column mapping information by member name.
     /// </summary>
-    public FrozenStringKeyDictionary<ColumnMappingInfo> ColumnByMemberName { get; private init; }
+    public IReadOnlyDictionary<string, ColumnMappingInfo> ColumnByMemberName
+        => this.ColumnByMemberNameInternal;
+
+
+    /// <summary>
+    /// Gets the column mapping information.
+    /// </summary>
+    /// <remarks>provides fast access.</remarks>
+    internal ReadOnlyArray<ColumnMappingInfo> ColumnsInternal { get; private init; }
+
+
+    /// <summary>
+    /// Gets the column mapping information by member name.
+    /// </summary>
+    /// <remarks>provides fast access.</remarks>
+    internal FrozenStringKeyDictionary<ColumnMappingInfo> ColumnByMemberNameInternal { get; private init; }
     #endregion
 
 
@@ -97,8 +113,8 @@ internal sealed class TableMappingInfo
                 Type = type,
                 Schema = tableAttr?.Schema,
                 Name = tableAttr?.Name ?? type.Name,
-                Columns = columns,
-                ColumnByMemberName = columns.ToFrozenStringKeyDictionary(x => x.MemberName),
+                ColumnsInternal = columns,
+                ColumnByMemberNameInternal = columns.ToFrozenStringKeyDictionary(x => x.MemberName),
             };
 
             #region Local Functions

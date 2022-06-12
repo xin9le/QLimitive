@@ -12,7 +12,7 @@ namespace QLimitive.Mappings;
 /// <summary>
 /// Provides column mapping information.
 /// </summary>
-internal sealed class ColumnMappingInfo
+public sealed class ColumnMappingInfo
 {
     #region Properties
     /// <summary>
@@ -86,7 +86,7 @@ internal sealed class ColumnMappingInfo
     /// <summary>
     /// Creates instance.
     /// </summary>
-    public ColumnMappingInfo(PropertyInfo property, NullabilityInfo nullability, bool existsCompositePrimaryKey)
+    internal ColumnMappingInfo(PropertyInfo property, NullabilityInfo nullability, bool existsCompositePrimaryKey)
         : this(property, property.PropertyType, nullability, existsCompositePrimaryKey)
     { }
 
@@ -94,7 +94,7 @@ internal sealed class ColumnMappingInfo
     /// <summary>
     /// Creates instance.
     /// </summary>
-    public ColumnMappingInfo(FieldInfo field, NullabilityInfo nullability, bool existsCompositePrimaryKey)
+    internal ColumnMappingInfo(FieldInfo field, NullabilityInfo nullability, bool existsCompositePrimaryKey)
         : this(field, field.FieldType, nullability, existsCompositePrimaryKey)
     { }
 
