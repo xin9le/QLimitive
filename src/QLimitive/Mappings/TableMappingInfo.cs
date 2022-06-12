@@ -14,7 +14,7 @@ namespace QLimitive.Mappings;
 /// <summary>
 /// Provides table mapping information.
 /// </summary>
-internal sealed class TableMappingInfo
+public sealed class TableMappingInfo
 {
     #region Properties
     /// <summary>
@@ -38,24 +38,39 @@ internal sealed class TableMappingInfo
     /// <summary>
     /// Gets the column mapping information.
     /// </summary>
-    public ReadOnlyArray<ColumnMappingInfo> Columns { get; private init; }
+    public ReadOnlyMemory<ColumnMappingInfo> Columns { get; private init; }
 
 
     /// <summary>
     /// Gets the column mapping information by member name.
     /// </summary>
-    public FrozenStringKeyDictionary<ColumnMappingInfo> ColumnByMemberName { get; private init; }
+    public IReadOnlyDictionary<string, ColumnMappingInfo> ColumnByMemberName
+        => this.ColumnByMemberNameInternal;
+
+
+    /// <summary>
+    /// Gets the column mapping information by member name.
+    /// </summary>
+    /// <remarks>provides fast access.</remarks>
+    internal FrozenStringKeyDictionary<ColumnMappingInfo> ColumnByMemberNameInternal { get; private init; }
     #endregion
 
 
     #region Constructors
-#pragma warning disable CS8618
     /// <summary>
     /// Creates instance.
     /// </summary>
-    private TableMappingInfo()
-    { }
-#pragma warning restore CS8618
+    /// <param name="type"></param>
+    /// <param name="table"></param>
+    /// <param name="columns"></param>
+    private TableMappingInfo(Type type, TableAttribute? table, ColumnMappingInfo[] columns)
+    {
+        this.Type = type;
+        this.Schema = table?.Schema;
+        this.Name = table?.Name ?? type.Name;
+        this.Columns = columns;
+        this.ColumnByMemberNameInternal = columns.ToFrozenStringKeyDictionary(static x => x.MemberName);
+    }
     #endregion
 
 
@@ -90,16 +105,9 @@ internal sealed class TableMappingInfo
         static Cache()
         {
             var type = typeof(T);
-            var tableAttr = type.GetCustomAttributes<TableAttribute>(true).FirstOrDefault();
-            var columns = getColumns().ToReadOnlyArray();
-            Instance = new()
-            {
-                Type = type,
-                Schema = tableAttr?.Schema,
-                Name = tableAttr?.Name ?? type.Name,
-                Columns = columns,
-                ColumnByMemberName = columns.ToFrozenStringKeyDictionary(x => x.MemberName),
-            };
+            var table = type.GetCustomAttributes<TableAttribute>(true).FirstOrDefault();
+            var columns = getColumns().ToArray();
+            Instance = new(type, table, columns);
 
             #region Local Functions
             static IEnumerable<ColumnMappingInfo> getColumns()

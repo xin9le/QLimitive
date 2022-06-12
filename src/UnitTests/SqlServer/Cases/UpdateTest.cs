@@ -75,7 +75,7 @@ set
     [Fact]
     public void OneColumn()
     {
-        var actual = QueryBuilder.Update<Person>(this.Dialect, x => x.LastName);
+        var actual = QueryBuilder.Update<Person>(this.Dialect, static x => x.LastName);
         var expect =
 @"update [dbo].[T_People]
 set
@@ -89,7 +89,7 @@ set
     [Fact]
     public void OneColumn_AnonymousType()
     {
-        var actual = QueryBuilder.Update<Person>(this.Dialect, x => new { x.LastName });
+        var actual = QueryBuilder.Update<Person>(this.Dialect, static x => new { x.LastName });
         var expect =
 @"update [dbo].[T_People]
 set
@@ -103,7 +103,7 @@ set
     [Fact]
     public void MultiColumns()
     {
-        var actual = QueryBuilder.Update<Person>(this.Dialect, x => new { x.LastName, x.FullName, x.ModifiedAt });
+        var actual = QueryBuilder.Update<Person>(this.Dialect, static x => new { x.LastName, x.FullName, x.ModifiedAt });
         var expect =
 @"update [dbo].[T_People]
 set
@@ -122,7 +122,7 @@ set
     [Fact]
     public void MultiColumns_UseAmbientValue()
     {
-        var actual = QueryBuilder.Update<Person>(this.Dialect, x => new { x.LastName, x.FullName, x.ModifiedAt }, useAmbientValue: true);
+        var actual = QueryBuilder.Update<Person>(this.Dialect, static x => new { x.LastName, x.FullName, x.ModifiedAt }, useAmbientValue: true);
         var expect =
 @"update [dbo].[T_People]
 set

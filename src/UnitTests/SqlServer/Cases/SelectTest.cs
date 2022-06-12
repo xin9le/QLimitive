@@ -34,7 +34,7 @@ from [dbo].[T_People]";
     [Fact]
     public void OneColumn()
     {
-        var actual = QueryBuilder.Select<Person>(this.Dialect, x => x.LastName);
+        var actual = QueryBuilder.Select<Person>(this.Dialect, static x => x.LastName);
         var expect =
 @"select
     [姓] as [LastName]
@@ -47,7 +47,7 @@ from [dbo].[T_People]";
     [Fact]
     public void OneColumn_AnonymousType()
     {
-        var actual = QueryBuilder.Select<Person>(this.Dialect, x => new { x.LastName });
+        var actual = QueryBuilder.Select<Person>(this.Dialect, static x => new { x.LastName });
         var expect =
 @"select
     [姓] as [LastName]
@@ -60,7 +60,7 @@ from [dbo].[T_People]";
     [Fact]
     public void TwoColumns()
     {
-        var actual = QueryBuilder.Select<Person>(this.Dialect, x => new { x.LastName, x.Age });
+        var actual = QueryBuilder.Select<Person>(this.Dialect, static x => new { x.LastName, x.Age });
         var expect =
 @"select
     [姓] as [LastName],
@@ -74,7 +74,7 @@ from [dbo].[T_People]";
     [Fact]
     public void MultiColumns_IncludeNotMapped()
     {
-        var actual = QueryBuilder.Select<Person>(this.Dialect, x => new { x.LastName, x.FullName, x.Age });
+        var actual = QueryBuilder.Select<Person>(this.Dialect, static x => new { x.LastName, x.FullName, x.Age });
         var expect =
 @"select
     [姓] as [LastName],

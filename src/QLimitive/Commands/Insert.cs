@@ -43,6 +43,7 @@ internal readonly struct Insert<T> : IQueryBuildable
     public void Build(ref Utf16ValueStringBuilder builder, ref BindParameterCollection? parameters)
     {
         var table = TableMappingInfo.Get<T>();
+        var columns = table.Columns.Span;
         var bracket = this.Dialect.KeywordBracket;
         var prefix = this.Dialect.BindParameterPrefix;
 
@@ -50,7 +51,7 @@ internal readonly struct Insert<T> : IQueryBuildable
         builder.AppendTableName<T>(this.Dialect);
         builder.AppendLine();
         builder.Append("(");
-        foreach (var x in table.Columns)
+        foreach (var x in columns)
         {
             if (!x.IsMapped)
                 continue;
@@ -70,7 +71,7 @@ internal readonly struct Insert<T> : IQueryBuildable
         builder.AppendLine(")");
         builder.AppendLine("values");
         builder.Append("(");
-        foreach (var x in table.Columns)
+        foreach (var x in columns)
         {
             if (!x.IsMapped)
                 continue;
