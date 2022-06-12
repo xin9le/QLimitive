@@ -10,7 +10,7 @@
     <PropertyGroup>
         <IsPackable>true</IsPackable>
         <PackageId>QLimitive</PackageId>
-        <Version>0.1.2.0</Version>
+        <Version>0.1.3.0</Version>
         <Description>An attribute-based primitive SQL generator that respects Entity Framework Core.</Description>
         <PackageProjectUrl>https://github.com/xin9le/QLimitive</PackageProjectUrl>
         <PackageTags>Database, SQL, Generator</PackageTags>
