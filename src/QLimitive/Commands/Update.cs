@@ -59,6 +59,7 @@ internal readonly struct Update<T> : IQueryBuildable
 
         //--- Build SQL
         var table = TableMappingInfo.Get<T>();
+        var columns = table.Columns.Span;
         var bracket = this.Dialect.KeywordBracket;
         var prefix = this.Dialect.BindParameterPrefix;
 
@@ -66,7 +67,7 @@ internal readonly struct Update<T> : IQueryBuildable
         builder.AppendTableName<T>(this.Dialect);
         builder.AppendLine();
         builder.Append("set");
-        foreach (var x in table.ColumnsInternal)
+        foreach (var x in columns)
         {
             if (!x.IsMapped)
                 continue;

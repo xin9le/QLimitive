@@ -52,9 +52,10 @@ internal readonly struct Select<T> : IQueryBuildable
 
         //--- Build SQL
         var table = TableMappingInfo.Get<T>();
+        var columns = table.Columns.Span;
         var bracket = this.Dialect.KeywordBracket;
         builder.Append("select");
-        foreach (var x in table.ColumnsInternal)
+        foreach (var x in columns)
         {
             if (!x.IsMapped)
                 continue;

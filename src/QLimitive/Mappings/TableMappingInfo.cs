@@ -38,8 +38,7 @@ public sealed class TableMappingInfo
     /// <summary>
     /// Gets the column mapping information.
     /// </summary>
-    public IReadOnlyList<ColumnMappingInfo> Columns
-        => this.ColumnsInternal;
+    public ReadOnlyMemory<ColumnMappingInfo> Columns { get; private init; }
 
 
     /// <summary>
@@ -47,13 +46,6 @@ public sealed class TableMappingInfo
     /// </summary>
     public IReadOnlyDictionary<string, ColumnMappingInfo> ColumnByMemberName
         => this.ColumnByMemberNameInternal;
-
-
-    /// <summary>
-    /// Gets the column mapping information.
-    /// </summary>
-    /// <remarks>provides fast access.</remarks>
-    internal ReadOnlyArray<ColumnMappingInfo> ColumnsInternal { get; private init; }
 
 
     /// <summary>
@@ -68,13 +60,16 @@ public sealed class TableMappingInfo
     /// <summary>
     /// Creates instance.
     /// </summary>
-    private TableMappingInfo(Type type, TableAttribute? table, IEnumerable<ColumnMappingInfo> columns)
+    /// <param name="type"></param>
+    /// <param name="table"></param>
+    /// <param name="columns"></param>
+    private TableMappingInfo(Type type, TableAttribute? table, ColumnMappingInfo[] columns)
     {
         this.Type = type;
         this.Schema = table?.Schema;
         this.Name = table?.Name ?? type.Name;
-        this.ColumnsInternal = columns.ToReadOnlyArray();
-        this.ColumnByMemberNameInternal = this.ColumnsInternal.ToFrozenStringKeyDictionary(static x => x.MemberName);
+        this.Columns = columns;
+        this.ColumnByMemberNameInternal = columns.ToFrozenStringKeyDictionary(static x => x.MemberName);
     }
     #endregion
 
@@ -111,7 +106,7 @@ public sealed class TableMappingInfo
         {
             var type = typeof(T);
             var table = type.GetCustomAttributes<TableAttribute>(true).FirstOrDefault();
-            var columns = getColumns();
+            var columns = getColumns().ToArray();
             Instance = new(type, table, columns);
 
             #region Local Functions
