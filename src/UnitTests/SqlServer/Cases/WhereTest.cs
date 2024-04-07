@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -638,7 +639,7 @@ public sealed class WhereTest
         {
             using (var builder = new QueryBuilder<Person>(dialect))
             {
-                Func<int, string> getName = static x => x.ToString();
+                Func<int, string> getName = static x => x.ToString(CultureInfo.InvariantCulture);
                 builder.Where(x => x.LastName == getName(123));
                 return builder.Build();
             }

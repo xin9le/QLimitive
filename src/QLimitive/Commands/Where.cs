@@ -178,7 +178,7 @@ internal readonly struct Where<T> : IQueryBuildable
                 {
                     this.BuildInClause(expression, true);
                 }
-                else if (t?.Namespace?.StartsWith("System.Collections") ?? false)
+                else if (t?.Namespace?.AsSpan().StartsWith("System.Collections") ?? false)
                 {
                     this.BuildInClause(expression, false);
                 }
