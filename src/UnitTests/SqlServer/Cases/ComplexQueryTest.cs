@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Cysharp.Text;
+﻿using Cysharp.Text;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLimitive.Mappings;
@@ -213,7 +212,7 @@ order by
                     stringBuilder.Append(dialect.BindParameterPrefix);
                     stringBuilder.Append(nameof(term));
 
-                    bindParameters ??= new();
+                    bindParameters ??= [];
                     bindParameters.Add(nameof(term), term);
                 }, dialect);
                 builder.OrderBy(static x => x.Id);
@@ -237,12 +236,12 @@ where
     [Id] = @p2 or [姓] <> @p3";
         actual.Text.Should().Be(expect);
         actual.Parameters.Should().NotBeNull();
-        actual.Parameters.Should().Contain(new KeyValuePair<string, object?>[]
-        {
+        actual.Parameters.Should().Contain(
+        [
             new("Age", null),
             new("p2", 1),
             new("p3", "xin9le"),
-        });
+        ]);
 
         static Query createQuery(DbDialect dialect)
         {

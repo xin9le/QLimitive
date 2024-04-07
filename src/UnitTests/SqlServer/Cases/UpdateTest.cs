@@ -30,8 +30,8 @@ set
     [UpdatedAt] = @ModifiedAt";
         actual.Text.Should().Be(expect);
         actual.Parameters.Should().NotBeNull();
-        actual.Parameters.Should().Contain(new KeyValuePair<string, object?>[]
-        {
+        actual.Parameters.Should().Contain(
+        [
             new("Id", null),
             new("LastName", null),
             new("FirstName", null),
@@ -40,7 +40,7 @@ set
             new("HasChildren", null),
             new("CreatedAt", null),
             new("ModifiedAt", null),
-        });
+        ]);
     }
 
 
@@ -61,15 +61,15 @@ set
     [UpdatedAt] = SYSDATETIME()";
         actual.Text.Should().Be(expect);
         actual.Parameters.Should().NotBeNull();
-        actual.Parameters.Should().Contain(new KeyValuePair<string, object?>[]
-        {
+        actual.Parameters.Should().Contain(
+        [
             new("Id", null),
             new("LastName", null),
             new("FirstName", null),
             new("Age", null),
             new("Sex", null),
             new("HasChildren", null),
-        });
+        ]);
     }
 
 
@@ -112,11 +112,11 @@ set
     [UpdatedAt] = @ModifiedAt";
         actual.Text.Should().Be(expect);
         actual.Parameters.Should().NotBeNull();
-        actual.Parameters.Should().Contain(new KeyValuePair<string, object?>[]
-        {
+        actual.Parameters.Should().Contain(
+        [
             new("LastName", null),
             new("ModifiedAt", null),
-        });
+        ]);
     }
 
 

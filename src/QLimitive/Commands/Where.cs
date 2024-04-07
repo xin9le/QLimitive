@@ -300,7 +300,7 @@ internal readonly struct Where<T> : IQueryBuildable
             }
 
             //--- Cache parameter
-            bindParameters ??= new BindParameterCollection();
+            bindParameters ??= [];
             var name = $"p{bindParameters.Count + 1}";
             bindParameters.Add(name, value);
             builder.Append(this._dialect.BindParameterPrefix);

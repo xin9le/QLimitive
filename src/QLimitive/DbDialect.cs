@@ -61,14 +61,13 @@ public readonly struct DbDialect
     /// </summary>
     static DbDialect()
     {
-        All = new[]
-        {
+        All = [
             SqlServer,
             MySql,
             Sqlite,
             PostgreSql,
             Oracle,
-        };
+        ];
         ByDatabase = All.ToFrozenDictionary(static x => x.Database);
     }
     #endregion
