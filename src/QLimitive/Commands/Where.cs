@@ -178,7 +178,7 @@ internal readonly struct Where<T> : IQueryBuildable
                 {
                     this.BuildInClause(expression, true);
                 }
-                else if (t?.Namespace?.StartsWith("System.Collections") ?? false)
+                else if (t?.Namespace?.AsSpan().StartsWith("System.Collections") ?? false)
                 {
                     this.BuildInClause(expression, false);
                 }
@@ -250,7 +250,7 @@ internal readonly struct Where<T> : IQueryBuildable
 
             //--- Build sql
             var bracket = this._dialect.KeywordBracket;
-            var columnName = this._table.ColumnByMemberNameInternal[memberName].ColumnName;
+            var columnName = this._table.ColumnByMemberName[memberName].ColumnName;
             builder.Append(bracket.Begin);
             builder.Append(columnName);
             builder.Append(bracket.End);
@@ -300,7 +300,7 @@ internal readonly struct Where<T> : IQueryBuildable
             }
 
             //--- Cache parameter
-            bindParameters ??= new BindParameterCollection();
+            bindParameters ??= [];
             var name = $"p{bindParameters.Count + 1}";
             bindParameters.Add(name, value);
             builder.Append(this._dialect.BindParameterPrefix);

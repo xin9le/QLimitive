@@ -91,7 +91,7 @@ internal readonly struct Update<T> : IQueryBuildable
                     builder.Append(x.MemberName);
                     builder.Append(',');
 
-                    parameters ??= new BindParameterCollection();
+                    parameters ??= [];
                     parameters.Add(x.MemberName, null);
                 }
             }

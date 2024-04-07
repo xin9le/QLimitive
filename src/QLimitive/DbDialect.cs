@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using QLimitive.Internals;
+﻿using System.Collections.Frozen;
+using System.Collections.Generic;
 
 namespace QLimitive;
 
@@ -61,14 +61,13 @@ public readonly struct DbDialect
     /// </summary>
     static DbDialect()
     {
-        All = new[]
-        {
+        All = [
             SqlServer,
             MySql,
             Sqlite,
             PostgreSql,
             Oracle,
-        };
+        ];
         ByDatabase = All.ToFrozenDictionary(static x => x.Database);
     }
     #endregion
@@ -84,7 +83,7 @@ public readonly struct DbDialect
     /// <summary>
     /// Gets all database dialects by <see cref="DbKind"/>.
     /// </summary>
-    public static IReadOnlyDictionary<DbKind, DbDialect> ByDatabase { get; }
+    public static FrozenDictionary<DbKind, DbDialect> ByDatabase { get; }
 
 
     /// <summary>

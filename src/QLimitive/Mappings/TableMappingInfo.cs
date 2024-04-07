@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using QLimitive.Internals;
 
 namespace QLimitive.Mappings;
 
@@ -44,15 +44,8 @@ public sealed class TableMappingInfo
     /// <summary>
     /// Gets the column mapping information by member name.
     /// </summary>
-    public IReadOnlyDictionary<string, ColumnMappingInfo> ColumnByMemberName
-        => this.ColumnByMemberNameInternal;
-
-
-    /// <summary>
-    /// Gets the column mapping information by member name.
-    /// </summary>
     /// <remarks>provides fast access.</remarks>
-    internal FrozenStringKeyDictionary<ColumnMappingInfo> ColumnByMemberNameInternal { get; private init; }
+    public FrozenDictionary<string, ColumnMappingInfo> ColumnByMemberName { get; private init; }
     #endregion
 
 
@@ -69,7 +62,7 @@ public sealed class TableMappingInfo
         this.Schema = table?.Schema;
         this.Name = table?.Name ?? type.Name;
         this.Columns = columns;
-        this.ColumnByMemberNameInternal = columns.ToFrozenStringKeyDictionary(static x => x.MemberName);
+        this.ColumnByMemberName = columns.ToFrozenDictionary(static x => x.MemberName);
     }
     #endregion
 

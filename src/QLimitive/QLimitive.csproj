@@ -1,16 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
-        <LangVersion>10.0</LangVersion>
-        <Nullable>enable</Nullable>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
 
     <PropertyGroup>
         <IsPackable>true</IsPackable>
         <PackageId>QLimitive</PackageId>
-        <Version>0.1.3.0</Version>
+        <Version>0.1.4.0</Version>
         <Description>An attribute-based primitive SQL generator that respects Entity Framework Core.</Description>
         <PackageProjectUrl>https://github.com/xin9le/QLimitive</PackageProjectUrl>
         <PackageTags>Database, SQL, Generator</PackageTags>
@@ -27,34 +24,16 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="FastMember" Version="1.5.0" />
-        <PackageReference Include="ZString" Version="2.4.4" />
+        <PackageReference Include="FastMember" />
+        <PackageReference Include="ZString" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(TargetFramework)' == 'net6'">
+        <PackageReference Include="System.Collections.Immutable" />
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Update="Internals\EnumerableExtensions_ToFrozenDictionary.cs">
-            <DesignTime>True</DesignTime>
-            <AutoGen>True</AutoGen>
-            <DependentUpon>EnumerableExtensions_ToFrozenDictionary.tt</DependentUpon>
-        </Compile>
-        <Compile Update="Internals\FrozenDictionary.cs">
-            <DesignTime>True</DesignTime>
-            <AutoGen>True</AutoGen>
-            <DependentUpon>FrozenDictionary.tt</DependentUpon>
-        </Compile>
-        <None Update="Internals\EnumerableExtensions_ToFrozenDictionary.tt">
-            <Generator>TextTemplatingFileGenerator</Generator>
-            <LastGenOutput>EnumerableExtensions_ToFrozenDictionary.cs</LastGenOutput>
-        </None>
-        <None Update="Internals\FrozenDictionary.tt">
-            <Generator>TextTemplatingFileGenerator</Generator>
-            <LastGenOutput>FrozenDictionary.cs</LastGenOutput>
-        </None>
         <None Include="../../README.md" Pack="true" PackagePath="\" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
     </ItemGroup>
 
 </Project>

@@ -52,8 +52,11 @@ internal readonly struct ThenBy<T> : IQueryBuildable
     public void Build(ref Utf16ValueStringBuilder builder, ref BindParameterCollection? parameters)
     {
         var memberName = ExpressionHelper.GetMemberName(this.Member);
+        if (memberName is null)
+            throw new InvalidOperationException();
+
         var table = TableMappingInfo.Get<T>();
-        var columnName = table.ColumnByMemberNameInternal[memberName].ColumnName;
+        var columnName = table.ColumnByMemberName[memberName].ColumnName;
         var bracket = this.Dialect.KeywordBracket;
 
         if (builder.Length > 0)

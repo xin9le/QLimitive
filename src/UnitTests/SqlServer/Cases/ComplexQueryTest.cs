@@ -1,20 +1,20 @@
-﻿using System.Collections.Generic;
-using Cysharp.Text;
+﻿using Cysharp.Text;
 using FluentAssertions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLimitive.Mappings;
 using QLimitive.UnitTests.SqlServer.Models;
-using Xunit;
 
 namespace QLimitive.UnitTests.SqlServer.Cases;
 
 
 
+[TestClass]
 public sealed class ComplexQueryTest
 {
     private DbDialect Dialect { get; } = DbDialect.SqlServer;
 
 
-    [Fact]
+    [TestMethod]
     public void CountWhere1()
     {
         var actual = createQuery(this.Dialect);
@@ -38,7 +38,7 @@ where
     }
 
 
-    [Fact]
+    [TestMethod]
     public void CountWhere2()
     {
         var actual = createQuery(this.Dialect);
@@ -63,7 +63,7 @@ where
     }
 
 
-    [Fact]
+    [TestMethod]
     public void CountWhere3()
     {
         var actual = createQuery(this.Dialect);
@@ -88,7 +88,7 @@ where
     }
 
 
-    [Fact]
+    [TestMethod]
     public void SelectWhere()
     {
         var actual = createQuery(this.Dialect);
@@ -122,7 +122,7 @@ where
     }
 
 
-    [Fact]
+    [TestMethod]
     public void SelectWhereOrderByThenBy()
     {
         var actual = createQuery(this.Dialect);
@@ -162,7 +162,7 @@ order by
     }
 
 
-    [Fact]
+    [TestMethod]
     public void SelectWhereAsIsOrderByThenBy()
     {
         var actual = createQuery(this.Dialect);
@@ -212,7 +212,7 @@ order by
                     stringBuilder.Append(dialect.BindParameterPrefix);
                     stringBuilder.Append(nameof(term));
 
-                    bindParameters ??= new();
+                    bindParameters ??= [];
                     bindParameters.Add(nameof(term), term);
                 }, dialect);
                 builder.OrderBy(static x => x.Id);
@@ -223,7 +223,7 @@ order by
     }
 
 
-    [Fact]
+    [TestMethod]
     public void UpdateWhere()
     {
         var actual = createQuery(this.Dialect);
@@ -236,12 +236,12 @@ where
     [Id] = @p2 or [姓] <> @p3";
         actual.Text.Should().Be(expect);
         actual.Parameters.Should().NotBeNull();
-        actual.Parameters.Should().Contain(new KeyValuePair<string, object?>[]
-        {
+        actual.Parameters.Should().Contain(
+        [
             new("Age", null),
             new("p2", 1),
             new("p3", "xin9le"),
-        });
+        ]);
 
         static Query createQuery(DbDialect dialect)
         {
@@ -255,7 +255,7 @@ where
     }
 
 
-    [Fact]
+    [TestMethod]
     public void DeleteWhere()
     {
         var actual = createQuery(this.Dialect);

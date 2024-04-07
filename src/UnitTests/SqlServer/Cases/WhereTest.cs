@@ -1,19 +1,21 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using FluentAssertions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLimitive.UnitTests.SqlServer.Models;
-using Xunit;
 
 namespace QLimitive.UnitTests.SqlServer.Cases;
 
 
 
+[TestClass]
 public sealed class WhereTest
 {
     private DbDialect Dialect { get; } = DbDialect.SqlServer;
 
 
-    [Fact]
+    [TestMethod]
     public void Equal()
     {
         var actual = createQuery(this.Dialect);
@@ -36,7 +38,7 @@ public sealed class WhereTest
     }
 
 
-    [Fact]
+    [TestMethod]
     public void NotEqual()
     {
         var actual = createQuery(this.Dialect);
@@ -59,7 +61,7 @@ public sealed class WhereTest
     }
 
 
-    [Fact]
+    [TestMethod]
     public void GreaterThan()
     {
         var actual = createQuery(this.Dialect);
@@ -82,7 +84,7 @@ public sealed class WhereTest
     }
 
 
-    [Fact]
+    [TestMethod]
     public void LessThan()
     {
         var actual = createQuery(this.Dialect);
@@ -105,7 +107,7 @@ public sealed class WhereTest
     }
 
 
-    [Fact]
+    [TestMethod]
     public void GreaterThanOrEqual()
     {
         var actual = createQuery(this.Dialect);
@@ -127,7 +129,7 @@ public sealed class WhereTest
     }
 
 
-    [Fact]
+    [TestMethod]
     public void LessThanOrEqual()
     {
         var actual = createQuery(this.Dialect);
@@ -149,7 +151,7 @@ public sealed class WhereTest
     }
 
 
-    [Fact]
+    [TestMethod]
     public void Null()
     {
         var actual = createQuery(this.Dialect);
@@ -170,7 +172,7 @@ public sealed class WhereTest
     }
 
 
-    [Fact]
+    [TestMethod]
     public void NotNull()
     {
         var actual = createQuery(this.Dialect);
@@ -191,7 +193,7 @@ public sealed class WhereTest
     }
 
 
-    [Fact]
+    [TestMethod]
     public void And()
     {
         var actual = createQuery(this.Dialect);
@@ -214,7 +216,7 @@ public sealed class WhereTest
     }
 
 
-    [Fact]
+    [TestMethod]
     public void Or()
     {
         var actual = createQuery(this.Dialect);
@@ -237,7 +239,7 @@ public sealed class WhereTest
     }
 
 
-    [Fact]
+    [TestMethod]
     public void AndOr1()
     {
         var actual = createQuery(this.Dialect);
@@ -261,7 +263,7 @@ public sealed class WhereTest
     }
 
 
-    [Fact]
+    [TestMethod]
     public void AndOr2()
     {
         var actual = createQuery(this.Dialect);
@@ -285,7 +287,7 @@ public sealed class WhereTest
     }
 
 
-    [Fact]
+    [TestMethod]
     public void AndOr3()
     {
         var actual = createQuery(this.Dialect);
@@ -309,7 +311,7 @@ public sealed class WhereTest
     }
 
 
-    [Fact]
+    [TestMethod]
     public void AndOr4()
     {
         var actual = createQuery(this.Dialect);
@@ -333,7 +335,7 @@ public sealed class WhereTest
     }
 
 
-    [Fact]
+    [TestMethod]
     public void AndOr5()
     {
         var value1 = Enumerable.Range(0, 1000).ToArray();
@@ -364,7 +366,7 @@ public sealed class WhereTest
     }
 
 
-    [Fact]
+    [TestMethod]
     public void AndOr6()
     {
         var value1 = Enumerable.Range(0, 1000).ToArray();
@@ -395,7 +397,7 @@ public sealed class WhereTest
     }
 
 
-    [Fact]
+    [TestMethod]
     public void AndOr7()
     {
         var actual = createQuery(this.Dialect);
@@ -420,7 +422,7 @@ public sealed class WhereTest
     }
 
 
-    [Fact]
+    [TestMethod]
     public void AndOr8()
     {
         var actual = createQuery(this.Dialect);
@@ -445,7 +447,7 @@ public sealed class WhereTest
     }
 
 
-    [Fact]
+    [TestMethod]
     public void Contains_IEnumerable()
     {
         var values = Enumerable.Range(0, 3).ToArray();
@@ -469,7 +471,7 @@ public sealed class WhereTest
     }
 
 
-    [Fact]
+    [TestMethod]
     public void Contains_IEnumerable_Over1000()
     {
         var value1 = Enumerable.Range(0, 1000).ToArray();
@@ -497,7 +499,7 @@ public sealed class WhereTest
     }
 
 
-    [Fact]
+    [TestMethod]
     public void Contains_IEnumerable_NoElements()
     {
         var actual = createQuery(this.Dialect);
@@ -519,7 +521,7 @@ public sealed class WhereTest
     }
 
 
-    [Fact]
+    [TestMethod]
     public void Contains_ConcreteType()
     {
         var value1 = Enumerable.Range(0, 1000).ToArray();
@@ -547,7 +549,7 @@ public sealed class WhereTest
     }
 
 
-    [Fact]
+    [TestMethod]
     public void Variable()
     {
         var id = 1;
@@ -570,7 +572,7 @@ public sealed class WhereTest
     }
 
 
-    [Fact]
+    [TestMethod]
     public void Constructor()
     {
         var actual = createQuery(this.Dialect);
@@ -592,14 +594,14 @@ public sealed class WhereTest
     }
 
 
-    [Fact]
+    [TestMethod]
     public void Array()
     {
         // do nothing
     }
 
 
-    [Fact]
+    [TestMethod]
     public void InstanceMethod()
     {
         var some = new AccessorProvider();
@@ -622,7 +624,7 @@ public sealed class WhereTest
     }
 
 
-    [Fact]
+    [TestMethod]
     public void Lambda()
     {
         var actual = createQuery(this.Dialect);
@@ -637,7 +639,7 @@ public sealed class WhereTest
         {
             using (var builder = new QueryBuilder<Person>(dialect))
             {
-                Func<int, string> getName = static x => x.ToString();
+                Func<int, string> getName = static x => x.ToString(CultureInfo.InvariantCulture);
                 builder.Where(x => x.LastName == getName(123));
                 return builder.Build();
             }
@@ -645,7 +647,7 @@ public sealed class WhereTest
     }
 
 
-    [Fact]
+    [TestMethod]
     public void InstanceProperty()
     {
         var some = new AccessorProvider();
@@ -668,7 +670,7 @@ public sealed class WhereTest
     }
 
 
-    [Fact]
+    [TestMethod]
     public void Indexer()
     {
         var ids = new[] { 1, 2, 3 };
@@ -691,7 +693,7 @@ public sealed class WhereTest
     }
 
 
-    [Fact]
+    [TestMethod]
     public void StaticMethod()
     {
         var actual = createQuery(this.Dialect);
@@ -713,7 +715,7 @@ public sealed class WhereTest
     }
 
 
-    [Fact]
+    [TestMethod]
     public void StaticProperty()
     {
         var actual = createQuery(this.Dialect);
@@ -735,7 +737,7 @@ public sealed class WhereTest
     }
 
 
-    [Fact]
+    [TestMethod]
     public void Enum_AsVariable()
     {
         var actual = createQuery(this.Dialect);
@@ -758,7 +760,7 @@ public sealed class WhereTest
     }
 
 
-    [Fact]
+    [TestMethod]
     public void Enum_AsConstant()
     {
         var actual = createQuery(this.Dialect);
