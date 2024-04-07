@@ -1,17 +1,18 @@
 ﻿using FluentAssertions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLimitive.UnitTests.SqlServer.Models;
-using Xunit;
 
 namespace QLimitive.UnitTests.SqlServer.Cases;
 
 
 
+[TestClass]
 public sealed class OrderByTest
 {
     private DbDialect Dialect { get; } = DbDialect.SqlServer;
 
 
-    [Fact]
+    [TestMethod]
     public void Ascending()
     {
         var actual = createQuery(this.Dialect);
@@ -32,7 +33,7 @@ public sealed class OrderByTest
     }
 
 
-    [Fact]
+    [TestMethod]
     public void Descending()
     {
         var actual = createQuery(this.Dialect);

@@ -1,18 +1,19 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLimitive.UnitTests.SqlServer.Models;
-using Xunit;
 
 namespace QLimitive.UnitTests.SqlServer.Cases;
 
 
 
+[TestClass]
 public sealed class UpdateTest
 {
     private DbDialect Dialect { get; } = DbDialect.SqlServer;
 
 
-    [Fact]
+    [TestMethod]
     public void AllColumns()
     {
         var actual = QueryBuilder.Update<Person>(this.Dialect);
@@ -43,7 +44,7 @@ set
     }
 
 
-    [Fact]
+    [TestMethod]
     public void AllColumns_UseAmbientValue()
     {
         var actual = QueryBuilder.Update<Person>(this.Dialect, useAmbientValue: true);
@@ -72,7 +73,7 @@ set
     }
 
 
-    [Fact]
+    [TestMethod]
     public void OneColumn()
     {
         var actual = QueryBuilder.Update<Person>(this.Dialect, static x => x.LastName);
@@ -86,7 +87,7 @@ set
     }
 
 
-    [Fact]
+    [TestMethod]
     public void OneColumn_AnonymousType()
     {
         var actual = QueryBuilder.Update<Person>(this.Dialect, static x => new { x.LastName });
@@ -100,7 +101,7 @@ set
     }
 
 
-    [Fact]
+    [TestMethod]
     public void MultiColumns()
     {
         var actual = QueryBuilder.Update<Person>(this.Dialect, static x => new { x.LastName, x.FullName, x.ModifiedAt });
@@ -119,7 +120,7 @@ set
     }
 
 
-    [Fact]
+    [TestMethod]
     public void MultiColumns_UseAmbientValue()
     {
         var actual = QueryBuilder.Update<Person>(this.Dialect, static x => new { x.LastName, x.FullName, x.ModifiedAt }, useAmbientValue: true);

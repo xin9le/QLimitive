@@ -1,17 +1,18 @@
 ﻿using FluentAssertions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLimitive.UnitTests.SqlServer.Models;
-using Xunit;
 
 namespace QLimitive.UnitTests.SqlServer.Cases;
 
 
 
+[TestClass]
 public sealed class SelectTest
 {
     private DbDialect Dialect { get; } = DbDialect.SqlServer;
 
 
-    [Fact]
+    [TestMethod]
     public void AllColumns()
     {
         var actual = QueryBuilder.Select<Person>(this.Dialect);
@@ -31,7 +32,7 @@ from [dbo].[T_People]";
     }
 
 
-    [Fact]
+    [TestMethod]
     public void OneColumn()
     {
         var actual = QueryBuilder.Select<Person>(this.Dialect, static x => x.LastName);
@@ -44,7 +45,7 @@ from [dbo].[T_People]";
     }
 
 
-    [Fact]
+    [TestMethod]
     public void OneColumn_AnonymousType()
     {
         var actual = QueryBuilder.Select<Person>(this.Dialect, static x => new { x.LastName });
@@ -57,7 +58,7 @@ from [dbo].[T_People]";
     }
 
 
-    [Fact]
+    [TestMethod]
     public void TwoColumns()
     {
         var actual = QueryBuilder.Select<Person>(this.Dialect, static x => new { x.LastName, x.Age });
@@ -71,7 +72,7 @@ from [dbo].[T_People]";
     }
 
 
-    [Fact]
+    [TestMethod]
     public void MultiColumns_IncludeNotMapped()
     {
         var actual = QueryBuilder.Select<Person>(this.Dialect, static x => new { x.LastName, x.FullName, x.Age });

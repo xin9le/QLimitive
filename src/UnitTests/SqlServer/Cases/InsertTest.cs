@@ -1,18 +1,19 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLimitive.UnitTests.SqlServer.Models;
-using Xunit;
 
 namespace QLimitive.UnitTests.SqlServer.Cases;
 
 
 
+[TestClass]
 public sealed class InsertTest
 {
     private DbDialect Dialect { get; } = DbDialect.SqlServer;
 
 
-    [Fact]
+    [TestMethod]
     public void ReferencePropertyValue()
     {
         var actual = QueryBuilder.Insert<Person>(this.Dialect, useAmbientValue: false);
@@ -52,7 +53,7 @@ values
     }
 
 
-    [Fact]
+    [TestMethod]
     public void ReferenceAmbientValue()
     {
         var actual = QueryBuilder.Insert<Person>(this.Dialect, useAmbientValue: true);
