@@ -1,0 +1,10 @@
+<Project>
+
+    <PropertyGroup>
+        <TargetFrameworks>net6</TargetFrameworks>
+        <LangVersion>10.0</LangVersion>
+        <Nullable>enable</Nullable>
+        <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
+    </PropertyGroup>
+    
+</Project>
