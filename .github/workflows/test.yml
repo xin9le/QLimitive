@@ -1,4 +1,6 @@
-name: Build and Test
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+
+name: Unit Testing
 
 on:
   workflow_dispatch:
@@ -7,28 +9,33 @@ on:
   pull_request:
     branches: [ main ]
 
-jobs:
-  build:
+env:
+  BuildConfiguration: Release
+  CheckoutDirectory: checkout
+  ProjectName: QLimitive.UnitTests
 
+jobs:
+  test:
     runs-on: ubuntu-latest
+
     strategy:
       matrix:
-        tfm: [ net6, net8 ]
-        include:
-          - tfm: net6
-            dotnet-version: 6.0.x 
-          - tfm: net8
-            dotnet-version: 8.0.x 
+        Tfm: [net8.0, net9.0, net10.0]
 
     steps:
-      - uses: actions/checkout@v4
-      - name: Setup .NET Core SDK
+      - name: Setup .NET SDK
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: ${{ matrix.dotnet-version }}
-      - name: Display dotnet version
+          dotnet-version: 10.0.x
+
+      - name: Display .NET version
         run: dotnet --version
-      - name: Build
-        run: dotnet build --configuration Release --framework ${{ matrix.tfm }} ./src/QLimitive/QLimitive.csproj
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          path: ${{ env.CheckoutDirectory }}
+          fetch-depth: 0
+
       - name: Test
-        run: dotnet test --verbosity normal --configuration Release --framework ${{ matrix.tfm }} ./src/UnitTests/UnitTests.csproj
+        run: dotnet test --verbosity normal --configuration ${{ env.BuildConfiguration }} --framework ${{ matrix.Tfm }} ./${{ env.CheckoutDirectory }}/src/insights/${{ env.ProjectName }}/${{ env.ProjectName }}.csproj
