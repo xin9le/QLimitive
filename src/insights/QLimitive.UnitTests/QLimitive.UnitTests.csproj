@@ -1,16 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <RootNamespace>QLimitive.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
-    </PropertyGroup>
-
     <ItemGroup>
         <PackageReference Include="FluentAssertions" />
         <PackageReference Include="MSTest" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\QLimitive\QLimitive.csproj" />
+        <ProjectReference Include="..\..\libs\QLimitive\QLimitive.csproj" />
     </ItemGroup>
 
 </Project>

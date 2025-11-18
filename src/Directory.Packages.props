@@ -5,8 +5,7 @@
   <ItemGroup>
     <PackageVersion Include="FastMember" Version="1.5.0" />
     <PackageVersion Include="FluentAssertions" Version="6.12.0" />
-    <PackageVersion Include="MSTest" Version="3.3.1" />
-    <PackageVersion Include="System.Collections.Immutable" Version="8.0.0" />
+    <PackageVersion Include="MSTest" Version="4.0.2" />
     <PackageVersion Include="ZString" Version="2.6.0" />
   </ItemGroup>
 </Project>
