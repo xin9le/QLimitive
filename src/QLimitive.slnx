@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="QLimitive/QLimitive.csproj" />
+  <Project Path="UnitTests/UnitTests.csproj" />
+</Solution>
