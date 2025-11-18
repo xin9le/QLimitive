@@ -436,12 +436,14 @@ internal readonly struct Where<T> : IQueryBuildable
 
             //--- Indexer
             if (expression is BinaryExpression binary)
+            {
                 if (expression.NodeType == ExpressionType.ArrayIndex)
                 {
                     var array = (Array)this.ExtractValue(binary.Left)!;
                     var index = (int)this.ExtractValue(binary.Right)!;
                     return array.GetValue(index);
                 }
+            }
 
             //--- Field / Property
             var memberNames = new List<string>();
@@ -450,11 +452,13 @@ internal readonly struct Where<T> : IQueryBuildable
             {
                 //--- cast
                 if (temp is UnaryExpression unary)
+                {
                     if (temp.NodeType == ExpressionType.Convert)
                     {
                         temp = unary.Operand;
                         continue;
                     }
+                }
 
                 //--- not member
                 if (temp is not MemberExpression member)
