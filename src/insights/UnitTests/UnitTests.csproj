@@ -10,7 +10,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\QLimitive\QLimitive.csproj" />
+        <ProjectReference Include="..\..\libs\QLimitive\QLimitive.csproj" />
     </ItemGroup>
 
 </Project>
