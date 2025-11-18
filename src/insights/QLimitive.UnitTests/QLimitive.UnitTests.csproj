@@ -1,9 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <RootNamespace>QLimitive.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
-    </PropertyGroup>
-
     <ItemGroup>
         <PackageReference Include="FluentAssertions" />
         <PackageReference Include="MSTest" />

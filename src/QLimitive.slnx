@@ -1,6 +1,6 @@
 <Solution>
   <Folder Name="/insights/">
-    <Project Path="insights/UnitTests/UnitTests.csproj" />
+    <Project Path="insights/QLimitive.UnitTests/QLimitive.UnitTests.csproj" />
   </Folder>
   <Folder Name="/libs/">
     <Project Path="libs/QLimitive/QLimitive.csproj" />
