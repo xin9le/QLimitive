@@ -171,10 +171,14 @@ internal readonly struct Where<T> : IQueryBuildable
         protected override Expression VisitMethodCall(MethodCallExpression expression)
         {
             //--- bool Contains(T value)
-            if (expression.Method.Name == nameof(Enumerable.Contains))
+            if (expression.Method.Name is "Contains")
             {
                 var t = expression.Method.DeclaringType;
                 if (t == typeof(Enumerable))
+                {
+                    this.BuildInClause(expression, true);
+                }
+                else if (t == typeof(MemoryExtensions))
                 {
                     this.BuildInClause(expression, true);
                 }
@@ -417,11 +421,25 @@ internal readonly struct Where<T> : IQueryBuildable
             //--- Method call
             if (expression is MethodCallExpression methodCall)
             {
+                var method = methodCall.Method;
+
+                // note:
+                //  - ReadOnlySpan<T> implicit conversion support
+                if (method.Name is "op_Implicit")
+                {
+                    var type = method.ReturnType;
+                    if (type.Namespace is "System" && type.Name is "ReadOnlySpan`1")
+                    {
+                        var arg = this.ExtractValue(methodCall.Arguments[0]);
+                        return arg;
+                    }
+                }
+
                 var parameters = methodCall.Arguments.Select(this.ExtractValue).ToArray();
                 var obj = methodCall.Object is null
                         ? null  // static
                         : this.ExtractValue(methodCall.Object);  // instance
-                return methodCall.Method.Invoke(obj, parameters);
+                return method.Invoke(obj, parameters);
             }
 
             //--- Delegate / Lambda
