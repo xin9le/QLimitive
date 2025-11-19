@@ -25,6 +25,7 @@ public sealed class ThenByTest
         actual.Text.ShouldBe(expect);
         actual.Parameters.ShouldBeNull();
 
+        #region Local Functions
         static Query createQuery()
         {
             using (var builder = new QueryBuilder<Person>(s_dialect))
@@ -34,6 +35,7 @@ public sealed class ThenByTest
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
@@ -48,6 +50,7 @@ public sealed class ThenByTest
         actual.Text.ShouldBe(expect);
         actual.Parameters.ShouldBeNull();
 
+        #region Local Functions
         static Query createQuery()
         {
             using (var builder = new QueryBuilder<Person>(s_dialect))
@@ -57,6 +60,7 @@ public sealed class ThenByTest
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
@@ -73,6 +77,7 @@ public sealed class ThenByTest
         actual.Text.ShouldBe(expect);
         actual.Parameters.ShouldBeNull();
 
+        #region Local Functions
         static Query createQuery()
         {
             using (var builder = new QueryBuilder<Person>(s_dialect))
@@ -84,5 +89,6 @@ public sealed class ThenByTest
                 return builder.Build();
             }
         }
+        #endregion
     }
 }

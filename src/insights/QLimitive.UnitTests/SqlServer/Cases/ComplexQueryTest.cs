@@ -27,6 +27,7 @@ where
         actual.Parameters.ShouldNotBeNull();
         actual.Parameters.ShouldContainKeyAndValue("p1", 1);
 
+        #region Local Functions
         static Query createQuery()
         {
             using (var builder = new QueryBuilder<Person>(s_dialect))
@@ -36,6 +37,7 @@ where
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
@@ -52,6 +54,7 @@ where
         actual.Parameters.ShouldContainKeyAndValue("p1", 1);
         actual.Parameters.ShouldContainKeyAndValue("p2", "xin9le");
 
+        #region Local Functions
         static Query createQuery()
         {
             using (var builder = new QueryBuilder<Person>(s_dialect))
@@ -61,6 +64,7 @@ where
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
@@ -77,6 +81,7 @@ where
         actual.Parameters.ShouldContainKeyAndValue("p1", 1);
         actual.Parameters.ShouldContainKeyAndValue("p2", "xin9le");
 
+        #region Local Functions
         static Query createQuery()
         {
             using (var builder = new QueryBuilder<Person>(s_dialect))
@@ -86,6 +91,7 @@ where
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
@@ -111,6 +117,7 @@ where
         actual.Parameters.ShouldContainKeyAndValue("p1", 1);
         actual.Parameters.ShouldContainKeyAndValue("p2", "xin9le");
 
+        #region Local Functions
         static Query createQuery()
         {
             using (var builder = new QueryBuilder<Person>(s_dialect))
@@ -120,6 +127,7 @@ where
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
@@ -149,6 +157,7 @@ order by
         actual.Parameters.ShouldContainKeyAndValue("p2", "xin9le");
         actual.Parameters.ShouldContainKeyAndValue("p3", 20);
 
+        #region Local Functions
         static Query createQuery()
         {
             using (var builder = new QueryBuilder<Person>(s_dialect))
@@ -160,6 +169,7 @@ order by
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
@@ -191,6 +201,7 @@ order by
         actual.Parameters.ShouldContainKeyAndValue("p3", 20);
         actual.Parameters.ShouldContainKeyAndValue("term", "csharp");
 
+        #region Local Functions
         static Query createQuery()
         {
             using (var builder = new QueryBuilder<Person>(s_dialect))
@@ -221,6 +232,7 @@ order by
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
@@ -241,6 +253,7 @@ where
         actual.Parameters.ShouldContainKeyAndValue("p2", 1);
         actual.Parameters.ShouldContainKeyAndValue("p3", "xin9le");
 
+        #region Local Functions
         static Query createQuery()
         {
             using (var builder = new QueryBuilder<Person>(s_dialect))
@@ -250,6 +263,7 @@ where
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
@@ -266,6 +280,7 @@ where
         actual.Parameters.ShouldContainKeyAndValue("p1", 1);
         actual.Parameters.ShouldContainKeyAndValue("p2", "xin9le");
 
+        #region Local Functions
         static Query createQuery()
         {
             using (var builder = new QueryBuilder<Person>(s_dialect))
@@ -275,5 +290,6 @@ where
                 return builder.Build();
             }
         }
+        #endregion
     }
 }

@@ -29,6 +29,7 @@ public sealed class WhereTest
         actual.Parameters.ShouldNotBeNull();
         actual.Parameters.ShouldContainKeyAndValue("p1", 1);
 
+        #region Local Functions
         static Query createQuery()
         {
             using (var builder = new QueryBuilder<Person>(s_dialect))
@@ -37,6 +38,7 @@ public sealed class WhereTest
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
@@ -52,6 +54,7 @@ public sealed class WhereTest
         actual.Parameters.ShouldNotBeNull();
         actual.Parameters.ShouldContainKeyAndValue("p1", 1);
 
+        #region Local Functions
         static Query createQuery()
         {
             using (var builder = new QueryBuilder<Person>(s_dialect))
@@ -60,6 +63,7 @@ public sealed class WhereTest
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
@@ -75,6 +79,7 @@ public sealed class WhereTest
         actual.Parameters.ShouldNotBeNull();
         actual.Parameters.ShouldContainKeyAndValue("p1", 1);
 
+        #region Local Functions
         static Query createQuery()
         {
             using (var builder = new QueryBuilder<Person>(s_dialect))
@@ -83,6 +88,7 @@ public sealed class WhereTest
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
@@ -97,7 +103,8 @@ public sealed class WhereTest
         actual.Text.ShouldBe(expect);
         actual.Parameters.ShouldNotBeNull();
         actual.Parameters.ShouldContainKeyAndValue("p1", 1);
-  
+
+        #region Local Functions
         static Query createQuery()
         {
             using (var builder = new QueryBuilder<Person>(s_dialect))
@@ -106,6 +113,7 @@ public sealed class WhereTest
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
@@ -120,6 +128,7 @@ public sealed class WhereTest
         actual.Parameters.ShouldNotBeNull();
         actual.Parameters.ShouldContainKeyAndValue("p1", 1);
 
+        #region Local Functions
         static Query createQuery()
         {
             using (var builder = new QueryBuilder<Person>(s_dialect))
@@ -128,6 +137,7 @@ public sealed class WhereTest
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
@@ -142,6 +152,7 @@ public sealed class WhereTest
         actual.Parameters.ShouldNotBeNull();
         actual.Parameters.ShouldContainKeyAndValue("p1", 1);
 
+        #region Local Functions
         static Query createQuery()
         {
             using (var builder = new QueryBuilder<Person>(s_dialect))
@@ -150,6 +161,7 @@ public sealed class WhereTest
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
@@ -163,6 +175,7 @@ public sealed class WhereTest
         actual.Text.ShouldBe(expect);
         actual.Parameters.ShouldBeNull();
 
+        #region Local Functions
         static Query createQuery()
         {
             using (var builder = new QueryBuilder<Person>(s_dialect))
@@ -171,6 +184,7 @@ public sealed class WhereTest
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
@@ -184,6 +198,7 @@ public sealed class WhereTest
         actual.Text.ShouldBe(expect);
         actual.Parameters.ShouldBeNull();
 
+        #region Local Functions
         static Query createQuery()
         {
             using (var builder = new QueryBuilder<Person>(s_dialect))
@@ -192,6 +207,7 @@ public sealed class WhereTest
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
@@ -207,6 +223,7 @@ public sealed class WhereTest
         actual.Parameters.ShouldContainKeyAndValue("p1", 1);
         actual.Parameters.ShouldContainKeyAndValue("p2", "xin9le");
 
+        #region Local Functions
         static Query createQuery()
         {
             using (var builder = new QueryBuilder<Person>(s_dialect))
@@ -215,6 +232,7 @@ public sealed class WhereTest
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
@@ -230,6 +248,7 @@ public sealed class WhereTest
         actual.Parameters.ShouldContainKeyAndValue("p1", 1);
         actual.Parameters.ShouldContainKeyAndValue("p2", "xin9le");
 
+        #region Local Functions
         static Query createQuery()
         {
             using (var builder = new QueryBuilder<Person>(s_dialect))
@@ -238,6 +257,7 @@ public sealed class WhereTest
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
@@ -254,6 +274,7 @@ public sealed class WhereTest
         actual.Parameters.ShouldContainKeyAndValue("p2", "xin9le");
         actual.Parameters.ShouldContainKeyAndValue("p3", 30);
 
+        #region Local Functions
         static Query createQuery()
         {
             using (var builder = new QueryBuilder<Person>(s_dialect))
@@ -262,6 +283,7 @@ public sealed class WhereTest
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
@@ -278,6 +300,7 @@ public sealed class WhereTest
         actual.Parameters.ShouldContainKeyAndValue("p2", "xin9le");
         actual.Parameters.ShouldContainKeyAndValue("p3", 30);
 
+        #region Local Functions
         static Query createQuery()
         {
             using (var builder = new QueryBuilder<Person>(s_dialect))
@@ -286,6 +309,7 @@ public sealed class WhereTest
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
@@ -302,6 +326,7 @@ public sealed class WhereTest
         actual.Parameters.ShouldContainKeyAndValue("p2", "xin9le");
         actual.Parameters.ShouldContainKeyAndValue("p3", 30);
 
+        #region Local Functions
         static Query createQuery()
         {
             using (var builder = new QueryBuilder<Person>(s_dialect))
@@ -310,6 +335,7 @@ public sealed class WhereTest
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
@@ -326,6 +352,7 @@ public sealed class WhereTest
         actual.Parameters.ShouldContainKeyAndValue("p2", "xin9le");
         actual.Parameters.ShouldContainKeyAndValue("p3", 30);
 
+        #region Local Functions
         static Query createQuery()
         {
             using (var builder = new QueryBuilder<Person>(s_dialect))
@@ -334,6 +361,7 @@ public sealed class WhereTest
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
@@ -356,6 +384,7 @@ public sealed class WhereTest
         actual.Parameters.ShouldContainKey("p5");
         actual.Parameters!["p5"].ShouldBe(value2);
 
+        #region Local Functions
         static Query createQuery(int[] value1, int[] value2)
         {
             using (var builder = new QueryBuilder<Person>(s_dialect))
@@ -365,6 +394,7 @@ public sealed class WhereTest
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
@@ -387,6 +417,7 @@ public sealed class WhereTest
         actual.Parameters.ShouldContainKey("p5");
         actual.Parameters!["p5"].ShouldBe(value2);
 
+        #region Local Functions
         static Query createQuery(int[] value1, int[] value2)
         {
             using (var builder = new QueryBuilder<Person>(s_dialect))
@@ -396,6 +427,7 @@ public sealed class WhereTest
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
@@ -412,6 +444,7 @@ public sealed class WhereTest
         actual.Parameters.ShouldContainKeyAndValue("p2", "xin9le");
         actual.Parameters.ShouldContainKeyAndValue("p3", 30);
 
+        #region Local Functions
         static Query createQuery()
         {
             using (var builder = new QueryBuilder<Person>(s_dialect))
@@ -421,6 +454,7 @@ public sealed class WhereTest
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
@@ -437,6 +471,7 @@ public sealed class WhereTest
         actual.Parameters.ShouldContainKeyAndValue("p2", "xin9le");
         actual.Parameters.ShouldContainKeyAndValue("p3", 30);
 
+        #region Local Functions
         static Query createQuery()
         {
             using (var builder = new QueryBuilder<Person>(s_dialect))
@@ -446,6 +481,7 @@ public sealed class WhereTest
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
@@ -462,6 +498,7 @@ public sealed class WhereTest
         actual.Parameters.ShouldContainKey("p1");
         actual.Parameters!["p1"].ShouldBe(values);
 
+        #region Local Functions
         static Query createQuery(int[] values)
         {
             using (var builder = new QueryBuilder<Person>(s_dialect))
@@ -470,6 +507,7 @@ public sealed class WhereTest
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
@@ -489,6 +527,7 @@ public sealed class WhereTest
         actual.Parameters.ShouldContainKey("p2");
         actual.Parameters!["p2"].ShouldBe(value2);
 
+        #region Local Functions
         static Query createQuery(int[] value1, int[] value2)
         {
             using (var builder = new QueryBuilder<Person>(s_dialect))
@@ -498,6 +537,7 @@ public sealed class WhereTest
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
@@ -511,6 +551,7 @@ public sealed class WhereTest
         actual.Text.ShouldBe(expect);
         actual.Parameters.ShouldBeNull();
 
+        #region Local Functions
         static Query createQuery()
         {
             using (var builder = new QueryBuilder<Person>(s_dialect))
@@ -520,6 +561,7 @@ public sealed class WhereTest
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
@@ -539,6 +581,7 @@ public sealed class WhereTest
         actual.Parameters.ShouldContainKey("p2");
         actual.Parameters!["p2"].ShouldBe(value2);
 
+        #region Local Functions
         static Query createQuery(int[] value1, int[] value2)
         {
             using (var builder = new QueryBuilder<Person>(s_dialect))
@@ -548,6 +591,7 @@ public sealed class WhereTest
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
@@ -563,6 +607,7 @@ public sealed class WhereTest
         actual.Parameters.ShouldNotBeNull();
         actual.Parameters.ShouldContainKeyAndValue("p1", id);
 
+        #region Local Functions
         static Query createQuery(int id)
         {
             using (var builder = new QueryBuilder<Person>(s_dialect))
@@ -571,6 +616,7 @@ public sealed class WhereTest
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
@@ -585,6 +631,7 @@ public sealed class WhereTest
         actual.Parameters.ShouldNotBeNull();
         actual.Parameters.ShouldContainKeyAndValue("p1", "aaa");
 
+        #region Local Functions
         static Query createQuery()
         {
             using (var builder = new QueryBuilder<Person>(s_dialect))
@@ -593,6 +640,7 @@ public sealed class WhereTest
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
@@ -615,6 +663,7 @@ public sealed class WhereTest
         actual.Parameters.ShouldNotBeNull();
         actual.Parameters.ShouldContainKeyAndValue("p1", some.InstanceMethod());
 
+        #region Local Functions
         static Query createQuery(AccessorProvider some)
         {
             using (var builder = new QueryBuilder<Person>(s_dialect))
@@ -623,6 +672,7 @@ public sealed class WhereTest
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
@@ -637,6 +687,7 @@ public sealed class WhereTest
         actual.Parameters.ShouldNotBeNull();
         actual.Parameters.ShouldContainKeyAndValue("p1", "123");
 
+        #region Local Functions
         static Query createQuery()
         {
             using (var builder = new QueryBuilder<Person>(s_dialect))
@@ -646,6 +697,7 @@ public sealed class WhereTest
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
@@ -661,6 +713,7 @@ public sealed class WhereTest
         actual.Parameters.ShouldNotBeNull();
         actual.Parameters.ShouldContainKeyAndValue("p1", some.InstanceProperty);
 
+        #region Local Functions
         static Query createQuery(AccessorProvider some)
         {
             using (var builder = new QueryBuilder<Person>(s_dialect))
@@ -669,6 +722,7 @@ public sealed class WhereTest
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
@@ -684,6 +738,7 @@ public sealed class WhereTest
         actual.Parameters.ShouldNotBeNull();
         actual.Parameters.ShouldContainKeyAndValue("p1", ids[0]);
 
+        #region Local Functions
         static Query createQuery(int[] ids)
         {
             using (var builder = new QueryBuilder<Person>(s_dialect))
@@ -692,6 +747,7 @@ public sealed class WhereTest
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
@@ -706,6 +762,7 @@ public sealed class WhereTest
         actual.Parameters.ShouldNotBeNull();
         actual.Parameters.ShouldContainKeyAndValue("p1", AccessorProvider.StaticMethod());
 
+        #region Local Functions
         static Query createQuery()
         {
             using (var builder = new QueryBuilder<Person>(s_dialect))
@@ -714,6 +771,7 @@ public sealed class WhereTest
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
@@ -728,6 +786,7 @@ public sealed class WhereTest
         actual.Parameters.ShouldNotBeNull();
         actual.Parameters.ShouldContainKeyAndValue("p1", AccessorProvider.StaticProperty);
 
+        #region Local Functions
         static Query createQuery()
         {
             using (var builder = new QueryBuilder<Person>(s_dialect))
@@ -736,6 +795,7 @@ public sealed class WhereTest
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
@@ -750,6 +810,7 @@ public sealed class WhereTest
         actual.Parameters.ShouldNotBeNull();
         actual.Parameters.ShouldContainKeyAndValue("p1", Sex.Male);
 
+        #region Local Functions
         static Query createQuery()
         {
             using (var builder = new QueryBuilder<Person>(s_dialect))
@@ -759,6 +820,7 @@ public sealed class WhereTest
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
@@ -773,6 +835,7 @@ public sealed class WhereTest
         actual.Parameters.ShouldNotBeNull();
         actual.Parameters.ShouldContainKeyAndValue("p1", (int)Sex.Female);
 
+        #region Local Functions
         static Query createQuery()
         {
             using (var builder = new QueryBuilder<Person>(s_dialect))
@@ -781,5 +844,6 @@ public sealed class WhereTest
                 return builder.Build();
             }
         }
+        #endregion
     }
 }
