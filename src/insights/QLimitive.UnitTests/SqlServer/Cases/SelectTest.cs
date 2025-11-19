@@ -1,6 +1,6 @@
-﻿using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLimitive.UnitTests.SqlServer.Models;
+using Shouldly;
 
 namespace QLimitive.UnitTests.SqlServer.Cases;
 
@@ -27,8 +27,8 @@ public sealed class SelectTest
     [CreatedAt] as [CreatedAt],
     [UpdatedAt] as [ModifiedAt]
 from [dbo].[T_People]";
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().BeNull();
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldBeNull();
     }
 
 
@@ -40,8 +40,8 @@ from [dbo].[T_People]";
 @"select
     [姓] as [LastName]
 from [dbo].[T_People]";
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().BeNull();
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldBeNull();
     }
 
 
@@ -53,8 +53,8 @@ from [dbo].[T_People]";
 @"select
     [姓] as [LastName]
 from [dbo].[T_People]";
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().BeNull();
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldBeNull();
     }
 
 
@@ -67,8 +67,8 @@ from [dbo].[T_People]";
     [姓] as [LastName],
     [Age] as [Age]
 from [dbo].[T_People]";
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().BeNull();
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldBeNull();
     }
 
 
@@ -81,7 +81,7 @@ from [dbo].[T_People]";
     [姓] as [LastName],
     [Age] as [Age]
 from [dbo].[T_People]";
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().BeNull();
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldBeNull();
     }
 }

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
-using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLimitive.UnitTests.SqlServer.Models;
+using Shouldly;
 
 namespace QLimitive.UnitTests.SqlServer.Cases;
 
@@ -23,9 +23,9 @@ public sealed class WhereTest
 @"where
     [Id] = @p1";
 
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().NotBeNull();
-        actual.Parameters.Should().Contain("p1", 1);
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldNotBeNull();
+        actual.Parameters.ShouldContainKeyAndValue("p1", 1);
 
         static Query createQuery(DbDialect dialect)
         {
@@ -46,9 +46,9 @@ public sealed class WhereTest
 @"where
     [Id] <> @p1";
 
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().NotBeNull();
-        actual.Parameters.Should().Contain("p1", 1);
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldNotBeNull();
+        actual.Parameters.ShouldContainKeyAndValue("p1", 1);
 
         static Query createQuery(DbDialect dialect)
         {
@@ -69,9 +69,9 @@ public sealed class WhereTest
 @"where
     [Id] > @p1";
 
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().NotBeNull();
-        actual.Parameters.Should().Contain("p1", 1);
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldNotBeNull();
+        actual.Parameters.ShouldContainKeyAndValue("p1", 1);
 
         static Query createQuery(DbDialect dialect)
         {
@@ -92,9 +92,9 @@ public sealed class WhereTest
 @"where
     [Id] < @p1";
 
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().NotBeNull();
-        actual.Parameters.Should().Contain("p1", 1);
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldNotBeNull();
+        actual.Parameters.ShouldContainKeyAndValue("p1", 1);
   
         static Query createQuery(DbDialect dialect)
         {
@@ -114,9 +114,9 @@ public sealed class WhereTest
         var expect =
 @"where
     [Id] >= @p1";
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().NotBeNull();
-        actual.Parameters.Should().Contain("p1", 1);
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldNotBeNull();
+        actual.Parameters.ShouldContainKeyAndValue("p1", 1);
 
         static Query createQuery(DbDialect dialect)
         {
@@ -136,9 +136,9 @@ public sealed class WhereTest
         var expect =
 @"where
     [Id] <= @p1";
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().NotBeNull();
-        actual.Parameters.Should().Contain("p1", 1);
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldNotBeNull();
+        actual.Parameters.ShouldContainKeyAndValue("p1", 1);
 
         static Query createQuery(DbDialect dialect)
         {
@@ -158,8 +158,8 @@ public sealed class WhereTest
         var expect =
 @"where
     [姓] is null";
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().BeNull();
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldBeNull();
 
         static Query createQuery(DbDialect dialect)
         {
@@ -179,8 +179,8 @@ public sealed class WhereTest
         var expect =
 @"where
     [姓] is not null";
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().BeNull();
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldBeNull();
 
         static Query createQuery(DbDialect dialect)
         {
@@ -200,10 +200,10 @@ public sealed class WhereTest
         var expect =
 @"where
     [Id] > @p1 and [姓] = @p2";
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().NotBeNull();
-        actual.Parameters.Should().Contain("p1", 1);
-        actual.Parameters.Should().Contain("p2", "xin9le");
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldNotBeNull();
+        actual.Parameters.ShouldContainKeyAndValue("p1", 1);
+        actual.Parameters.ShouldContainKeyAndValue("p2", "xin9le");
 
         static Query createQuery(DbDialect dialect)
         {
@@ -223,10 +223,10 @@ public sealed class WhereTest
         var expect =
 @"where
     [Id] > @p1 or [姓] = @p2";
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().NotBeNull();
-        actual.Parameters.Should().Contain("p1", 1);
-        actual.Parameters.Should().Contain("p2", "xin9le");
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldNotBeNull();
+        actual.Parameters.ShouldContainKeyAndValue("p1", 1);
+        actual.Parameters.ShouldContainKeyAndValue("p2", "xin9le");
 
         static Query createQuery(DbDialect dialect)
         {
@@ -246,11 +246,11 @@ public sealed class WhereTest
         var expect =
 @"where
     ([Id] > @p1 and [姓] = @p2) or [Age] <= @p3";
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().NotBeNull();
-        actual.Parameters.Should().Contain("p1", 1);
-        actual.Parameters.Should().Contain("p2", "xin9le");
-        actual.Parameters.Should().Contain("p3", 30);
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldNotBeNull();
+        actual.Parameters.ShouldContainKeyAndValue("p1", 1);
+        actual.Parameters.ShouldContainKeyAndValue("p2", "xin9le");
+        actual.Parameters.ShouldContainKeyAndValue("p3", 30);
 
         static Query createQuery(DbDialect dialect)
         {
@@ -270,11 +270,11 @@ public sealed class WhereTest
         var expect =
 @"where
     [Id] > @p1 and ([姓] = @p2 or [Age] <= @p3)";
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().NotBeNull();
-        actual.Parameters.Should().Contain("p1", 1);
-        actual.Parameters.Should().Contain("p2", "xin9le");
-        actual.Parameters.Should().Contain("p3", 30);
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldNotBeNull();
+        actual.Parameters.ShouldContainKeyAndValue("p1", 1);
+        actual.Parameters.ShouldContainKeyAndValue("p2", "xin9le");
+        actual.Parameters.ShouldContainKeyAndValue("p3", 30);
 
         static Query createQuery(DbDialect dialect)
         {
@@ -294,11 +294,11 @@ public sealed class WhereTest
         var expect =
 @"where
     [Id] > @p1 or ([姓] = @p2 and [Age] <= @p3)";
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().NotBeNull();
-        actual.Parameters.Should().Contain("p1", 1);
-        actual.Parameters.Should().Contain("p2", "xin9le");
-        actual.Parameters.Should().Contain("p3", 30);
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldNotBeNull();
+        actual.Parameters.ShouldContainKeyAndValue("p1", 1);
+        actual.Parameters.ShouldContainKeyAndValue("p2", "xin9le");
+        actual.Parameters.ShouldContainKeyAndValue("p3", 30);
 
         static Query createQuery(DbDialect dialect)
         {
@@ -318,11 +318,11 @@ public sealed class WhereTest
         var expect =
 @"where
     ([Id] > @p1 or [姓] = @p2) and [Age] <= @p3";
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().NotBeNull();
-        actual.Parameters.Should().Contain("p1", 1);
-        actual.Parameters.Should().Contain("p2", "xin9le");
-        actual.Parameters.Should().Contain("p3", 30);
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldNotBeNull();
+        actual.Parameters.ShouldContainKeyAndValue("p1", 1);
+        actual.Parameters.ShouldContainKeyAndValue("p2", "xin9le");
+        actual.Parameters.ShouldContainKeyAndValue("p3", 30);
 
         static Query createQuery(DbDialect dialect)
         {
@@ -344,15 +344,15 @@ public sealed class WhereTest
         var expect =
 @"where
     ([Id] > @p1 or [姓] = @p2) and [Age] <= @p3 and ([Id] in @p4 or [Id] in @p5)";
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().NotBeNull();
-        actual.Parameters.Should().Contain("p1", 1);
-        actual.Parameters.Should().Contain("p2", "xin9le");
-        actual.Parameters.Should().Contain("p3", 30);
-        actual.Parameters.Should().ContainKey("p4");
-        actual.Parameters!["p4"].Should().BeEquivalentTo(value1);
-        actual.Parameters.Should().ContainKey("p5");
-        actual.Parameters!["p5"].Should().BeEquivalentTo(value2);
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldNotBeNull();
+        actual.Parameters.ShouldContainKeyAndValue("p1", 1);
+        actual.Parameters.ShouldContainKeyAndValue("p2", "xin9le");
+        actual.Parameters.ShouldContainKeyAndValue("p3", 30);
+        actual.Parameters.ShouldContainKey("p4");
+        actual.Parameters!["p4"].ShouldBe(value1);
+        actual.Parameters.ShouldContainKey("p5");
+        actual.Parameters!["p5"].ShouldBe(value2);
 
         static Query createQuery(DbDialect dialect, int[] value1, int[] value2)
         {
@@ -375,15 +375,15 @@ public sealed class WhereTest
         var expect =
 @"where
     (([Id] > @p1 or [姓] = @p2) and [Age] <= @p3) or ([Id] in @p4 or [Id] in @p5)";
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().NotBeNull();
-        actual.Parameters.Should().Contain("p1", 1);
-        actual.Parameters.Should().Contain("p2", "xin9le");
-        actual.Parameters.Should().Contain("p3", 30);
-        actual.Parameters.Should().ContainKey("p4");
-        actual.Parameters!["p4"].Should().BeEquivalentTo(value1);
-        actual.Parameters.Should().ContainKey("p5");
-        actual.Parameters!["p5"].Should().BeEquivalentTo(value2);
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldNotBeNull();
+        actual.Parameters.ShouldContainKeyAndValue("p1", 1);
+        actual.Parameters.ShouldContainKeyAndValue("p2", "xin9le");
+        actual.Parameters.ShouldContainKeyAndValue("p3", 30);
+        actual.Parameters.ShouldContainKey("p4");
+        actual.Parameters!["p4"].ShouldBe(value1);
+        actual.Parameters.ShouldContainKey("p5");
+        actual.Parameters!["p5"].ShouldBe(value2);
 
         static Query createQuery(DbDialect dialect, int[] value1, int[] value2)
         {
@@ -404,11 +404,11 @@ public sealed class WhereTest
         var expect =
 @"where
     (([Id] > @p1 or [姓] = @p2) and [Age] <= @p3) or 1 = 0";
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().NotBeNull();
-        actual.Parameters.Should().Contain("p1", 1);
-        actual.Parameters.Should().Contain("p2", "xin9le");
-        actual.Parameters.Should().Contain("p3", 30);
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldNotBeNull();
+        actual.Parameters.ShouldContainKeyAndValue("p1", 1);
+        actual.Parameters.ShouldContainKeyAndValue("p2", "xin9le");
+        actual.Parameters.ShouldContainKeyAndValue("p3", 30);
 
         static Query createQuery(DbDialect dialect)
         {
@@ -429,11 +429,11 @@ public sealed class WhereTest
         var expect =
 @"where
     ([Id] > @p1 or [姓] = @p2) and ([Age] <= @p3 or 1 = 0)";
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().NotBeNull();
-        actual.Parameters.Should().Contain("p1", 1);
-        actual.Parameters.Should().Contain("p2", "xin9le");
-        actual.Parameters.Should().Contain("p3", 30);
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldNotBeNull();
+        actual.Parameters.ShouldContainKeyAndValue("p1", 1);
+        actual.Parameters.ShouldContainKeyAndValue("p2", "xin9le");
+        actual.Parameters.ShouldContainKeyAndValue("p3", 30);
 
         static Query createQuery(DbDialect dialect)
         {
@@ -455,10 +455,10 @@ public sealed class WhereTest
         var expect =
 @"where
     [Id] in @p1";
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().NotBeNull();
-        actual.Parameters.Should().ContainKey("p1");
-        actual.Parameters!["p1"].Should().BeEquivalentTo(values);
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldNotBeNull();
+        actual.Parameters.ShouldContainKey("p1");
+        actual.Parameters!["p1"].ShouldBe(values);
 
         static Query createQuery(DbDialect dialect, int[] values)
         {
@@ -480,12 +480,12 @@ public sealed class WhereTest
         var expect =
 @"where
     ([Id] in @p1 or [Id] in @p2)";
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().NotBeNull();
-        actual.Parameters.Should().ContainKey("p1");
-        actual.Parameters!["p1"].Should().BeEquivalentTo(value1);
-        actual.Parameters.Should().ContainKey("p2");
-        actual.Parameters!["p2"].Should().BeEquivalentTo(value2);
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldNotBeNull();
+        actual.Parameters.ShouldContainKey("p1");
+        actual.Parameters!["p1"].ShouldBe(value1);
+        actual.Parameters.ShouldContainKey("p2");
+        actual.Parameters!["p2"].ShouldBe(value2);
 
         static Query createQuery(DbDialect dialect, int[] value1, int[] value2)
         {
@@ -506,8 +506,8 @@ public sealed class WhereTest
         var expect =
 @"where
     1 = 0";
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().BeNull();
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldBeNull();
 
         static Query createQuery(DbDialect dialect)
         {
@@ -530,12 +530,12 @@ public sealed class WhereTest
         var expect =
 @"where
     ([Id] in @p1 or [Id] in @p2)";
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().NotBeNull();
-        actual.Parameters.Should().ContainKey("p1");
-        actual.Parameters!["p1"].Should().BeEquivalentTo(value1);
-        actual.Parameters.Should().ContainKey("p2");
-        actual.Parameters!["p2"].Should().BeEquivalentTo(value2);
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldNotBeNull();
+        actual.Parameters.ShouldContainKey("p1");
+        actual.Parameters!["p1"].ShouldBe(value1);
+        actual.Parameters.ShouldContainKey("p2");
+        actual.Parameters!["p2"].ShouldBe(value2);
 
         static Query createQuery(DbDialect dialect, int[] value1, int[] value2)
         {
@@ -557,9 +557,9 @@ public sealed class WhereTest
         var expect =
 @"where
     [Id] = @p1";
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().NotBeNull();
-        actual.Parameters.Should().Contain("p1", id);
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldNotBeNull();
+        actual.Parameters.ShouldContainKeyAndValue("p1", id);
 
         static Query createQuery(DbDialect dialect, int id)
         {
@@ -579,9 +579,9 @@ public sealed class WhereTest
         var expect =
 @"where
     [姓] = @p1";
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().NotBeNull();
-        actual.Parameters.Should().Contain("p1", "aaa");
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldNotBeNull();
+        actual.Parameters.ShouldContainKeyAndValue("p1", "aaa");
 
         static Query createQuery(DbDialect dialect)
         {
@@ -609,9 +609,9 @@ public sealed class WhereTest
         var expect =
 @"where
     [姓] = @p1";
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().NotBeNull();
-        actual.Parameters.Should().Contain("p1", some.InstanceMethod());
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldNotBeNull();
+        actual.Parameters.ShouldContainKeyAndValue("p1", some.InstanceMethod());
 
         static Query createQuery(DbDialect dialect, AccessorProvider some)
         {
@@ -631,9 +631,9 @@ public sealed class WhereTest
         var expect =
 @"where
     [姓] = @p1";
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().NotBeNull();
-        actual.Parameters.Should().Contain("p1", "123");
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldNotBeNull();
+        actual.Parameters.ShouldContainKeyAndValue("p1", "123");
 
         static Query createQuery(DbDialect dialect)
         {
@@ -655,9 +655,9 @@ public sealed class WhereTest
         var expect =
 @"where
     [Age] = @p1";
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().NotBeNull();
-        actual.Parameters.Should().Contain("p1", some.InstanceProperty);
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldNotBeNull();
+        actual.Parameters.ShouldContainKeyAndValue("p1", some.InstanceProperty);
 
         static Query createQuery(DbDialect dialect, AccessorProvider some)
         {
@@ -678,9 +678,9 @@ public sealed class WhereTest
         var expect =
 @"where
     [Id] = @p1";
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().NotBeNull();
-        actual.Parameters.Should().Contain("p1", ids[0]);
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldNotBeNull();
+        actual.Parameters.ShouldContainKeyAndValue("p1", ids[0]);
 
         static Query createQuery(DbDialect dialect, int[] ids)
         {
@@ -700,9 +700,9 @@ public sealed class WhereTest
         var expect =
 @"where
     [姓] = @p1";
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().NotBeNull();
-        actual.Parameters.Should().Contain("p1", AccessorProvider.StaticMethod());
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldNotBeNull();
+        actual.Parameters.ShouldContainKeyAndValue("p1", AccessorProvider.StaticMethod());
 
         static Query createQuery(DbDialect dialect)
         {
@@ -722,9 +722,9 @@ public sealed class WhereTest
         var expect =
 @"where
     [Age] = @p1";
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().NotBeNull();
-        actual.Parameters.Should().Contain("p1", AccessorProvider.StaticProperty);
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldNotBeNull();
+        actual.Parameters.ShouldContainKeyAndValue("p1", AccessorProvider.StaticProperty);
 
         static Query createQuery(DbDialect dialect)
         {
@@ -744,9 +744,9 @@ public sealed class WhereTest
         var expect =
 @"where
     [Sex] = @p1";
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().NotBeNull();
-        actual.Parameters.Should().Contain("p1", Sex.Male);
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldNotBeNull();
+        actual.Parameters.ShouldContainKeyAndValue("p1", Sex.Male);
 
         static Query createQuery(DbDialect dialect)
         {
@@ -767,9 +767,9 @@ public sealed class WhereTest
         var expect =
 @"where
     [Sex] = @p1";
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().NotBeNull();
-        actual.Parameters.Should().Contain("p1", (byte)Sex.Female);
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldNotBeNull();
+        actual.Parameters.ShouldContainKeyAndValue("p1", (int)Sex.Female);
 
         static Query createQuery(DbDialect dialect)
         {
