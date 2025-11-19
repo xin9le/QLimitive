@@ -350,9 +350,9 @@ public sealed class WhereTest
         actual.Parameters.ShouldContainKeyAndValue("p2", "xin9le");
         actual.Parameters.ShouldContainKeyAndValue("p3", 30);
         actual.Parameters.ShouldContainKey("p4");
-        actual.Parameters!["p4"].ShouldBeEquivalentTo(value1);
+        actual.Parameters!["p4"].ShouldBe(value1);
         actual.Parameters.ShouldContainKey("p5");
-        actual.Parameters!["p5"].ShouldBeEquivalentTo(value2);
+        actual.Parameters!["p5"].ShouldBe(value2);
 
         static Query createQuery(DbDialect dialect, int[] value1, int[] value2)
         {
@@ -381,9 +381,9 @@ public sealed class WhereTest
         actual.Parameters.ShouldContainKeyAndValue("p2", "xin9le");
         actual.Parameters.ShouldContainKeyAndValue("p3", 30);
         actual.Parameters.ShouldContainKey("p4");
-        actual.Parameters!["p4"].ShouldBeEquivalentTo(value1);
+        actual.Parameters!["p4"].ShouldBe(value1);
         actual.Parameters.ShouldContainKey("p5");
-        actual.Parameters!["p5"].ShouldBeEquivalentTo(value2);
+        actual.Parameters!["p5"].ShouldBe(value2);
 
         static Query createQuery(DbDialect dialect, int[] value1, int[] value2)
         {
@@ -458,7 +458,7 @@ public sealed class WhereTest
         actual.Text.ShouldBe(expect);
         actual.Parameters.ShouldNotBeNull();
         actual.Parameters.ShouldContainKey("p1");
-        actual.Parameters!["p1"].ShouldBeEquivalentTo(values);
+        actual.Parameters!["p1"].ShouldBe(values);
 
         static Query createQuery(DbDialect dialect, int[] values)
         {
@@ -483,9 +483,9 @@ public sealed class WhereTest
         actual.Text.ShouldBe(expect);
         actual.Parameters.ShouldNotBeNull();
         actual.Parameters.ShouldContainKey("p1");
-        actual.Parameters!["p1"].ShouldBeEquivalentTo(value1);
+        actual.Parameters!["p1"].ShouldBe(value1);
         actual.Parameters.ShouldContainKey("p2");
-        actual.Parameters!["p2"].ShouldBeEquivalentTo(value2);
+        actual.Parameters!["p2"].ShouldBe(value2);
 
         static Query createQuery(DbDialect dialect, int[] value1, int[] value2)
         {
@@ -533,9 +533,9 @@ public sealed class WhereTest
         actual.Text.ShouldBe(expect);
         actual.Parameters.ShouldNotBeNull();
         actual.Parameters.ShouldContainKey("p1");
-        actual.Parameters!["p1"].ShouldBeEquivalentTo(value1);
+        actual.Parameters!["p1"].ShouldBe(value1);
         actual.Parameters.ShouldContainKey("p2");
-        actual.Parameters!["p2"].ShouldBeEquivalentTo(value2);
+        actual.Parameters!["p2"].ShouldBe(value2);
 
         static Query createQuery(DbDialect dialect, int[] value1, int[] value2)
         {
@@ -769,7 +769,7 @@ public sealed class WhereTest
     [Sex] = @p1";
         actual.Text.ShouldBe(expect);
         actual.Parameters.ShouldNotBeNull();
-        actual.Parameters.ShouldContainKeyAndValue("p1", (byte)Sex.Female);
+        actual.Parameters.ShouldContainKeyAndValue("p1", (int)Sex.Female);
 
         static Query createQuery(DbDialect dialect)
         {
