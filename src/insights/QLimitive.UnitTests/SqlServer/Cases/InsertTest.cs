@@ -1,6 +1,6 @@
-﻿using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLimitive.UnitTests.SqlServer.Models;
+using Shouldly;
 
 namespace QLimitive.UnitTests.SqlServer.Cases;
 
@@ -37,18 +37,15 @@ values
     @CreatedAt,
     @ModifiedAt
 )";
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().NotBeNull();
-        actual.Parameters.Should().Contain(
-        [
-            new("LastName", null),
-            new("FirstName", null),
-            new("Age", null),
-            new("Sex", null),
-            new("HasChildren", null),
-            new("CreatedAt", null),
-            new("ModifiedAt", null),
-        ]);
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldNotBeNull();
+        actual.Parameters.ShouldContainKeyAndValue("LastName", null);
+        actual.Parameters.ShouldContainKeyAndValue("FirstName", null);
+        actual.Parameters.ShouldContainKeyAndValue("Age", null);
+        actual.Parameters.ShouldContainKeyAndValue("Sex", null);
+        actual.Parameters.ShouldContainKeyAndValue("HasChildren", null);
+        actual.Parameters.ShouldContainKeyAndValue("CreatedAt", null);
+        actual.Parameters.ShouldContainKeyAndValue("ModifiedAt", null);
     }
 
 
@@ -77,15 +74,12 @@ values
     SYSDATETIME(),
     SYSDATETIME()
 )";
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().NotBeNull();
-        actual.Parameters.Should().Contain(
-        [
-            new("LastName", null),
-            new("FirstName", null),
-            new("Age", null),
-            new("Sex", null),
-            new("HasChildren", null),
-        ]);
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldNotBeNull();
+        actual.Parameters.ShouldContainKeyAndValue("LastName", null);
+        actual.Parameters.ShouldContainKeyAndValue("FirstName", null);
+        actual.Parameters.ShouldContainKeyAndValue("Age", null);
+        actual.Parameters.ShouldContainKeyAndValue("Sex", null);
+        actual.Parameters.ShouldContainKeyAndValue("HasChildren", null);
     }
 }

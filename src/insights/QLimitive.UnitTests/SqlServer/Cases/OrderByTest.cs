@@ -1,6 +1,6 @@
-﻿using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLimitive.UnitTests.SqlServer.Models;
+using Shouldly;
 
 namespace QLimitive.UnitTests.SqlServer.Cases;
 
@@ -19,8 +19,8 @@ public sealed class OrderByTest
         var expect =
 @"order by
     [姓]";
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().BeNull();
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldBeNull();
 
         static Query createQuery(DbDialect dialect)
         {
@@ -40,8 +40,8 @@ public sealed class OrderByTest
         var expect =
 @"order by
     [Age] desc";
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().BeNull();
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldBeNull();
 
         static Query createQuery(DbDialect dialect)
         {

@@ -1,8 +1,8 @@
 ﻿using Cysharp.Text;
-using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLimitive.Mappings;
 using QLimitive.UnitTests.SqlServer.Models;
+using Shouldly;
 
 namespace QLimitive.UnitTests.SqlServer.Cases;
 
@@ -22,9 +22,9 @@ public sealed class ComplexQueryTest
 @"select count(*) as [Count] from [dbo].[T_People]
 where
     [Id] = @p1";
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().NotBeNull();
-        actual.Parameters.Should().Contain("p1", 1);
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldNotBeNull();
+        actual.Parameters.ShouldContainKeyAndValue("p1", 1);
 
         static Query createQuery(DbDialect dialect)
         {
@@ -46,10 +46,10 @@ where
 @"select count(*) as [Count] from [dbo].[T_People]
 where
     [Id] = @p1 and [姓] <> @p2";
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().NotBeNull();
-        actual.Parameters.Should().Contain("p1", 1);
-        actual.Parameters.Should().Contain("p2", "xin9le");
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldNotBeNull();
+        actual.Parameters.ShouldContainKeyAndValue("p1", 1);
+        actual.Parameters.ShouldContainKeyAndValue("p2", "xin9le");
 
         static Query createQuery(DbDialect dialect)
         {
@@ -71,10 +71,10 @@ where
 @"select count(*) as [Count] from [dbo].[T_People]
 where
     [Id] = @p1 or [姓] <> @p2";
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().NotBeNull();
-        actual.Parameters.Should().Contain("p1", 1);
-        actual.Parameters.Should().Contain("p2", "xin9le");
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldNotBeNull();
+        actual.Parameters.ShouldContainKeyAndValue("p1", 1);
+        actual.Parameters.ShouldContainKeyAndValue("p2", "xin9le");
 
         static Query createQuery(DbDialect dialect)
         {
@@ -105,10 +105,10 @@ where
 from [dbo].[T_People]
 where
     [Id] = @p1 or [姓] <> @p2";
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().NotBeNull();
-        actual.Parameters.Should().Contain("p1", 1);
-        actual.Parameters.Should().Contain("p2", "xin9le");
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldNotBeNull();
+        actual.Parameters.ShouldContainKeyAndValue("p1", 1);
+        actual.Parameters.ShouldContainKeyAndValue("p2", "xin9le");
 
         static Query createQuery(DbDialect dialect)
         {
@@ -142,11 +142,11 @@ where
 order by
     [Id],
     [Age] desc";
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().NotBeNull();
-        actual.Parameters.Should().Contain("p1", 1);
-        actual.Parameters.Should().Contain("p2", "xin9le");
-        actual.Parameters.Should().Contain("p3", 20);
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldNotBeNull();
+        actual.Parameters.ShouldContainKeyAndValue("p1", 1);
+        actual.Parameters.ShouldContainKeyAndValue("p2", "xin9le");
+        actual.Parameters.ShouldContainKeyAndValue("p3", 20);
 
         static Query createQuery(DbDialect dialect)
         {
@@ -183,12 +183,12 @@ where
 order by
     [Id],
     [Age] desc";
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().NotBeNull();
-        actual.Parameters.Should().Contain("p1", 1);
-        actual.Parameters.Should().Contain("p2", "xin9le");
-        actual.Parameters.Should().Contain("p3", 20);
-        actual.Parameters.Should().Contain("term", "csharp");
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldNotBeNull();
+        actual.Parameters.ShouldContainKeyAndValue("p1", 1);
+        actual.Parameters.ShouldContainKeyAndValue("p2", "xin9le");
+        actual.Parameters.ShouldContainKeyAndValue("p3", 20);
+        actual.Parameters.ShouldContainKeyAndValue("term", "csharp");
 
         static Query createQuery(DbDialect dialect)
         {
@@ -234,14 +234,11 @@ set
     [UpdatedAt] = SYSDATETIME()
 where
     [Id] = @p2 or [姓] <> @p3";
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().NotBeNull();
-        actual.Parameters.Should().Contain(
-        [
-            new("Age", null),
-            new("p2", 1),
-            new("p3", "xin9le"),
-        ]);
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldNotBeNull();
+        actual.Parameters.ShouldContainKeyAndValue("Age", null);
+        actual.Parameters.ShouldContainKeyAndValue("p2", 1);
+        actual.Parameters.ShouldContainKeyAndValue("p3", "xin9le");
 
         static Query createQuery(DbDialect dialect)
         {
@@ -263,10 +260,10 @@ where
 @"delete from [dbo].[T_People]
 where
     [Id] = @p1 or [姓] <> @p2";
-        actual.Text.Should().Be(expect);
-        actual.Parameters.Should().NotBeNull();
-        actual.Parameters.Should().Contain("p1", 1);
-        actual.Parameters.Should().Contain("p2", "xin9le");
+        actual.Text.ShouldBe(expect);
+        actual.Parameters.ShouldNotBeNull();
+        actual.Parameters.ShouldContainKeyAndValue("p1", 1);
+        actual.Parameters.ShouldContainKeyAndValue("p2", "xin9le");
 
         static Query createQuery(DbDialect dialect)
         {
