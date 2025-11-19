@@ -9,13 +9,15 @@ namespace QLimitive.UnitTests.SqlServer.Cases;
 [TestClass]
 public sealed class TruncateTest
 {
-    private DbDialect Dialect { get; } = DbDialect.SqlServer;
+    #region Fields
+    private static readonly DbDialect s_dialect = DbDialect.SqlServer;
+    #endregion
 
 
     [TestMethod]
     public void Create()
     {
-        var actual = QueryBuilder.Truncate<Person>(this.Dialect);
+        var actual = QueryBuilder.Truncate<Person>(s_dialect);
         var expect = "truncate table [dbo].[T_People]";
         actual.Text.ShouldBe(expect);
         actual.Parameters.ShouldBeNull();

@@ -1,5 +1,4 @@
-﻿using Cysharp.Text;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLimitive.Mappings;
 using QLimitive.UnitTests.SqlServer.Models;
 using Shouldly;
@@ -11,13 +10,15 @@ namespace QLimitive.UnitTests.SqlServer.Cases;
 [TestClass]
 public sealed class ComplexQueryTest
 {
-    private DbDialect Dialect { get; } = DbDialect.SqlServer;
+    #region Fields
+    private static readonly DbDialect s_dialect = DbDialect.SqlServer;
+    #endregion
 
 
     [TestMethod]
     public void CountWhere1()
     {
-        var actual = createQuery(this.Dialect);
+        var actual = createQuery();
         var expect =
 @"select count(*) as [Count] from [dbo].[T_People]
 where
@@ -26,22 +27,24 @@ where
         actual.Parameters.ShouldNotBeNull();
         actual.Parameters.ShouldContainKeyAndValue("p1", 1);
 
-        static Query createQuery(DbDialect dialect)
+        #region Local Functions
+        static Query createQuery()
         {
-            using (var builder = new QueryBuilder<Person>(dialect))
+            using (var builder = new QueryBuilder<Person>(s_dialect))
             {
                 builder.Count();
                 builder.Where(static x => x.Id == 1);
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
     [TestMethod]
     public void CountWhere2()
     {
-        var actual = createQuery(this.Dialect);
+        var actual = createQuery();
         var expect =
 @"select count(*) as [Count] from [dbo].[T_People]
 where
@@ -51,22 +54,24 @@ where
         actual.Parameters.ShouldContainKeyAndValue("p1", 1);
         actual.Parameters.ShouldContainKeyAndValue("p2", "xin9le");
 
-        static Query createQuery(DbDialect dialect)
+        #region Local Functions
+        static Query createQuery()
         {
-            using (var builder = new QueryBuilder<Person>(dialect))
+            using (var builder = new QueryBuilder<Person>(s_dialect))
             {
                 builder.Count();
                 builder.Where(static x => x.Id == 1 && x.LastName != "xin9le");
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
     [TestMethod]
     public void CountWhere3()
     {
-        var actual = createQuery(this.Dialect);
+        var actual = createQuery();
         var expect =
 @"select count(*) as [Count] from [dbo].[T_People]
 where
@@ -76,22 +81,24 @@ where
         actual.Parameters.ShouldContainKeyAndValue("p1", 1);
         actual.Parameters.ShouldContainKeyAndValue("p2", "xin9le");
 
-        static Query createQuery(DbDialect dialect)
+        #region Local Functions
+        static Query createQuery()
         {
-            using (var builder = new QueryBuilder<Person>(dialect))
+            using (var builder = new QueryBuilder<Person>(s_dialect))
             {
                 builder.Count();
                 builder.Where(static x => x.Id == 1 || x.LastName != "xin9le");
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
     [TestMethod]
     public void SelectWhere()
     {
-        var actual = createQuery(this.Dialect);
+        var actual = createQuery();
         var expect =
 @"select
     [Id] as [Id],
@@ -110,22 +117,24 @@ where
         actual.Parameters.ShouldContainKeyAndValue("p1", 1);
         actual.Parameters.ShouldContainKeyAndValue("p2", "xin9le");
 
-        static Query createQuery(DbDialect dialect)
+        #region Local Functions
+        static Query createQuery()
         {
-            using (var builder = new QueryBuilder<Person>(dialect))
+            using (var builder = new QueryBuilder<Person>(s_dialect))
             {
                 builder.Select();
                 builder.Where(static x => x.Id == 1 || x.LastName != "xin9le");
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
     [TestMethod]
     public void SelectWhereOrderByThenBy()
     {
-        var actual = createQuery(this.Dialect);
+        var actual = createQuery();
         var expect =
 @"select
     [Id] as [Id],
@@ -148,9 +157,10 @@ order by
         actual.Parameters.ShouldContainKeyAndValue("p2", "xin9le");
         actual.Parameters.ShouldContainKeyAndValue("p3", 20);
 
-        static Query createQuery(DbDialect dialect)
+        #region Local Functions
+        static Query createQuery()
         {
-            using (var builder = new QueryBuilder<Person>(dialect))
+            using (var builder = new QueryBuilder<Person>(s_dialect))
             {
                 builder.Select();
                 builder.Where(static x => x.Id == 1 || x.LastName != "xin9le" && x.Age > 20);
@@ -159,13 +169,14 @@ order by
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
     [TestMethod]
     public void SelectWhereAsIsOrderByThenBy()
     {
-        var actual = createQuery(this.Dialect);
+        var actual = createQuery();
         var expect =
 @"select
     [Id] as [Id],
@@ -190,13 +201,14 @@ order by
         actual.Parameters.ShouldContainKeyAndValue("p3", 20);
         actual.Parameters.ShouldContainKeyAndValue("term", "csharp");
 
-        static Query createQuery(DbDialect dialect)
+        #region Local Functions
+        static Query createQuery()
         {
-            using (var builder = new QueryBuilder<Person>(dialect))
+            using (var builder = new QueryBuilder<Person>(s_dialect))
             {
                 builder.Select();
                 builder.Where(static x => x.Id == 1 || x.LastName != "xin9le" && x.Age > 20);
-                builder.AsIs(static (ref Utf16ValueStringBuilder stringBuilder, ref BindParameterCollection? bindParameters, DbDialect dialect) =>
+                builder.AsIs(static (ref stringBuilder, ref bindParameters, dialect) =>
                 {
                     var term = "csharp";
                     var table = TableMappingInfo.Get<Person>();
@@ -214,19 +226,20 @@ order by
 
                     bindParameters ??= [];
                     bindParameters.Add(nameof(term), term);
-                }, dialect);
+                }, s_dialect);
                 builder.OrderBy(static x => x.Id);
                 builder.ThenByDescending(static x => x.Age);
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
     [TestMethod]
     public void UpdateWhere()
     {
-        var actual = createQuery(this.Dialect);
+        var actual = createQuery();
         var expect =
 @"update [dbo].[T_People]
 set
@@ -240,22 +253,24 @@ where
         actual.Parameters.ShouldContainKeyAndValue("p2", 1);
         actual.Parameters.ShouldContainKeyAndValue("p3", "xin9le");
 
-        static Query createQuery(DbDialect dialect)
+        #region Local Functions
+        static Query createQuery()
         {
-            using (var builder = new QueryBuilder<Person>(dialect))
+            using (var builder = new QueryBuilder<Person>(s_dialect))
             {
                 builder.Update(static x => new { x.Age, x.ModifiedAt }, useAmbientValue: true);
                 builder.Where(static x => x.Id == 1 || x.LastName != "xin9le");
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
     [TestMethod]
     public void DeleteWhere()
     {
-        var actual = createQuery(this.Dialect);
+        var actual = createQuery();
         var expect =
 @"delete from [dbo].[T_People]
 where
@@ -265,14 +280,16 @@ where
         actual.Parameters.ShouldContainKeyAndValue("p1", 1);
         actual.Parameters.ShouldContainKeyAndValue("p2", "xin9le");
 
-        static Query createQuery(DbDialect dialect)
+        #region Local Functions
+        static Query createQuery()
         {
-            using (var builder = new QueryBuilder<Person>(dialect))
+            using (var builder = new QueryBuilder<Person>(s_dialect))
             {
                 builder.Delete();
                 builder.Where(static x => x.Id == 1 || x.LastName != "xin9le");
                 return builder.Build();
             }
         }
+        #endregion
     }
 }

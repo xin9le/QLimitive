@@ -9,13 +9,15 @@ namespace QLimitive.UnitTests.SqlServer.Cases;
 [TestClass]
 public sealed class DeleteTest
 {
-    private DbDialect Dialect { get; } = DbDialect.SqlServer;
+    #region Fields
+    private static readonly DbDialect s_dialect = DbDialect.SqlServer;
+    #endregion
 
 
     [TestMethod]
     public void All()
     {
-        var actual = QueryBuilder.Delete<Person>(this.Dialect);
+        var actual = QueryBuilder.Delete<Person>(s_dialect);
         var expect = "delete from [dbo].[T_People]";
         actual.Text.ShouldBe(expect);
         actual.Parameters.ShouldBeNull();

@@ -9,13 +9,15 @@ namespace QLimitive.UnitTests.SqlServer.Cases;
 [TestClass]
 public sealed class ThenByTest
 {
-    private DbDialect Dialect { get; } = DbDialect.SqlServer;
+    #region Fields
+    private static readonly DbDialect s_dialect = DbDialect.SqlServer;
+    #endregion
 
 
     [TestMethod]
     public void Ascending()
     {
-        var actual = createQuery(this.Dialect);
+        var actual = createQuery();
         var expect =
 @"order by
     [姓],
@@ -23,22 +25,24 @@ public sealed class ThenByTest
         actual.Text.ShouldBe(expect);
         actual.Parameters.ShouldBeNull();
 
-        static Query createQuery(DbDialect dialect)
+        #region Local Functions
+        static Query createQuery()
         {
-            using (var builder = new QueryBuilder<Person>(dialect))
+            using (var builder = new QueryBuilder<Person>(s_dialect))
             {
                 builder.OrderBy(static x => x.LastName);
                 builder.ThenBy(static x => x.Age);
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
     [TestMethod]
     public void Descending()
     {
-        var actual = createQuery(this.Dialect);
+        var actual = createQuery();
         var expect =
 @"order by
     [Age] desc,
@@ -46,22 +50,24 @@ public sealed class ThenByTest
         actual.Text.ShouldBe(expect);
         actual.Parameters.ShouldBeNull();
 
-        static Query createQuery(DbDialect dialect)
+        #region Local Functions
+        static Query createQuery()
         {
-            using (var builder = new QueryBuilder<Person>(dialect))
+            using (var builder = new QueryBuilder<Person>(s_dialect))
             {
                 builder.OrderByDescending(static x => x.Age);
                 builder.ThenByDescending(static x => x.FirstName);
                 return builder.Build();
             }
         }
+        #endregion
     }
 
 
     [TestMethod]
     public void Complex()
     {
-        var actual = createQuery(this.Dialect);
+        var actual = createQuery();
         var expect =
 @"order by
     [姓],
@@ -71,9 +77,10 @@ public sealed class ThenByTest
         actual.Text.ShouldBe(expect);
         actual.Parameters.ShouldBeNull();
 
-        static Query createQuery(DbDialect dialect)
+        #region Local Functions
+        static Query createQuery()
         {
-            using (var builder = new QueryBuilder<Person>(dialect))
+            using (var builder = new QueryBuilder<Person>(s_dialect))
             {
                 builder.OrderBy(static x => x.LastName);
                 builder.ThenByDescending(static x => x.Age);
@@ -82,5 +89,6 @@ public sealed class ThenByTest
                 return builder.Build();
             }
         }
+        #endregion
     }
 }
