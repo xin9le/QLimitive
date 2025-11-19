@@ -1,5 +1,4 @@
-﻿using Cysharp.Text;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLimitive.Mappings;
 using QLimitive.UnitTests.SqlServer.Models;
 using Shouldly;
@@ -196,7 +195,7 @@ order by
             {
                 builder.Select();
                 builder.Where(static x => x.Id == 1 || x.LastName != "xin9le" && x.Age > 20);
-                builder.AsIs(static (ref Utf16ValueStringBuilder stringBuilder, ref BindParameterCollection? bindParameters, DbDialect dialect) =>
+                builder.AsIs(static (ref stringBuilder, ref bindParameters, dialect) =>
                 {
                     var term = "csharp";
                     var table = TableMappingInfo.Get<Person>();
