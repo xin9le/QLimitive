@@ -9,13 +9,15 @@ namespace QLimitive.UnitTests.SqlServer.Cases;
 [TestClass]
 public sealed class InsertTest
 {
-    private DbDialect Dialect { get; } = DbDialect.SqlServer;
+    #region Fields
+    private static readonly DbDialect s_dialect = DbDialect.SqlServer;
+    #endregion
 
 
     [TestMethod]
     public void ReferencePropertyValue()
     {
-        var actual = QueryBuilder.Insert<Person>(this.Dialect, useAmbientValue: false);
+        var actual = QueryBuilder.Insert<Person>(s_dialect, useAmbientValue: false);
         var expect =
 @"insert into [dbo].[T_People]
 (
@@ -52,7 +54,7 @@ values
     [TestMethod]
     public void ReferenceAmbientValue()
     {
-        var actual = QueryBuilder.Insert<Person>(this.Dialect, useAmbientValue: true);
+        var actual = QueryBuilder.Insert<Person>(s_dialect, useAmbientValue: true);
         var expect =
 @"insert into [dbo].[T_People]
 (

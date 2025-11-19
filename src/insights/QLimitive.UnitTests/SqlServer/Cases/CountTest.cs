@@ -9,13 +9,15 @@ namespace QLimitive.UnitTests.SqlServer.Cases;
 [TestClass]
 public sealed class CountTest
 {
-    private DbDialect Dialect { get; } = DbDialect.SqlServer;
+    #region Fields
+    private static readonly DbDialect s_dialect = DbDialect.SqlServer;
+    #endregion
 
 
     [TestMethod]
     public void All()
     {
-        var actual = QueryBuilder.Count<Person>(this.Dialect);
+        var actual = QueryBuilder.Count<Person>(s_dialect);
         var expect = "select count(*) as [Count] from [dbo].[T_People]";
         actual.Text.ShouldBe(expect);
         actual.Parameters.ShouldBeNull();

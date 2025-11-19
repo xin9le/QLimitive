@@ -9,13 +9,15 @@ namespace QLimitive.UnitTests.SqlServer.Cases;
 [TestClass]
 public sealed class UpdateTest
 {
-    private DbDialect Dialect { get; } = DbDialect.SqlServer;
+    #region Fields
+    private static readonly DbDialect s_dialect = DbDialect.SqlServer;
+    #endregion
 
 
     [TestMethod]
     public void AllColumns()
     {
-        var actual = QueryBuilder.Update<Person>(this.Dialect);
+        var actual = QueryBuilder.Update<Person>(s_dialect);
         var expect =
 @"update [dbo].[T_People]
 set
@@ -43,7 +45,7 @@ set
     [TestMethod]
     public void AllColumns_UseAmbientValue()
     {
-        var actual = QueryBuilder.Update<Person>(this.Dialect, useAmbientValue: true);
+        var actual = QueryBuilder.Update<Person>(s_dialect, useAmbientValue: true);
         var expect =
 @"update [dbo].[T_People]
 set
@@ -69,7 +71,7 @@ set
     [TestMethod]
     public void OneColumn()
     {
-        var actual = QueryBuilder.Update<Person>(this.Dialect, static x => x.LastName);
+        var actual = QueryBuilder.Update<Person>(s_dialect, static x => x.LastName);
         var expect =
 @"update [dbo].[T_People]
 set
@@ -83,7 +85,7 @@ set
     [TestMethod]
     public void OneColumn_AnonymousType()
     {
-        var actual = QueryBuilder.Update<Person>(this.Dialect, static x => new { x.LastName });
+        var actual = QueryBuilder.Update<Person>(s_dialect, static x => new { x.LastName });
         var expect =
 @"update [dbo].[T_People]
 set
@@ -97,7 +99,7 @@ set
     [TestMethod]
     public void MultiColumns()
     {
-        var actual = QueryBuilder.Update<Person>(this.Dialect, static x => new { x.LastName, x.FullName, x.ModifiedAt });
+        var actual = QueryBuilder.Update<Person>(s_dialect, static x => new { x.LastName, x.FullName, x.ModifiedAt });
         var expect =
 @"update [dbo].[T_People]
 set
@@ -113,7 +115,7 @@ set
     [TestMethod]
     public void MultiColumns_UseAmbientValue()
     {
-        var actual = QueryBuilder.Update<Person>(this.Dialect, static x => new { x.LastName, x.FullName, x.ModifiedAt }, useAmbientValue: true);
+        var actual = QueryBuilder.Update<Person>(s_dialect, static x => new { x.LastName, x.FullName, x.ModifiedAt }, useAmbientValue: true);
         var expect =
 @"update [dbo].[T_People]
 set

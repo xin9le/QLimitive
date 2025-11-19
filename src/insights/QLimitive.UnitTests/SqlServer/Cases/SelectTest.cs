@@ -9,13 +9,15 @@ namespace QLimitive.UnitTests.SqlServer.Cases;
 [TestClass]
 public sealed class SelectTest
 {
-    private DbDialect Dialect { get; } = DbDialect.SqlServer;
+    #region Fields
+    private static readonly DbDialect s_dialect = DbDialect.SqlServer;
+    #endregion
 
 
     [TestMethod]
     public void AllColumns()
     {
-        var actual = QueryBuilder.Select<Person>(this.Dialect);
+        var actual = QueryBuilder.Select<Person>(s_dialect);
         var expect =
 @"select
     [Id] as [Id],
@@ -35,7 +37,7 @@ from [dbo].[T_People]";
     [TestMethod]
     public void OneColumn()
     {
-        var actual = QueryBuilder.Select<Person>(this.Dialect, static x => x.LastName);
+        var actual = QueryBuilder.Select<Person>(s_dialect, static x => x.LastName);
         var expect =
 @"select
     [姓] as [LastName]
@@ -48,7 +50,7 @@ from [dbo].[T_People]";
     [TestMethod]
     public void OneColumn_AnonymousType()
     {
-        var actual = QueryBuilder.Select<Person>(this.Dialect, static x => new { x.LastName });
+        var actual = QueryBuilder.Select<Person>(s_dialect, static x => new { x.LastName });
         var expect =
 @"select
     [姓] as [LastName]
@@ -61,7 +63,7 @@ from [dbo].[T_People]";
     [TestMethod]
     public void TwoColumns()
     {
-        var actual = QueryBuilder.Select<Person>(this.Dialect, static x => new { x.LastName, x.Age });
+        var actual = QueryBuilder.Select<Person>(s_dialect, static x => new { x.LastName, x.Age });
         var expect =
 @"select
     [姓] as [LastName],
@@ -75,7 +77,7 @@ from [dbo].[T_People]";
     [TestMethod]
     public void MultiColumns_IncludeNotMapped()
     {
-        var actual = QueryBuilder.Select<Person>(this.Dialect, static x => new { x.LastName, x.FullName, x.Age });
+        var actual = QueryBuilder.Select<Person>(s_dialect, static x => new { x.LastName, x.FullName, x.Age });
         var expect =
 @"select
     [姓] as [LastName],

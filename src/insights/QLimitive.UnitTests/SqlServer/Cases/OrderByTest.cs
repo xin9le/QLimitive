@@ -9,22 +9,24 @@ namespace QLimitive.UnitTests.SqlServer.Cases;
 [TestClass]
 public sealed class OrderByTest
 {
-    private DbDialect Dialect { get; } = DbDialect.SqlServer;
+    #region Fields
+    private static readonly DbDialect s_dialect = DbDialect.SqlServer;
+    #endregion
 
 
     [TestMethod]
     public void Ascending()
     {
-        var actual = createQuery(this.Dialect);
+        var actual = createQuery();
         var expect =
 @"order by
     [姓]";
         actual.Text.ShouldBe(expect);
         actual.Parameters.ShouldBeNull();
 
-        static Query createQuery(DbDialect dialect)
+        static Query createQuery()
         {
-            using (var builder = new QueryBuilder<Person>(dialect))
+            using (var builder = new QueryBuilder<Person>(s_dialect))
             {
                 builder.OrderBy(static x => x.LastName);
                 return builder.Build();
@@ -36,16 +38,16 @@ public sealed class OrderByTest
     [TestMethod]
     public void Descending()
     {
-        var actual = createQuery(this.Dialect);
+        var actual = createQuery();
         var expect =
 @"order by
     [Age] desc";
         actual.Text.ShouldBe(expect);
         actual.Parameters.ShouldBeNull();
 
-        static Query createQuery(DbDialect dialect)
+        static Query createQuery()
         {
-            using (var builder = new QueryBuilder<Person>(dialect))
+            using (var builder = new QueryBuilder<Person>(s_dialect))
             {
                 builder.OrderByDescending(static x => x.Age);
                 return builder.Build();
