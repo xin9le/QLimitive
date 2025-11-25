@@ -7,9 +7,9 @@ namespace QLimitive.Internals;
 
 
 /// <summary>
-/// Provides the extension methods for <see cref="DefaultInterpolatedStringHandler"/>.
+/// Provides the extension members for <see cref="DefaultInterpolatedStringHandler"/>.
 /// </summary>
-internal static class StringHanderExtensions
+internal static class DefaultInterpolatedStringHandlerExtensions
 {
     extension(ref DefaultInterpolatedStringHandler @this)
     {
