@@ -33,7 +33,7 @@ internal readonly struct Select<T>(DbDialect dialect, Expression<Func<T, object>
 
         //--- Build SQL
         var table = TableMappingInfo.Get<T>();
-        var columns = table.Columns.Span;
+        var columns = table.Columns.AsSpan();
         var bracket = this._dialect.KeywordBracket;
         handler.Append("select");
         foreach (var x in columns)

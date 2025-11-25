@@ -34,7 +34,7 @@ internal readonly struct Update<T>(DbDialect dialect, Expression<Func<T, object>
 
         //--- Build SQL
         var table = TableMappingInfo.Get<T>();
-        var columns = table.Columns.Span;
+        var columns = table.Columns.AsSpan();
         var bracket = this._dialect.KeywordBracket;
         var prefix = this._dialect.BindParameterPrefix;
 
