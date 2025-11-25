@@ -189,10 +189,10 @@ public ref struct QueryBuilder<T>(DbDialect dialect) : IDisposable
     /// Builds custom query by delegate-style.<br/>
     /// <b>This feature is provided for <i>as-is</i> use by those familiar with the internal implementation.</b>
     /// </summary>
-    /// <param name="action"></param>
     /// <param name="state"></param>
+    /// <param name="action"></param>
     /// <returns></returns>
-    public void AsIs<TState>(QueryBuildAction<TState> action, TState state)
+    public void AsIs<TState>(TState state, QueryBuildAction<TState> action)
     {
         var command = new AsIs<TState>(action, state);
         command.Build(ref this._stringHandler, ref this._bindParameters);

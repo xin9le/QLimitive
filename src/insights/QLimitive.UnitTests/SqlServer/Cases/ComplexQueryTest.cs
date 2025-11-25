@@ -209,8 +209,9 @@ order by
             {
                 builder.Select();
                 builder.Where(static x => x.Id == 1 || x.LastName != "xin9le" && x.Age > 20);
-                builder.AsIs(static (ref stringBuilder, ref bindParameters, dialect) =>
+                builder.AsIs(state: s_dialect, static (ref stringBuilder, ref bindParameters, state) =>
                 {
+                    var dialect = state;
                     var term = "csharp";
                     var table = TableMappingInfo.Get<Person>();
                     var bracket = dialect.KeywordBracket;
@@ -227,7 +228,7 @@ order by
 
                     bindParameters ??= [];
                     bindParameters.Add(nameof(term), term);
-                }, s_dialect);
+                });
                 builder.OrderBy(static x => x.Id);
                 builder.ThenByDescending(static x => x.Age);
                 return builder.Build();
