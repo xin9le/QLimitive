@@ -6,6 +6,5 @@
     <PackageVersion Include="FastMember" Version="1.5.0" />
     <PackageVersion Include="MSTest" Version="4.0.2" />
     <PackageVersion Include="Shouldly" Version="4.3.0" />
-    <PackageVersion Include="ZString" Version="2.6.0" />
   </ItemGroup>
 </Project>

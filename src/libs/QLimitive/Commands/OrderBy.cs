@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
-using Cysharp.Text;
+using System.Runtime.CompilerServices;
 using QLimitive.Internals;
 using QLimitive.Mappings;
 
@@ -24,7 +24,7 @@ internal readonly struct OrderBy<T>(DbDialect dialect, Expression<Func<T, object
 
     #region IQueryBuildable
     /// <inheritdoc/>
-    public void Build(ref Utf16ValueStringBuilder builder, ref BindParameterCollection? parameters)
+    public void Build(ref DefaultInterpolatedStringHandler handler, ref BindParameterCollection? parameters)
     {
         var memberName = ExpressionHelper.GetMemberName(this._member);
         if (memberName is null)
@@ -34,16 +34,16 @@ internal readonly struct OrderBy<T>(DbDialect dialect, Expression<Func<T, object
         var columnName = table.ColumnByMemberName[memberName].ColumnName;
         var bracket = this._dialect.KeywordBracket;
 
-        if (builder.Length > 0)
-            builder.AppendLine();
+        if (handler.Length > 0)
+            handler.AppendLine();
 
-        builder.AppendLine("order by");
-        builder.Append("    ");
-        builder.Append(bracket.Begin);
-        builder.Append(columnName);
-        builder.Append(bracket.End);
+        handler.AppendLine("order by");
+        handler.Append("    ");
+        handler.Append(bracket.Begin);
+        handler.Append(columnName);
+        handler.Append(bracket.End);
         if (!this._isAscending)
-            builder.Append(" desc");
+            handler.Append(" desc");
     }
     #endregion
 }

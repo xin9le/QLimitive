@@ -1,4 +1,4 @@
-﻿using Cysharp.Text;
+﻿using System.Runtime.CompilerServices;
 using QLimitive.Internals;
 
 namespace QLimitive.Commands;
@@ -19,10 +19,10 @@ internal readonly struct Truncate<T>(DbDialect dialect)
 
     #region IQueryBuildable
     /// <inheritdoc/>
-    public void Build(ref Utf16ValueStringBuilder builder, ref BindParameterCollection? parameters)
+    public void Build(ref DefaultInterpolatedStringHandler handler, ref BindParameterCollection? parameters)
     {
-        builder.Append("truncate table ");
-        builder.AppendTableName<T>(this._dialect);
+        handler.Append("truncate table ");
+        handler.AppendTableName<T>(this._dialect);
     }
     #endregion
 }

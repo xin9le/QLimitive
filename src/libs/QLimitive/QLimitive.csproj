@@ -14,7 +14,11 @@
     <!-- PackageReference -->
     <ItemGroup>
         <PackageReference Include="FastMember" />
-        <PackageReference Include="ZString" />
+    </ItemGroup>
+
+    <!-- InternalsVisibleTo -->
+    <ItemGroup>
+        <InternalsVisibleTo Include="QLimitive.UnitTests" />
     </ItemGroup>
 
 </Project>

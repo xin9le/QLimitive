@@ -5,7 +5,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using Cysharp.Text;
 using FastMember;
 using QLimitive.Internals;
 using QLimitive.Mappings;
@@ -29,17 +28,17 @@ internal readonly struct Where<T>(DbDialect dialect, Expression<Func<T, bool>> p
 
     #region IQueryBuildable
     /// <inheritdoc/>
-    public void Build(ref Utf16ValueStringBuilder builder, ref BindParameterCollection? parameters)
+    public void Build(ref DefaultInterpolatedStringHandler handler, ref BindParameterCollection? parameters)
     {
-        if (builder.Length > 0)
-            builder.AppendLine();
+        if (handler.Length > 0)
+            handler.AppendLine();
 
-        builder.AppendLine("where");
-        builder.Append("    ");
+        handler.AppendLine("where");
+        handler.Append("    ");
 
         var table = TableMappingInfo.Get<T>();
         var parameter = this._predicate.Parameters[0];
-        var parser = new Parser(parameter, this._dialect, table, ref builder, ref parameters);
+        var parser = new Parser(parameter, this._dialect, table, ref handler, ref parameters);
         parser.Visit(this._predicate);
     }
     #endregion
@@ -55,7 +54,7 @@ internal readonly struct Where<T>(DbDialect dialect, Expression<Func<T, bool>> p
         private readonly ParameterExpression _parameter;
         private readonly DbDialect _dialect;
         private readonly TableMappingInfo _table;
-        private readonly void* _stringBuilderPointer;
+        private readonly void* _stringHandlerPointer;
         private readonly void* _bindParametersPointer;
         #endregion
 
@@ -67,14 +66,14 @@ internal readonly struct Where<T>(DbDialect dialect, Expression<Func<T, bool>> p
         /// <param name="parameter"></param>
         /// <param name="dialect"></param>
         /// <param name="table"></param>
-        /// <param name="builder"></param>
+        /// <param name="handler"></param>
         /// <param name="bindParameters"></param>
-        public Parser(ParameterExpression parameter, DbDialect dialect, TableMappingInfo table, ref Utf16ValueStringBuilder builder, ref BindParameterCollection? bindParameters)
+        public Parser(ParameterExpression parameter, DbDialect dialect, TableMappingInfo table, ref DefaultInterpolatedStringHandler handler, ref BindParameterCollection? bindParameters)
         {
             this._parameter = parameter;
             this._dialect = dialect;
             this._table = table;
-            this._stringBuilderPointer = Unsafe.AsPointer(ref builder);
+            this._stringHandlerPointer = Unsafe.AsPointer(ref handler);
             this._bindParametersPointer = Unsafe.AsPointer(ref bindParameters);
         }
         #endregion
@@ -182,16 +181,16 @@ internal readonly struct Where<T>(DbDialect dialect, Expression<Func<T, bool>> p
         /// <param name="expression"></param>
         private void BuildAndOr(BinaryExpression expression)
         {
-            ref var builder = ref Unsafe.AsRef<Utf16ValueStringBuilder>(this._stringBuilderPointer);
+            ref var handler = ref Unsafe.AsRef<DefaultInterpolatedStringHandler>(this._stringHandlerPointer);
             var @operator = OperatorHelper.From(expression.NodeType);
 
             //--- left
             var leftOperator = OperatorHelper.From(expression.Left.NodeType);
             if (needsBracket(@operator, leftOperator))
             {
-                builder.Append('(');
+                handler.Append('(');
                 this.Visit(expression.Left);
-                builder.Append(')');
+                handler.Append(')');
             }
             else
             {
@@ -199,16 +198,16 @@ internal readonly struct Where<T>(DbDialect dialect, Expression<Func<T, bool>> p
             }
 
             //--- and / or
-            if (@operator == Operator.AndAlso) builder.Append(" and ");
-            if (@operator == Operator.OrElse) builder.Append(" or ");
+            if (@operator == Operator.AndAlso) handler.Append(" and ");
+            if (@operator == Operator.OrElse) handler.Append(" or ");
 
             //--- right
             var rightOperator = OperatorHelper.From(expression.Right.NodeType);
             if (needsBracket(@operator, rightOperator))
             {
-                builder.Append('(');
+                handler.Append('(');
                 this.Visit(expression.Right);
-                builder.Append(')');
+                handler.Append(')');
             }
             else
             {
@@ -230,54 +229,54 @@ internal readonly struct Where<T>(DbDialect dialect, Expression<Func<T, bool>> p
         /// <param name="value"></param>
         private void BuildBinary(Operator @operator, string memberName, object? value)
         {
-            ref var builder = ref Unsafe.AsRef<Utf16ValueStringBuilder>(this._stringBuilderPointer);
+            ref var handler = ref Unsafe.AsRef<DefaultInterpolatedStringHandler>(this._stringHandlerPointer);
             ref var bindParameters = ref Unsafe.AsRef<BindParameterCollection>(this._bindParametersPointer);
 
             //--- Build sql
             var bracket = this._dialect.KeywordBracket;
             var columnName = this._table.ColumnByMemberName[memberName].ColumnName;
-            builder.Append(bracket.Begin);
-            builder.Append(columnName);
-            builder.Append(bracket.End);
+            handler.Append(bracket.Begin);
+            handler.Append(columnName);
+            handler.Append(bracket.End);
 
             switch (@operator)
             {
                 case Operator.Equal:
                     if (value is null)
                     {
-                        builder.Append(" is null");
+                        handler.Append(" is null");
                         return;
                     }
-                    builder.Append(" = ");
+                    handler.Append(" = ");
                     break;
 
                 case Operator.NotEqual:
                     if (value is null)
                     {
-                        builder.Append(" is not null");
+                        handler.Append(" is not null");
                         return;
                     }
-                    builder.Append(" <> ");
+                    handler.Append(" <> ");
                     break;
 
                 case Operator.LessThan:
-                    builder.Append(" < ");
+                    handler.Append(" < ");
                     break;
 
                 case Operator.LessThanOrEqual:
-                    builder.Append(" <= ");
+                    handler.Append(" <= ");
                     break;
 
                 case Operator.GreaterThan:
-                    builder.Append(" > ");
+                    handler.Append(" > ");
                     break;
 
                 case Operator.GreaterThanOrEqual:
-                    builder.Append(" >= ");
+                    handler.Append(" >= ");
                     break;
 
                 case Operator.Contains:
-                    builder.Append(" in ");
+                    handler.Append(" in ");
                     break;
 
                 default:
@@ -288,8 +287,8 @@ internal readonly struct Where<T>(DbDialect dialect, Expression<Func<T, bool>> p
             bindParameters ??= [];
             var name = $"p{bindParameters.Count + 1}";
             bindParameters.Add(name, value);
-            builder.Append(this._dialect.BindParameterPrefix);
-            builder.Append(name);
+            handler.Append(this._dialect.BindParameterPrefix);
+            handler.Append(name);
         }
 
 
@@ -323,7 +322,7 @@ internal readonly struct Where<T>(DbDialect dialect, Expression<Func<T, bool>> p
                 .ToArray();
 
             //--- Build sql
-            ref var builder = ref Unsafe.AsRef<Utf16ValueStringBuilder>(this._stringBuilderPointer);
+            ref var handler = ref Unsafe.AsRef<DefaultInterpolatedStringHandler>(this._stringHandlerPointer);
             if (source.Length == 0)
             {
                 //--- There is no element in the in clause, it is forced to false.
@@ -336,14 +335,14 @@ internal readonly struct Where<T>(DbDialect dialect, Expression<Func<T, bool>> p
             }
             else
             {
-                builder.Append('(');
+                handler.Append('(');
                 for (var i = 0; i < source.Length; i++)
                 {
                     if (i > 0)
-                        builder.Append(" or ");
+                        handler.Append(" or ");
                     this.BuildBinary(Operator.Contains, memberName, source[i]);
                 }
-                builder.Append(')');
+                handler.Append(')');
             }
         }
 
@@ -354,9 +353,9 @@ internal readonly struct Where<T>(DbDialect dialect, Expression<Func<T, bool>> p
         /// <param name="value"></param>
         private void BuildBoolean(bool value)
         {
-            ref var builder = ref Unsafe.AsRef<Utf16ValueStringBuilder>(this._stringBuilderPointer);
+            ref var handler = ref Unsafe.AsRef<DefaultInterpolatedStringHandler>(this._stringHandlerPointer);
             var sql = value ? "1 = 1" : "1 = 0";
-            builder.Append(sql);
+            handler.Append(sql);
         }
 
 

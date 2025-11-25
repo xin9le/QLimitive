@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Cysharp.Text;
+using System.Runtime.CompilerServices;
 using QLimitive.Internals;
 using QLimitive.Mappings;
 
@@ -24,7 +24,7 @@ internal readonly struct Select<T>(DbDialect dialect, Expression<Func<T, object>
 
     #region IQueryBuildable
     /// <inheritdoc/>
-    public void Build(ref Utf16ValueStringBuilder builder, ref BindParameterCollection? parameters)
+    public void Build(ref DefaultInterpolatedStringHandler handler, ref BindParameterCollection? parameters)
     {
         //--- Extract target columns
         HashSet<string>? targetMemberNames = null;
@@ -35,7 +35,7 @@ internal readonly struct Select<T>(DbDialect dialect, Expression<Func<T, object>
         var table = TableMappingInfo.Get<T>();
         var columns = table.Columns.Span;
         var bracket = this._dialect.KeywordBracket;
-        builder.Append("select");
+        handler.Append("select");
         foreach (var x in columns)
         {
             if (!x.IsMapped)
@@ -43,22 +43,22 @@ internal readonly struct Select<T>(DbDialect dialect, Expression<Func<T, object>
 
             if (targetMemberNames is null || targetMemberNames.Contains(x.MemberName))
             {
-                builder.AppendLine();
-                builder.Append("    ");
-                builder.Append(bracket.Begin);
-                builder.Append(x.ColumnName);
-                builder.Append(bracket.End);
-                builder.Append(" as ");
-                builder.Append(bracket.Begin);
-                builder.Append(x.MemberName);
-                builder.Append(bracket.End);
-                builder.Append(',');
+                handler.AppendLine();
+                handler.Append("    ");
+                handler.Append(bracket.Begin);
+                handler.Append(x.ColumnName);
+                handler.Append(bracket.End);
+                handler.Append(" as ");
+                handler.Append(bracket.Begin);
+                handler.Append(x.MemberName);
+                handler.Append(bracket.End);
+                handler.Append(',');
             }
         }
-        builder.Advance(-1);  // remove last colon.
-        builder.AppendLine();
-        builder.Append("from ");
-        builder.AppendTableName<T>(this._dialect);
+        handler.Advance(-1);  // remove last colon.
+        handler.AppendLine();
+        handler.Append("from ");
+        handler.AppendTableName<T>(this._dialect);
     }
     #endregion
 }

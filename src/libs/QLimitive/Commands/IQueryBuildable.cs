@@ -1,4 +1,4 @@
-﻿using Cysharp.Text;
+﻿using System.Runtime.CompilerServices;
 
 namespace QLimitive.Commands;
 
@@ -12,7 +12,7 @@ internal interface IQueryBuildable
     /// <summary>
     /// Build query.
     /// </summary>
-    /// <param name="builder"></param>
+    /// <param name="handler"></param>
     /// <param name="parameters"></param>
-    void Build(ref Utf16ValueStringBuilder builder, ref BindParameterCollection? parameters);
+    void Build(ref DefaultInterpolatedStringHandler handler, ref BindParameterCollection? parameters);
 }

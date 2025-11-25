@@ -1,4 +1,4 @@
-﻿using Cysharp.Text;
+﻿using System.Runtime.CompilerServices;
 using QLimitive.Internals;
 
 namespace QLimitive.Commands;
@@ -19,15 +19,15 @@ internal readonly struct Count<T>(DbDialect dialect)
 
     #region IQueryBuildable
     /// <inheritdoc/>
-    public void Build(ref Utf16ValueStringBuilder builder, ref BindParameterCollection? parameters)
+    public void Build(ref DefaultInterpolatedStringHandler handler, ref BindParameterCollection? parameters)
     {
         var bracket = this._dialect.KeywordBracket;
-        builder.Append("select count(*) as ");
-        builder.Append(bracket.Begin);
-        builder.Append("Count");
-        builder.Append(bracket.End);
-        builder.Append(" from ");
-        builder.AppendTableName<T>(this._dialect);
+        handler.Append("select count(*) as ");
+        handler.Append(bracket.Begin);
+        handler.Append("Count");
+        handler.Append(bracket.End);
+        handler.Append(" from ");
+        handler.AppendTableName<T>(this._dialect);
     }
     #endregion
 }

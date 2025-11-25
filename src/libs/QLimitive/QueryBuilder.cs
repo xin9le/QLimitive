@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
-using Cysharp.Text;
+using System.Runtime.CompilerServices;
 using QLimitive.Commands;
 
 namespace QLimitive;
@@ -11,27 +11,12 @@ namespace QLimitive;
 /// Provides query builder.
 /// </summary>
 /// <typeparam name="T">Table mapping type</typeparam>
-public ref struct QueryBuilder<T> : IDisposable
+public ref struct QueryBuilder<T>(DbDialect dialect) : IDisposable
 {
     #region Fields
-    private readonly DbDialect _dialect;
-    private Utf16ValueStringBuilder _stringBuilder;
-    private BindParameterCollection? _bindParameters;
-    #endregion
-
-
-    #region Constructors
-    /// <summary>
-    /// Creates instance.
-    /// </summary>
-    /// <param name="dialect"></param>
-    /// <remarks>This instance must be call <see cref="Dispose"/> method after <see cref="Build"/>.</remarks>
-    public QueryBuilder(DbDialect dialect)
-    {
-        this._dialect = dialect;
-        this._stringBuilder = ZString.CreateStringBuilder();
-        this._bindParameters = null;
-    }
+    private readonly DbDialect _dialect = dialect;
+    private DefaultInterpolatedStringHandler _stringHandler = new();
+    private BindParameterCollection? _bindParameters = null;
     #endregion
 
 
@@ -39,8 +24,10 @@ public ref struct QueryBuilder<T> : IDisposable
     /// <summary>
     /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
     /// </summary>
-    public void Dispose()
-        => this._stringBuilder.Dispose();
+    public readonly void Dispose()
+    {
+        //this._stringHandler.Dispose();
+    }
     #endregion
 
 
@@ -48,9 +35,9 @@ public ref struct QueryBuilder<T> : IDisposable
     /// Build query up.
     /// </summary>
     /// <returns></returns>
-    public Query Build()
+    public readonly Query Build()
     {
-        var text = this._stringBuilder.ToString();
+        var text = this._stringHandler.ToStringAndClear();
         return new Query(text, this._bindParameters);
     }
 
@@ -63,7 +50,7 @@ public ref struct QueryBuilder<T> : IDisposable
     public void Count()
     {
         var command = new Count<T>(this._dialect);
-        command.Build(ref this._stringBuilder, ref this._bindParameters);
+        command.Build(ref this._stringHandler, ref this._bindParameters);
     }
 
 
@@ -75,7 +62,7 @@ public ref struct QueryBuilder<T> : IDisposable
     public void Select(Expression<Func<T, object>>? members = null)
     {
         var command = new Select<T>(this._dialect, members);
-        command.Build(ref this._stringBuilder, ref this._bindParameters);
+        command.Build(ref this._stringHandler, ref this._bindParameters);
     }
 
 
@@ -88,7 +75,7 @@ public ref struct QueryBuilder<T> : IDisposable
     public void Update(Expression<Func<T, object>>? members = null, bool useAmbientValue = false)
     {
         var command = new Update<T>(this._dialect, members, useAmbientValue);
-        command.Build(ref this._stringBuilder, ref this._bindParameters);
+        command.Build(ref this._stringHandler, ref this._bindParameters);
     }
 
 
@@ -100,7 +87,7 @@ public ref struct QueryBuilder<T> : IDisposable
     public void Insert(bool useAmbientValue = false)
     {
         var command = new Insert<T>(this._dialect, useAmbientValue);
-        command.Build(ref this._stringBuilder, ref this._bindParameters);
+        command.Build(ref this._stringHandler, ref this._bindParameters);
     }
 
 
@@ -111,7 +98,7 @@ public ref struct QueryBuilder<T> : IDisposable
     public void Delete()
     {
         var command = new Delete<T>(this._dialect);
-        command.Build(ref this._stringBuilder, ref this._bindParameters);
+        command.Build(ref this._stringHandler, ref this._bindParameters);
     }
 
 
@@ -122,7 +109,7 @@ public ref struct QueryBuilder<T> : IDisposable
     public void Truncate()
     {
         var command = new Truncate<T>(this._dialect);
-        command.Build(ref this._stringBuilder, ref this._bindParameters);
+        command.Build(ref this._stringHandler, ref this._bindParameters);
     }
 
 
@@ -134,7 +121,7 @@ public ref struct QueryBuilder<T> : IDisposable
     public void Where(Expression<Func<T, bool>> predicate)
     {
         var command = new Where<T>(this._dialect, predicate);
-        command.Build(ref this._stringBuilder, ref this._bindParameters);
+        command.Build(ref this._stringHandler, ref this._bindParameters);
     }
 
 
@@ -146,7 +133,7 @@ public ref struct QueryBuilder<T> : IDisposable
     public void OrderBy(Expression<Func<T, object>> member)
     {
         var command = new OrderBy<T>(this._dialect, member, true);
-        command.Build(ref this._stringBuilder, ref this._bindParameters);
+        command.Build(ref this._stringHandler, ref this._bindParameters);
     }
 
 
@@ -158,7 +145,7 @@ public ref struct QueryBuilder<T> : IDisposable
     public void OrderByDescending(Expression<Func<T, object>> member)
     {
         var command = new OrderBy<T>(this._dialect, member, false);
-        command.Build(ref this._stringBuilder, ref this._bindParameters);
+        command.Build(ref this._stringHandler, ref this._bindParameters);
     }
 
 
@@ -170,7 +157,7 @@ public ref struct QueryBuilder<T> : IDisposable
     public void ThenBy(Expression<Func<T, object>> member)
     {
         var command = new ThenBy<T>(this._dialect, member, true);
-        command.Build(ref this._stringBuilder, ref this._bindParameters);
+        command.Build(ref this._stringHandler, ref this._bindParameters);
     }
 
 
@@ -182,7 +169,7 @@ public ref struct QueryBuilder<T> : IDisposable
     public void ThenByDescending(Expression<Func<T, object>> member)
     {
         var command = new ThenBy<T>(this._dialect, member, false);
-        command.Build(ref this._stringBuilder, ref this._bindParameters);
+        command.Build(ref this._stringHandler, ref this._bindParameters);
     }
 
 
@@ -195,7 +182,7 @@ public ref struct QueryBuilder<T> : IDisposable
     public void AsIs(QueryBuildAction action)
     {
         var command = new AsIs(action);
-        command.Build(ref this._stringBuilder, ref this._bindParameters);
+        command.Build(ref this._stringHandler, ref this._bindParameters);
     }
 
 
@@ -209,7 +196,7 @@ public ref struct QueryBuilder<T> : IDisposable
     public void AsIs<TState>(QueryBuildAction<TState> action, TState state)
     {
         var command = new AsIs<TState>(action, state);
-        command.Build(ref this._stringBuilder, ref this._bindParameters);
+        command.Build(ref this._stringHandler, ref this._bindParameters);
     }
     #endregion
 }

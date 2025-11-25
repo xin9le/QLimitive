@@ -1,4 +1,4 @@
-﻿using Cysharp.Text;
+﻿using System.Runtime.CompilerServices;
 
 namespace QLimitive.Commands;
 
@@ -18,8 +18,8 @@ internal readonly struct AsIs(QueryBuildAction action)
 
     #region IQueryBuildable
     /// <inheritdoc/>
-    public void Build(ref Utf16ValueStringBuilder builder, ref BindParameterCollection? parameters)
-        => this._action(ref builder, ref parameters);
+    public void Build(ref DefaultInterpolatedStringHandler handler, ref BindParameterCollection? parameters)
+        => this._action(ref handler, ref parameters);
     #endregion
 }
 
@@ -39,7 +39,7 @@ internal readonly struct AsIs<TState>(QueryBuildAction<TState> action, TState st
 
     #region IQueryBuildable
     /// <inheritdoc/>
-    public void Build(ref Utf16ValueStringBuilder builder, ref BindParameterCollection? parameters)
-        => this._action(ref builder, ref parameters, this._state);
+    public void Build(ref DefaultInterpolatedStringHandler handler, ref BindParameterCollection? parameters)
+        => this._action(ref handler, ref parameters, this._state);
     #endregion
 }
