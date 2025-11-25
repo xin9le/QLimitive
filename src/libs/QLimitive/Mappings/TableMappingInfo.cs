@@ -20,32 +20,32 @@ public sealed class TableMappingInfo
     /// <summary>
     /// Gets the type that is mapped to the table.
     /// </summary>
-    public Type Type { get; private init; }
+    public Type Type { get; }
 
 
     /// <summary>
     /// Gets the schema name.
     /// </summary>
-    public string? Schema { get; private init; }
+    public string? Schema { get; }
 
 
     /// <summary>
     /// Gets the table name.
     /// </summary>
-    public string Name { get; private init; }
+    public string Name { get; }
 
 
     /// <summary>
     /// Gets the column mapping information.
     /// </summary>
-    public ReadOnlyMemory<ColumnMappingInfo> Columns { get; private init; }
+    public ReadOnlyMemory<ColumnMappingInfo> Columns { get; }
 
 
     /// <summary>
     /// Gets the column mapping information by member name.
     /// </summary>
     /// <remarks>provides fast access.</remarks>
-    public FrozenDictionary<string, ColumnMappingInfo> ColumnByMemberName { get; private init; }
+    public FrozenDictionary<string, ColumnMappingInfo> ColumnByMemberName { get; }
     #endregion
 
 
