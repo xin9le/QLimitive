@@ -21,9 +21,7 @@ public ref struct QueryBuilder<T>(DbDialect dialect) : IDisposable
 
 
     #region IDisposable
-    /// <summary>
-    /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-    /// </summary>
+    /// <inheritdoc/>
     public readonly void Dispose()
     {
         this._stringHandler.Clear();
