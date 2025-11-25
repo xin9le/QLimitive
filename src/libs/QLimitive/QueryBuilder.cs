@@ -26,7 +26,7 @@ public ref struct QueryBuilder<T>(DbDialect dialect) : IDisposable
     /// </summary>
     public readonly void Dispose()
     {
-        //this._stringHandler.Dispose();
+        this._stringHandler.Clear();
     }
     #endregion
 
@@ -37,7 +37,7 @@ public ref struct QueryBuilder<T>(DbDialect dialect) : IDisposable
     /// <returns></returns>
     public readonly Query Build()
     {
-        var text = this._stringHandler.ToStringAndClear();
+        var text = this._stringHandler.ToString();
         return new Query(text, this._bindParameters);
     }
 
