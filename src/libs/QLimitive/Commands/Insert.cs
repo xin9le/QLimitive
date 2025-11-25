@@ -10,45 +10,26 @@ namespace QLimitive.Commands;
 /// Represents insert command.
 /// </summary>
 /// <typeparam name="T"></typeparam>
-internal readonly struct Insert<T> : IQueryBuildable
+internal readonly struct Insert<T>(DbDialect dialect, bool useAmbientValue)
+    : IQueryBuildable
 {
-    #region Properties
-    /// <summary>
-    /// Gets the database dialect.
-    /// </summary>
-    private DbDialect Dialect { get; }
-
-
-    /// <summary>
-    /// Gets whether or not to use the ambient value.
-    /// </summary>
-    private bool UseAmbientValue { get; }
+    #region Fields
+    private readonly DbDialect _dialect = dialect;
+    private readonly bool _useAmbientValue = useAmbientValue;
     #endregion
 
 
-    #region Constructors
-    /// <summary>
-    /// Creates instance.
-    /// </summary>
-    public Insert(DbDialect dialect, bool useAmbientValue)
-    {
-        this.Dialect = dialect;
-        this.UseAmbientValue = useAmbientValue;
-    }
-    #endregion
-
-
-    #region IQueryBuildable implementations
+    #region IQueryBuildable
     /// <inheritdoc/>
     public void Build(ref Utf16ValueStringBuilder builder, ref BindParameterCollection? parameters)
     {
         var table = TableMappingInfo.Get<T>();
         var columns = table.Columns.Span;
-        var bracket = this.Dialect.KeywordBracket;
-        var prefix = this.Dialect.BindParameterPrefix;
+        var bracket = this._dialect.KeywordBracket;
+        var prefix = this._dialect.BindParameterPrefix;
 
         builder.Append("insert into ");
-        builder.AppendTableName<T>(this.Dialect);
+        builder.AppendTableName<T>(this._dialect);
         builder.AppendLine();
         builder.Append("(");
         foreach (var x in columns)
@@ -81,7 +62,7 @@ internal readonly struct Insert<T> : IQueryBuildable
 
             builder.AppendLine();
             builder.Append("    ");
-            if (this.UseAmbientValue && x.AmbientValue is not null)
+            if (this._useAmbientValue && x.AmbientValue is not null)
             {
                 builder.Append(x.AmbientValue);
                 builder.Append(',');

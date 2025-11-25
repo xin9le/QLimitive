@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq.Expressions;
+using System.Diagnostics.CodeAnalysis;
 using FastMember;
-using QLimitive.Internals;
 
 namespace QLimitive;
 
@@ -14,11 +12,8 @@ namespace QLimitive;
 /// </summary>
 public sealed class BindParameterCollection : IDictionary<string, object?>, IReadOnlyDictionary<string, object?>
 {
-    #region Properties
-    /// <summary>
-    /// Gets the key/value store that held inside.
-    /// </summary>
-    private IDictionary<string, object?> Inner { get; }
+    #region Fields
+    private readonly Dictionary<string, object?> _inner;
     #endregion
 
 
@@ -27,263 +22,142 @@ public sealed class BindParameterCollection : IDictionary<string, object?>, IRea
     /// Creates instance.
     /// </summary>
     public BindParameterCollection()
-        : this(new Dictionary<string, object?>())
+        : this(capacity: 0)
     { }
 
 
     /// <summary>
     /// Creates instance.
     /// </summary>
-    /// <param name="source"></param>
-    public BindParameterCollection(IDictionary<string, object?> source)
-        => this.Inner = source;
+    /// <param name="capacity"></param>
+    public BindParameterCollection(int capacity)
+        => this._inner = new(capacity);
     #endregion
 
 
-    #region IDictionary<TKey, TValue> implementations
-    /// <summary>
-    /// Gets or sets the element with the specified key.
-    /// </summary>
-    /// <param name="key"></param>
-    /// <returns></returns>
+    #region IDictionary<TKey, TValue>
+    /// <inheritdoc/>
     public object? this[string key]
     {
-        get => this.Inner[key];
-        set => this.Inner[key] = value;
+        get => this._inner[key];
+        set => this._inner[key] = value;
     }
 
 
-    /// <summary>
-    /// Gets an <see cref="ICollection{T}"/> containing the keys of the <see cref="IDictionary{TKey, TValue}"/>.
-    /// </summary>
-    ICollection<string> IDictionary<string, object?>.Keys
-        => this.Inner.Keys;
+    /// <inheritdoc/>
+    public ICollection<string> Keys
+        => this._inner.Keys;
 
 
-    /// <summary>
-    /// Gets an <see cref="ICollection{T}"/> containing the values of the <see cref="IDictionary{TKey, TValue}"/>.
-    /// </summary>
-    ICollection<object?> IDictionary<string, object?>.Values
-        => this.Inner.Values;
+    /// <inheritdoc/>
+    public ICollection<object?> Values
+        => this._inner.Values;
 
 
-    /// <summary>
-    /// Gets the number of elements contained in the <see cref="ICollection{T}"/>.
-    /// </summary>
+    /// <inheritdoc/>
     public int Count
-        => this.Inner.Count;
+        => this._inner.Count;
 
 
-    /// <summary>
-    /// Gets a value indicating whether the <see cref="ICollection{T}"/> is read-only.
-    /// </summary>
-    bool ICollection<KeyValuePair<string, object?>>.IsReadOnly
-        => this.Inner.IsReadOnly;
+    /// <inheritdoc/>
+    public bool IsReadOnly
+        => false;
 
 
-    /// <summary>
-    /// Adds an item to the <see cref="ICollection{T}"/>.
-    /// </summary>
-    /// <param name="key"></param>
-    /// <param name="value"></param>
+    /// <inheritdoc/>
     public void Add(string key, object? value)
-        => this.Inner.Add(key, value);
+        => this._inner.Add(key, value);
 
 
-    /// <summary>
-    /// Adds an item to the <see cref="ICollection{T}"/>.
-    /// </summary>
-    /// <param name="item"></param>
-    void ICollection<KeyValuePair<string, object?>>.Add(KeyValuePair<string, object?> item)
-        => this.Inner.Add(item);
-
-
-    /// <summary>
-    /// Removes all items from the <see cref="ICollection{T}"/>.
-    /// </summary>
-    public void Clear()
-        => this.Inner.Clear();
-
-
-    /// <summary>
-    /// Determines whether the <see cref="ICollection{T}"/> contains a specific value.
-    /// </summary>
-    /// <param name="item"></param>
-    /// <returns></returns>
-    bool ICollection<KeyValuePair<string, object?>>.Contains(KeyValuePair<string, object?> item)
-        => this.Inner.Contains(item);
-
-
-    /// <summary>
-    /// Determines whether the <see cref="IDictionary{TKey, TValue}"/> contains an element with the specified key.
-    /// </summary>
-    /// <param name="key"></param>
-    /// <returns></returns>
-    public bool ContainsKey(string key)
-        => this.Inner.ContainsKey(key);
-
-
-    /// <summary>
-    /// Copies the elements of the <see cref="ICollection{T}"/> to an <see cref="Array"/>, starting at a particular <seealso cref="Array"/> index.
-    /// </summary>
-    /// <param name="array"></param>
-    /// <param name="arrayIndex"></param>
-    void ICollection<KeyValuePair<string, object?>>.CopyTo(KeyValuePair<string, object?>[] array, int arrayIndex)
-        => this.Inner.CopyTo(array, arrayIndex);
-
-
-    /// <summary>
-    /// Returns an enumerator that iterates through the collection.
-    /// </summary>
-    /// <returns></returns>
-    public IEnumerator<KeyValuePair<string, object?>> GetEnumerator()
-        => this.Inner.GetEnumerator();
-
-
-    /// <summary>
-    /// Returns an enumerator that iterates through the collection.
-    /// </summary>
-    /// <returns></returns>
-    IEnumerator IEnumerable.GetEnumerator()
-        => this.Inner.GetEnumerator();
-
-
-    /// <summary>
-    /// Removes the first occurrence of a specific object from the <see cref="ICollection{T}"/>.
-    /// </summary>
-    /// <param name="key"></param>
-    /// <returns></returns>
-    public bool Remove(string key)
-        => this.Inner.Remove(key);
-
-
-    /// <summary>
-    /// Removes the first occurrence of a specific object from the <see cref="ICollection{T}"/>.
-    /// </summary>
-    /// <param name="item"></param>
-    /// <returns></returns>
-    bool ICollection<KeyValuePair<string, object?>>.Remove(KeyValuePair<string, object?> item)
-        => this.Inner.Remove(item);
-
-
-    /// <summary>
-    /// Gets the value associated with the specified key.
-    /// </summary>
-    /// <param name="key"></param>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    public bool TryGetValue(string key, out object? value)
-        => this.Inner.TryGetValue(key, out value);
-    #endregion
-
-
-    #region IReadOnlyDictionary<TKey, TValue> implementations
-    /// <summary>
-    /// Gets an enumerable collection that contains the keys in the read-only dictionary.
-    /// </summary>
-    public IEnumerable<string> Keys
-        => this.Inner.Keys;
-
-
-    /// <summary>
-    /// Gets an enumerable collection that contains the values in the read-only dictionary.
-    /// </summary>
-    public IEnumerable<object?> Values
-        => this.Inner.Values;
-    #endregion
-
-
-    #region Create
-    /// <summary>
-    /// Creates an instance from the specified object.
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="obj"></param>
-    /// <returns></returns>
-    public static BindParameterCollection From<T>(T obj)
+    /// <inheritdoc/>
+    public void Add(KeyValuePair<string, object?> item)
     {
-        var result = new BindParameterCollection();
-        var members = TypeAccessor.Create(typeof(T)).GetMembers();
-        var accessor = ObjectAccessor.Create(obj);
-        for (var i = 0; i < members.Count; i++)
-        {
-            var member = members[i];
-            if (member.CanRead)
-                result.Add(member.Name, accessor[member.Name]);
-        }
-        return result;
+        var dic = (IDictionary<string, object?>)this._inner;
+        dic.Add(item);
     }
 
 
+    /// <inheritdoc/>
+    public void Clear()
+        => this._inner.Clear();
+
+
+    /// <inheritdoc/>
+    public bool Contains(KeyValuePair<string, object?> item)
+    {
+        var dic = (IDictionary<string, object?>)this._inner;
+        return dic.Contains(item);
+    }
+
+
+    /// <inheritdoc/>
+    public bool ContainsKey(string key)
+        => this._inner.ContainsKey(key);
+
+
+    /// <inheritdoc/>
+    public void CopyTo(KeyValuePair<string, object?>[] array, int arrayIndex)
+    {
+        var dic = (IDictionary<string, object?>)this._inner;
+        dic.CopyTo(array, arrayIndex);
+    }
+
+
+    /// <inheritdoc/>
+    public IEnumerator<KeyValuePair<string, object?>> GetEnumerator()
+        => this._inner.GetEnumerator();
+
+
+    /// <inheritdoc/>
+    IEnumerator IEnumerable.GetEnumerator()
+        => this._inner.GetEnumerator();
+
+
+    /// <inheritdoc/>
+    public bool Remove(string key)
+        => this._inner.Remove(key);
+
+
+    /// <inheritdoc/>
+    public bool Remove(KeyValuePair<string, object?> item)
+    {
+        var dic = (IDictionary<string, object?>)this._inner;
+        return dic.Remove(item);
+    }
+
+
+    /// <inheritdoc/>
+    public bool TryGetValue(string key, [MaybeNullWhen(false)] out object? value)
+        => this._inner.TryGetValue(key, out value);
+    #endregion
+
+
+    #region IReadOnlyDictionary<TKey, TValue>
+    /// <inheritdoc/>
+    IEnumerable<string> IReadOnlyDictionary<string, object?>.Keys
+        => this.Keys;
+
+
+    /// <inheritdoc/>
+    IEnumerable<object?> IReadOnlyDictionary<string, object?>.Values
+        => this.Values;
+    #endregion
+
+
+    #region Utilities
     /// <summary>
     /// Clones the instance.
     /// </summary>
     /// <returns></returns>
     public BindParameterCollection Clone()
     {
-        IDictionary<string, object?> result = new BindParameterCollection();
+        var result = new BindParameterCollection(this._inner.Count);
         foreach (var x in this)
-            result.Add(x);
-        return (BindParameterCollection)result;
-    }
-    #endregion
-
-
-    #region Append
-    /// <summary>
-    /// Appends the specified values.
-    /// </summary>
-    /// <param name="kvs"></param>
-    public void Append(IEnumerable<KeyValuePair<string, object?>> kvs)
-    {
-        foreach (var x in kvs)
-            this.Add(x.Key, x.Value);
+            result._inner.Add(x.Key, x.Value);
+        return result;
     }
 
 
-    /// <summary>
-    /// Appends the specified values.
-    /// </summary>
-    /// <param name="obj"></param>
-    public void Append<T>(T obj)
-    {
-        var members = TypeAccessor.Create(typeof(T)).GetMembers();
-        var accessor = ObjectAccessor.Create(obj);
-        for (var i = 0; i < members.Count; i++)
-        {
-            var member = members[i];
-            if (member.CanRead)
-                this.Add(member.Name, accessor[member.Name]);
-        }
-    }
-
-
-    /// <summary>
-    /// Appends the specified values.
-    /// </summary>
-    /// <param name="obj"></param>
-    /// <param name="targetProperties"></param>
-    public void Append<T>(T obj, Expression<Func<T, object>> targetProperties)
-    {
-        var memberNames = ExpressionHelper.GetMemberNames(targetProperties);
-        var members = TypeAccessor.Create(typeof(T)).GetMembers();
-        var accessor = ObjectAccessor.Create(obj);
-        for (var i = 0; i < members.Count; i++)
-        {
-            var member = members[i];
-            if (!member.CanRead)
-                continue;
-            
-            if (!memberNames.Contains(member.Name))
-                continue;
-
-            this.Add(member.Name, accessor[member.Name]);
-        }
-    }
-    #endregion
-
-
-    #region Overwrite
     /// <summary>
     /// Overwrites by the specified values.
     /// </summary>
@@ -299,10 +173,10 @@ public sealed class BindParameterCollection : IDictionary<string, object?>, IRea
             if (!member.CanRead)
                 continue;
 
-            if (!this.Inner.ContainsKey(member.Name))
+            if (!this._inner.ContainsKey(member.Name))
                 continue;
 
-            this.Inner[member.Name] = accessor[member.Name];
+            this._inner[member.Name] = accessor[member.Name];
         }
     }
     #endregion

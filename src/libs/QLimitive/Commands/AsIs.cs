@@ -8,30 +8,18 @@ namespace QLimitive.Commands;
 /// Provides delegate-style commands that can build query as primitive.<br/>
 /// <b>This feature is provided for <i>as-is</i> use by those familiar with the internal implementation.</b>
 /// </summary>
-internal readonly struct AsIs : IQueryBuildable
+internal readonly struct AsIs(QueryBuildAction action)
+    : IQueryBuildable
 {
-    #region Properties
-    /// <summary>
-    /// Gets the delegating action for custom query building.
-    /// </summary>
-    private QueryBuildAction Action { get; }
+    #region Fields
+    private readonly QueryBuildAction _action = action;
     #endregion
 
 
-    #region Constructors
-    /// <summary>
-    /// Creates instance.
-    /// </summary>
-    /// <param name="action"></param>
-    public AsIs(QueryBuildAction action)
-        => this.Action = action;
-    #endregion
-
-
-    #region IQueryBuildable implementations
+    #region IQueryBuildable
     /// <inheritdoc/>
     public void Build(ref Utf16ValueStringBuilder builder, ref BindParameterCollection? parameters)
-        => this.Action(ref builder, ref parameters);
+        => this._action(ref builder, ref parameters);
     #endregion
 }
 
@@ -41,39 +29,17 @@ internal readonly struct AsIs : IQueryBuildable
 /// Provides delegate-style commands that can build query as primitive.<br/>
 /// <b>This feature is provided for <i>as-is</i> use by those familiar with the internal implementation.</b>
 /// </summary>
-internal readonly struct AsIs<TState> : IQueryBuildable
+internal readonly struct AsIs<TState>(QueryBuildAction<TState> action, TState state) : IQueryBuildable
 {
-    #region Properties
-    /// <summary>
-    /// Gets the delegating action for custom query building.
-    /// </summary>
-    private QueryBuildAction<TState> Action { get; }
-
-
-    /// <summary>
-    /// Gets the parameter for custom query building.
-    /// </summary>
-    private TState State { get; }
+    #region Fields
+    private readonly QueryBuildAction<TState> _action = action;
+    private readonly TState _state = state;
     #endregion
 
 
-    #region Constructors
-    /// <summary>
-    /// Creates instance.
-    /// </summary>
-    /// <param name="action"></param>
-    /// <param name="state">+</param>
-    public AsIs(QueryBuildAction<TState> action, TState state)
-    {
-        this.Action = action;
-        this.State = state;
-    }
-    #endregion
-
-
-    #region IQueryBuildable implementations
+    #region IQueryBuildable
     /// <inheritdoc/>
     public void Build(ref Utf16ValueStringBuilder builder, ref BindParameterCollection? parameters)
-        => this.Action(ref builder, ref parameters, this.State);
+        => this._action(ref builder, ref parameters, this._state);
     #endregion
 }

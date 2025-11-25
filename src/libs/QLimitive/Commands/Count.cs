@@ -9,36 +9,25 @@ namespace QLimitive.Commands;
 /// Represents count command.
 /// </summary>
 /// <typeparam name="T"></typeparam>
-internal readonly struct Count<T> : IQueryBuildable
+internal readonly struct Count<T>(DbDialect dialect)
+    : IQueryBuildable
 {
-    #region Properties
-    /// <summary>
-    /// Gets the database dialect.
-    /// </summary>
-    private DbDialect Dialect { get; }
+    #region Fields
+    private readonly DbDialect _dialect = dialect;
     #endregion
 
 
-    #region Constructors
-    /// <summary>
-    /// Creates instance.
-    /// </summary>
-    public Count(DbDialect dialect)
-        => this.Dialect = dialect;
-    #endregion
-
-
-    #region IQueryBuildable implementations
+    #region IQueryBuildable
     /// <inheritdoc/>
     public void Build(ref Utf16ValueStringBuilder builder, ref BindParameterCollection? parameters)
     {
-        var bracket = this.Dialect.KeywordBracket;
+        var bracket = this._dialect.KeywordBracket;
         builder.Append("select count(*) as ");
         builder.Append(bracket.Begin);
         builder.Append("Count");
         builder.Append(bracket.End);
         builder.Append(" from ");
-        builder.AppendTableName<T>(this.Dialect);
+        builder.AppendTableName<T>(this._dialect);
     }
     #endregion
 }

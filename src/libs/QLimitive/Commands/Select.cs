@@ -13,47 +13,28 @@ namespace QLimitive.Commands;
 /// Represents select command.
 /// </summary>
 /// <typeparam name="T"></typeparam>
-internal readonly struct Select<T> : IQueryBuildable
+internal readonly struct Select<T>(DbDialect dialect, Expression<Func<T, object>>? members)
+    : IQueryBuildable
 {
-    #region Properties
-    /// <summary>
-    /// Gets the database dialect.
-    /// </summary>
-    private DbDialect Dialect { get; }
-
-
-    /// <summary>
-    /// Gets the members mapped to the column.
-    /// </summary>
-    private Expression<Func<T, object>>? Members { get; }
+    #region Fields
+    private readonly DbDialect _dialect = dialect;
+    private readonly Expression<Func<T, object>>? _members = members;
     #endregion
 
 
-    #region Constructors
-    /// <summary>
-    /// Creates instance.
-    /// </summary>
-    public Select(DbDialect dialect, Expression<Func<T, object>>? members)
-    {
-        this.Dialect = dialect;
-        this.Members = members;
-    }
-    #endregion
-
-
-    #region IQueryBuildable implementations
+    #region IQueryBuildable
     /// <inheritdoc/>
     public void Build(ref Utf16ValueStringBuilder builder, ref BindParameterCollection? parameters)
     {
         //--- Extract target columns
         HashSet<string>? targetMemberNames = null;
-        if (this.Members is not null)
-            targetMemberNames = ExpressionHelper.GetMemberNames(this.Members);
+        if (this._members is not null)
+            targetMemberNames = ExpressionHelper.GetMemberNames(this._members);
 
         //--- Build SQL
         var table = TableMappingInfo.Get<T>();
         var columns = table.Columns.Span;
-        var bracket = this.Dialect.KeywordBracket;
+        var bracket = this._dialect.KeywordBracket;
         builder.Append("select");
         foreach (var x in columns)
         {
@@ -77,7 +58,7 @@ internal readonly struct Select<T> : IQueryBuildable
         builder.Advance(-1);  // remove last colon.
         builder.AppendLine();
         builder.Append("from ");
-        builder.AppendTableName<T>(this.Dialect);
+        builder.AppendTableName<T>(this._dialect);
     }
     #endregion
 }
