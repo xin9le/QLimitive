@@ -21,11 +21,22 @@ public ref struct QueryBuilder<T>(DbDialect dialect) : IDisposable
 
 
     #region IDisposable
+#if NET10_0_OR_GREATER
     /// <inheritdoc/>
     public readonly void Dispose()
+        => this._stringHandler.Clear();
+#else
+    /// <inheritdoc/>
+    public void Dispose()
     {
-        this._stringHandler.Clear();
+        DefaultInterpolatedStringHandler_Clear(ref this._stringHandler);
+
+        #region Local Functions
+        [UnsafeAccessor(UnsafeAccessorKind.Method, Name = "Clear")]
+        static extern void DefaultInterpolatedStringHandler_Clear(ref DefaultInterpolatedStringHandler handler);
+        #endregion
     }
+#endif
     #endregion
 
 
