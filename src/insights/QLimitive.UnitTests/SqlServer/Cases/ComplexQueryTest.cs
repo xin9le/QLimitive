@@ -209,7 +209,7 @@ order by
             {
                 builder.Select();
                 builder.Where(static x => x.Id == 1 || x.LastName != "xin9le" && x.Age > 20);
-                builder.AsIs(state: s_dialect, static (ref stringBuilder, ref bindParameters, state) =>
+                builder.AsIs(state: s_dialect, static (ref handler, ref bindParameters, state) =>
                 {
                     var dialect = state;
                     var term = "csharp";
@@ -217,14 +217,14 @@ order by
                     var bracket = dialect.KeywordBracket;
                     var column = table.ColumnByMemberName[nameof(Person.LastName)];
 
-                    stringBuilder.AppendLine();
-                    stringBuilder.Append("    and ");
-                    stringBuilder.Append(bracket.Begin);
-                    stringBuilder.Append(column.ColumnName);
-                    stringBuilder.Append(bracket.End);
-                    stringBuilder.Append(" like ");
-                    stringBuilder.Append(dialect.BindParameterPrefix);
-                    stringBuilder.Append(nameof(term));
+                    handler.AppendLine();
+                    handler.Append("    and ");
+                    handler.Append(bracket.Begin);
+                    handler.Append(column.ColumnName);
+                    handler.Append(bracket.End);
+                    handler.Append(" like ");
+                    handler.Append(dialect.BindParameterPrefix);
+                    handler.Append(nameof(term));
 
                     bindParameters ??= [];
                     bindParameters.Add(nameof(term), term);
