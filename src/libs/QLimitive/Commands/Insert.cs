@@ -1,4 +1,4 @@
-﻿using Cysharp.Text;
+﻿using System.Runtime.CompilerServices;
 using QLimitive.Internals;
 using QLimitive.Mappings;
 
@@ -21,17 +21,17 @@ internal readonly struct Insert<T>(DbDialect dialect, bool useAmbientValue)
 
     #region IQueryBuildable
     /// <inheritdoc/>
-    public void Build(ref Utf16ValueStringBuilder builder, ref BindParameterCollection? parameters)
+    public void Build(ref DefaultInterpolatedStringHandler handler, ref BindParameterCollection? parameters)
     {
         var table = TableMappingInfo.Get<T>();
         var columns = table.Columns.Span;
         var bracket = this._dialect.KeywordBracket;
         var prefix = this._dialect.BindParameterPrefix;
 
-        builder.Append("insert into ");
-        builder.AppendTableName<T>(this._dialect);
-        builder.AppendLine();
-        builder.Append("(");
+        handler.Append("insert into ");
+        handler.AppendTableName<T>(this._dialect);
+        handler.AppendLine();
+        handler.Append("(");
         foreach (var x in columns)
         {
             if (!x.IsMapped)
@@ -40,18 +40,18 @@ internal readonly struct Insert<T>(DbDialect dialect, bool useAmbientValue)
             if (x.IsAutoIncrement)
                 continue;
 
-            builder.AppendLine();
-            builder.Append("    ");
-            builder.Append(bracket.Begin);
-            builder.Append(x.ColumnName);
-            builder.Append(bracket.End);
-            builder.Append(',');
+            handler.AppendLine();
+            handler.AppendLiteral("    ");
+            handler.AppendFormatted(bracket.Begin);
+            handler.AppendFormatted(x.ColumnName);
+            handler.AppendFormatted(bracket.End);
+            handler.AppendLiteral(",");
         }
-        builder.Advance(-1);
-        builder.AppendLine();
-        builder.AppendLine(")");
-        builder.AppendLine("values");
-        builder.Append("(");
+        handler.Advance(-1);
+        handler.AppendLine();
+        handler.AppendLine(")");
+        handler.AppendLine("values");
+        handler.Append("(");
         foreach (var x in columns)
         {
             if (!x.IsMapped)
@@ -60,24 +60,24 @@ internal readonly struct Insert<T>(DbDialect dialect, bool useAmbientValue)
             if (x.IsAutoIncrement)
                 continue;
 
-            builder.AppendLine();
-            builder.Append("    ");
+            handler.AppendLine();
+            handler.Append("    ");
             if (this._useAmbientValue && x.AmbientValue is not null)
             {
-                builder.Append(x.AmbientValue);
-                builder.Append(',');
+                handler.Append(x.AmbientValue);
+                handler.Append(',');
                 continue;
             }
-            builder.Append(prefix);
-            builder.Append(x.MemberName);
-            builder.Append(',');
+            handler.Append(prefix);
+            handler.Append(x.MemberName);
+            handler.Append(',');
 
             parameters ??= [];
             parameters.Add(x.MemberName, null);
         }
-        builder.Advance(-1);
-        builder.AppendLine();
-        builder.Append(")");
+        handler.Advance(-1);
+        handler.AppendLine();
+        handler.Append(")");
     }
     #endregion
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Cysharp.Text;
+using System.Runtime.CompilerServices;
 using QLimitive.Internals;
 using QLimitive.Mappings;
 
@@ -25,7 +25,7 @@ internal readonly struct Update<T>(DbDialect dialect, Expression<Func<T, object>
 
     #region IQueryBuildable
     /// <inheritdoc/>
-    public void Build(ref Utf16ValueStringBuilder builder, ref BindParameterCollection? parameters)
+    public void Build(ref DefaultInterpolatedStringHandler handler, ref BindParameterCollection? parameters)
     {
         //--- Extract target columns
         HashSet<string>? targetMemberNames = null;
@@ -38,10 +38,10 @@ internal readonly struct Update<T>(DbDialect dialect, Expression<Func<T, object>
         var bracket = this._dialect.KeywordBracket;
         var prefix = this._dialect.BindParameterPrefix;
 
-        builder.Append("update ");
-        builder.AppendTableName<T>(this._dialect);
-        builder.AppendLine();
-        builder.Append("set");
+        handler.Append("update ");
+        handler.AppendTableName<T>(this._dialect);
+        handler.AppendLine();
+        handler.Append("set");
         foreach (var x in columns)
         {
             if (!x.IsMapped)
@@ -49,29 +49,29 @@ internal readonly struct Update<T>(DbDialect dialect, Expression<Func<T, object>
 
             if (targetMemberNames is null || targetMemberNames.Contains(x.MemberName))
             {
-                builder.AppendLine();
-                builder.Append("    ");
-                builder.Append(bracket.Begin);
-                builder.Append(x.ColumnName);
-                builder.Append(bracket.End);
-                builder.Append(" = ");
+                handler.AppendLine();
+                handler.Append("    ");
+                handler.Append(bracket.Begin);
+                handler.Append(x.ColumnName);
+                handler.Append(bracket.End);
+                handler.Append(" = ");
                 if (this._useAmbientValue && x.AmbientValue is not null)
                 {
-                    builder.Append(x.AmbientValue);
-                    builder.Append(',');
+                    handler.Append(x.AmbientValue);
+                    handler.Append(',');
                 }
                 else
                 {
-                    builder.Append(prefix);
-                    builder.Append(x.MemberName);
-                    builder.Append(',');
+                    handler.Append(prefix);
+                    handler.Append(x.MemberName);
+                    handler.Append(',');
 
                     parameters ??= [];
                     parameters.Add(x.MemberName, null);
                 }
             }
         }
-        builder.Advance(-1);  // remove last colon
+        handler.Advance(-1);  // remove last colon
     }
     #endregion
 }

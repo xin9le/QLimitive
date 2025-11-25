@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using QLimitive.Internals;
 using QLimitive.Mappings;
 using QLimitive.UnitTests.SqlServer.Models;
 using Shouldly;
