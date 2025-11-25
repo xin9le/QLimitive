@@ -12,18 +12,18 @@ namespace QLimitive.Internals;
 internal static class Shims
 {
 #if !NET10_0_OR_GREATER
-    extension(DefaultInterpolatedStringHandler @this)
+    extension(in DefaultInterpolatedStringHandler @this)
     {
         /// <summary>
         /// Clears the handler.
         /// </summary>
         public void Clear()
         {
-            DefaultInterpolatedStringHandler_Clear(ref @this);
+            DefaultInterpolatedStringHandler_Clear(in @this);
 
             #region Local Functions
             [UnsafeAccessor(UnsafeAccessorKind.Method, Name = "Clear")]
-            static extern void DefaultInterpolatedStringHandler_Clear(ref DefaultInterpolatedStringHandler handler);
+            static extern void DefaultInterpolatedStringHandler_Clear(in DefaultInterpolatedStringHandler handler);
             #endregion
         }
     }

@@ -11,7 +11,7 @@ namespace QLimitive.Internals;
 /// </summary>
 internal static class DefaultInterpolatedStringHandlerExtensions
 {
-    extension(ref DefaultInterpolatedStringHandler @this)
+    extension(in DefaultInterpolatedStringHandler @this)
     {
         /// <summary>
         /// Writes the specified character span to the handler.
@@ -115,7 +115,7 @@ internal static class DefaultInterpolatedStringHandlerExtensions
         /// <param name="count"></param>
         public void Advance(int count)
         {
-            ref var pos = ref DefaultInterpolatedStringHandler_pos(ref @this);
+            ref var pos = ref DefaultInterpolatedStringHandler_pos(in @this);
             pos += count;
         }
 
@@ -124,12 +124,12 @@ internal static class DefaultInterpolatedStringHandlerExtensions
         /// Gets the length of the string written to the internal buffer.
         /// </summary>
         public int Length
-            => DefaultInterpolatedStringHandler_pos(ref @this);
+            => DefaultInterpolatedStringHandler_pos(in @this);
     }
 
 
     #region UnsafeAccessors
     [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_pos")]
-    private static extern ref int DefaultInterpolatedStringHandler_pos(ref DefaultInterpolatedStringHandler handler);
+    private static extern ref int DefaultInterpolatedStringHandler_pos(in DefaultInterpolatedStringHandler handler);
     #endregion
 }
