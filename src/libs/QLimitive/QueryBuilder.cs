@@ -11,7 +11,7 @@ namespace QLimitive;
 /// Provides query builder.
 /// </summary>
 /// <typeparam name="T">Table mapping type</typeparam>
-public ref struct QueryBuilder<T> //: IDisposable
+public ref struct QueryBuilder<T> : IDisposable
 {
     #region Fields
     private readonly DbDialect _dialect;
@@ -35,7 +35,7 @@ public ref struct QueryBuilder<T> //: IDisposable
     #endregion
 
 
-    #region IDisposable implementations
+    #region IDisposable
     /// <summary>
     /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
     /// </summary>
