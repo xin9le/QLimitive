@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using FastMember;
-using QLimitive.Internals;
 
 namespace QLimitive;
 
@@ -231,27 +228,6 @@ public sealed class BindParameterCollection : IDictionary<string, object?>, IRea
 
     #region Create
     /// <summary>
-    /// Creates an instance from the specified object.
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="obj"></param>
-    /// <returns></returns>
-    public static BindParameterCollection From<T>(T obj)
-    {
-        var members = TypeAccessor.Create(typeof(T)).GetMembers();
-        var accessor = ObjectAccessor.Create(obj);
-        var result = new BindParameterCollection(capacity: members.Count);
-        for (var i = 0; i < members.Count; i++)
-        {
-            var member = members[i];
-            if (member.CanRead)
-                result.Add(member.Name, accessor[member.Name]);
-        }
-        return result;
-    }
-
-
-    /// <summary>
     /// Clones the instance.
     /// </summary>
     /// <returns></returns>
@@ -261,60 +237,6 @@ public sealed class BindParameterCollection : IDictionary<string, object?>, IRea
         foreach (var x in this)
             result.Add(x.Key, x.Value);
         return result;
-    }
-    #endregion
-
-
-    #region Append
-    /// <summary>
-    /// Appends the specified values.
-    /// </summary>
-    /// <param name="kvs"></param>
-    public void Append(IEnumerable<KeyValuePair<string, object?>> kvs)
-    {
-        foreach (var x in kvs)
-            this.Add(x.Key, x.Value);
-    }
-
-
-    /// <summary>
-    /// Appends the specified values.
-    /// </summary>
-    /// <param name="obj"></param>
-    public void Append<T>(T obj)
-    {
-        var members = TypeAccessor.Create(typeof(T)).GetMembers();
-        var accessor = ObjectAccessor.Create(obj);
-        for (var i = 0; i < members.Count; i++)
-        {
-            var member = members[i];
-            if (member.CanRead)
-                this.Add(member.Name, accessor[member.Name]);
-        }
-    }
-
-
-    /// <summary>
-    /// Appends the specified values.
-    /// </summary>
-    /// <param name="obj"></param>
-    /// <param name="targetProperties"></param>
-    public void Append<T>(T obj, Expression<Func<T, object>> targetProperties)
-    {
-        var memberNames = ExpressionHelper.GetMemberNames(targetProperties);
-        var members = TypeAccessor.Create(typeof(T)).GetMembers();
-        var accessor = ObjectAccessor.Create(obj);
-        for (var i = 0; i < members.Count; i++)
-        {
-            var member = members[i];
-            if (!member.CanRead)
-                continue;
-            
-            if (!memberNames.Contains(member.Name))
-                continue;
-
-            this.Add(member.Name, accessor[member.Name]);
-        }
     }
     #endregion
 
