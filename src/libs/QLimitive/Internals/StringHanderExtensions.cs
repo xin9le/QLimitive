@@ -17,6 +17,14 @@ internal static class StringHanderExtensions
         /// Writes the specified character span to the handler.
         /// </summary>
         /// <param name="value"></param>
+        public void Append(string value)
+            => @this.Append(value.AsSpan());
+
+
+        /// <summary>
+        /// Writes the specified character span to the handler.
+        /// </summary>
+        /// <param name="value"></param>
         public void Append(scoped ReadOnlySpan<char> value)
             => @this.AppendFormatted(value);
 
@@ -35,6 +43,17 @@ internal static class StringHanderExtensions
         /// </summary>
         public void AppendLine()
             => @this.AppendLiteral(Environment.NewLine);
+
+
+        /// <summary>
+        /// Writes the specified character span to the handler.
+        /// </summary>
+        /// <param name="value"></param>
+        public void AppendLine(string value)
+        {
+            @this.Append(value.AsSpan());
+            @this.AppendLine();
+        }
 
 
         /// <summary>
