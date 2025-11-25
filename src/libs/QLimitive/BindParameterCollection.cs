@@ -226,7 +226,7 @@ public sealed class BindParameterCollection : IDictionary<string, object?>, IRea
     #endregion
 
 
-    #region Create
+    #region Utilities
     /// <summary>
     /// Clones the instance.
     /// </summary>
@@ -238,10 +238,8 @@ public sealed class BindParameterCollection : IDictionary<string, object?>, IRea
             result._inner.Add(x.Key, x.Value);
         return result;
     }
-    #endregion
 
 
-    #region Overwrite
     /// <summary>
     /// Overwrites by the specified values.
     /// </summary>
