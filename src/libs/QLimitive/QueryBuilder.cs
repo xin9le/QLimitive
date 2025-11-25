@@ -25,7 +25,7 @@ public ref struct QueryBuilder<T>(DbDialect dialect) : IDisposable
 
     #region IDisposable
     /// <inheritdoc/>
-    public readonly void Dispose()
+    public void Dispose()
         => this._stringHandler.Clear();
     #endregion
 
