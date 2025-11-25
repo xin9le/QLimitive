@@ -11,7 +11,7 @@ namespace QLimitive.Internals;
 /// </summary>
 internal static class DefaultInterpolatedStringHandlerExtensions
 {
-    extension(in DefaultInterpolatedStringHandler @this)
+    extension(ref DefaultInterpolatedStringHandler @this)
     {
         /// <summary>
         /// Writes the specified character span to the handler.
