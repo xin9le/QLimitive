@@ -14,11 +14,8 @@ namespace QLimitive;
 /// </summary>
 public sealed class BindParameterCollection : IDictionary<string, object?>, IReadOnlyDictionary<string, object?>
 {
-    #region Properties
-    /// <summary>
-    /// Gets the key/value store that held inside.
-    /// </summary>
-    private IDictionary<string, object?> Inner { get; }
+    #region Fields
+    private readonly IDictionary<string, object?> _inner;
     #endregion
 
 
@@ -36,7 +33,7 @@ public sealed class BindParameterCollection : IDictionary<string, object?>, IRea
     /// </summary>
     /// <param name="source"></param>
     public BindParameterCollection(IDictionary<string, object?> source)
-        => this.Inner = source;
+        => this._inner = source;
     #endregion
 
 
@@ -44,96 +41,96 @@ public sealed class BindParameterCollection : IDictionary<string, object?>, IRea
     /// <inheritdoc/>
     public object? this[string key]
     {
-        get => this.Inner[key];
-        set => this.Inner[key] = value;
+        get => this._inner[key];
+        set => this._inner[key] = value;
     }
 
 
     /// <inheritdoc/>
     ICollection<string> IDictionary<string, object?>.Keys
-        => this.Inner.Keys;
+        => this._inner.Keys;
 
 
     /// <inheritdoc/>
     ICollection<object?> IDictionary<string, object?>.Values
-        => this.Inner.Values;
+        => this._inner.Values;
 
 
     /// <inheritdoc/>
     public int Count
-        => this.Inner.Count;
+        => this._inner.Count;
 
 
     /// <inheritdoc/>
     bool ICollection<KeyValuePair<string, object?>>.IsReadOnly
-        => this.Inner.IsReadOnly;
+        => this._inner.IsReadOnly;
 
 
     /// <inheritdoc/>
     public void Add(string key, object? value)
-        => this.Inner.Add(key, value);
+        => this._inner.Add(key, value);
 
 
     /// <inheritdoc/>
     void ICollection<KeyValuePair<string, object?>>.Add(KeyValuePair<string, object?> item)
-        => this.Inner.Add(item);
+        => this._inner.Add(item);
 
 
     /// <inheritdoc/>
     public void Clear()
-        => this.Inner.Clear();
+        => this._inner.Clear();
 
 
     /// <inheritdoc/>
     bool ICollection<KeyValuePair<string, object?>>.Contains(KeyValuePair<string, object?> item)
-        => this.Inner.Contains(item);
+        => this._inner.Contains(item);
 
 
     /// <inheritdoc/>
     public bool ContainsKey(string key)
-        => this.Inner.ContainsKey(key);
+        => this._inner.ContainsKey(key);
 
 
     /// <inheritdoc/>
     void ICollection<KeyValuePair<string, object?>>.CopyTo(KeyValuePair<string, object?>[] array, int arrayIndex)
-        => this.Inner.CopyTo(array, arrayIndex);
+        => this._inner.CopyTo(array, arrayIndex);
 
 
     /// <inheritdoc/>
     public IEnumerator<KeyValuePair<string, object?>> GetEnumerator()
-        => this.Inner.GetEnumerator();
+        => this._inner.GetEnumerator();
 
 
     /// <inheritdoc/>
     IEnumerator IEnumerable.GetEnumerator()
-        => this.Inner.GetEnumerator();
+        => this._inner.GetEnumerator();
 
 
     /// <inheritdoc/>
     public bool Remove(string key)
-        => this.Inner.Remove(key);
+        => this._inner.Remove(key);
 
 
     /// <inheritdoc/>
     bool ICollection<KeyValuePair<string, object?>>.Remove(KeyValuePair<string, object?> item)
-        => this.Inner.Remove(item);
+        => this._inner.Remove(item);
 
 
     /// <inheritdoc/>
     public bool TryGetValue(string key, out object? value)
-        => this.Inner.TryGetValue(key, out value);
+        => this._inner.TryGetValue(key, out value);
     #endregion
 
 
     #region IReadOnlyDictionary<TKey, TValue>
     /// <inheritdoc/>
     public IEnumerable<string> Keys
-        => this.Inner.Keys;
+        => this._inner.Keys;
 
 
     /// <inheritdoc/>
     public IEnumerable<object?> Values
-        => this.Inner.Values;
+        => this._inner.Values;
     #endregion
 
 
@@ -243,10 +240,10 @@ public sealed class BindParameterCollection : IDictionary<string, object?>, IRea
             if (!member.CanRead)
                 continue;
 
-            if (!this.Inner.ContainsKey(member.Name))
+            if (!this._inner.ContainsKey(member.Name))
                 continue;
 
-            this.Inner[member.Name] = accessor[member.Name];
+            this._inner[member.Name] = accessor[member.Name];
         }
     }
     #endregion
