@@ -9,31 +9,20 @@ namespace QLimitive.Commands;
 /// Represents truncate command.
 /// </summary>
 /// <typeparam name="T"></typeparam>
-internal readonly struct Truncate<T> : IQueryBuildable
+internal readonly struct Truncate<T>(DbDialect dialect)
+    : IQueryBuildable
 {
-    #region Properties
-    /// <summary>
-    /// Gets the database dialect.
-    /// </summary>
-    private DbDialect Dialect { get; }
+    #region Fields
+    private readonly DbDialect _dialect = dialect;
     #endregion
 
 
-    #region Constructors
-    /// <summary>
-    /// Creates instance.
-    /// </summary>
-    public Truncate(DbDialect dialect)
-        => this.Dialect = dialect;
-    #endregion
-
-
-    #region IQueryBuildable implementations
+    #region IQueryBuildable
     /// <inheritdoc/>
     public void Build(ref Utf16ValueStringBuilder builder, ref BindParameterCollection? parameters)
     {
         builder.Append("truncate table ");
-        builder.AppendTableName<T>(this.Dialect);
+        builder.AppendTableName<T>(this._dialect);
     }
     #endregion
 }

@@ -13,58 +13,33 @@ namespace QLimitive.Commands;
 /// Represents update command.
 /// </summary>
 /// <typeparam name="T"></typeparam>
-internal readonly struct Update<T> : IQueryBuildable
+internal readonly struct Update<T>(DbDialect dialect, Expression<Func<T, object>>? members, bool useAmbientValue)
+    : IQueryBuildable
 {
-    #region Properties
-    /// <summary>
-    /// Gets the database dialect.
-    /// </summary>
-    private DbDialect Dialect { get; }
-
-
-    /// <summary>
-    /// Gets the members mapped to the column.
-    /// </summary>
-    private Expression<Func<T, object>>? Members { get; }
-
-
-    /// <summary>
-    /// Gets whether or not to use the ambient value.
-    /// </summary>
-    private bool UseAmbientValue { get; }
+    #region Fields
+    private readonly DbDialect _dialect = dialect;
+    private readonly Expression<Func<T, object>>? _members = members;
+    private readonly bool _useAmbientValue = useAmbientValue;
     #endregion
 
 
-    #region Constructors
-    /// <summary>
-    /// Creates instance.
-    /// </summary>
-    public Update(DbDialect dialect, Expression<Func<T, object>>? members, bool useAmbientValue)
-    {
-        this.Dialect = dialect;
-        this.Members = members;
-        this.UseAmbientValue = useAmbientValue;
-    }
-    #endregion
-
-
-    #region IQueryBuildable implementations
+    #region IQueryBuildable
     /// <inheritdoc/>
     public void Build(ref Utf16ValueStringBuilder builder, ref BindParameterCollection? parameters)
     {
         //--- Extract target columns
         HashSet<string>? targetMemberNames = null;
-        if (this.Members is not null)
-            targetMemberNames = ExpressionHelper.GetMemberNames(this.Members);
+        if (this._members is not null)
+            targetMemberNames = ExpressionHelper.GetMemberNames(this._members);
 
         //--- Build SQL
         var table = TableMappingInfo.Get<T>();
         var columns = table.Columns.Span;
-        var bracket = this.Dialect.KeywordBracket;
-        var prefix = this.Dialect.BindParameterPrefix;
+        var bracket = this._dialect.KeywordBracket;
+        var prefix = this._dialect.BindParameterPrefix;
 
         builder.Append("update ");
-        builder.AppendTableName<T>(this.Dialect);
+        builder.AppendTableName<T>(this._dialect);
         builder.AppendLine();
         builder.Append("set");
         foreach (var x in columns)
@@ -80,7 +55,7 @@ internal readonly struct Update<T> : IQueryBuildable
                 builder.Append(x.ColumnName);
                 builder.Append(bracket.End);
                 builder.Append(" = ");
-                if (this.UseAmbientValue && x.AmbientValue is not null)
+                if (this._useAmbientValue && x.AmbientValue is not null)
                 {
                     builder.Append(x.AmbientValue);
                     builder.Append(',');

@@ -18,35 +18,16 @@ namespace QLimitive.Commands;
 /// Represents where command.
 /// </summary>
 /// <typeparam name="T"></typeparam>
-internal readonly struct Where<T> : IQueryBuildable
+internal readonly struct Where<T>(DbDialect dialect, Expression<Func<T, bool>> predicate)
+    : IQueryBuildable
 {
-    #region Properties
-    /// <summary>
-    /// Gets the database dialect.
-    /// </summary>
-    private DbDialect Dialect { get; }
-
-
-    /// <summary>
-    /// Gets the expression that represents the filter condition.
-    /// </summary>
-    private Expression<Func<T, bool>> Predicate { get; }
+    #region Fields
+    private readonly DbDialect _dialect = dialect;
+    private readonly Expression<Func<T, bool>> _predicate = predicate;
     #endregion
 
 
-    #region Constructors
-    /// <summary>
-    /// Creates instance.
-    /// </summary>
-    public Where(DbDialect dialect, Expression<Func<T, bool>> predicate)
-    {
-        this.Dialect = dialect;
-        this.Predicate = predicate;
-    }
-    #endregion
-
-
-    #region IQueryBuildable implementations
+    #region IQueryBuildable
     /// <inheritdoc/>
     public void Build(ref Utf16ValueStringBuilder builder, ref BindParameterCollection? parameters)
     {
@@ -57,9 +38,9 @@ internal readonly struct Where<T> : IQueryBuildable
         builder.Append("    ");
 
         var table = TableMappingInfo.Get<T>();
-        var parameter = this.Predicate.Parameters[0];
-        var parser = new Parser(parameter, this.Dialect, table, ref builder, ref parameters);
-        parser.Visit(this.Predicate);
+        var parameter = this._predicate.Parameters[0];
+        var parser = new Parser(parameter, this._dialect, table, ref builder, ref parameters);
+        parser.Visit(this._predicate);
     }
     #endregion
 
