@@ -235,7 +235,7 @@ public sealed class BindParameterCollection : IDictionary<string, object?>, IRea
     {
         var result = new BindParameterCollection(this._inner.Count);
         foreach (var x in this)
-            result.Add(x.Key, x.Value);
+            result._inner.Add(x.Key, x.Value);
         return result;
     }
     #endregion
