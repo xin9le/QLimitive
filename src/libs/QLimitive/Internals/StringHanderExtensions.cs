@@ -115,7 +115,7 @@ internal static class StringHanderExtensions
         /// <param name="count"></param>
         public void Advance(int count)
         {
-            ref var pos = ref _pos(ref @this);
+            ref var pos = ref DefaultInterpolatedStringHandler_pos(ref @this);
             pos += count;
         }
 
@@ -124,12 +124,12 @@ internal static class StringHanderExtensions
         /// Gets the length of the string written to the internal buffer.
         /// </summary>
         public int Length
-            => _pos(ref @this);
+            => DefaultInterpolatedStringHandler_pos(ref @this);
     }
 
 
     #region UnsafeAccessors
     [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_pos")]
-    private static extern ref int _pos(ref DefaultInterpolatedStringHandler handler);
+    private static extern ref int DefaultInterpolatedStringHandler_pos(ref DefaultInterpolatedStringHandler handler);
     #endregion
 }
