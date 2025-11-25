@@ -181,7 +181,7 @@ internal readonly struct Where<T>(DbDialect dialect, Expression<Func<T, bool>> p
         /// <param name="expression"></param>
         private void BuildAndOr(BinaryExpression expression)
         {
-            ref var handler = ref Unsafe.AsRef<DefaultInterpolatedStringHandler>(this._stringHandlerPointer);
+            ref var handler = ref Unsafe.AsRef(this._stringHandlerPointer);
             var @operator = OperatorHelper.From(expression.NodeType);
 
             //--- left
@@ -229,7 +229,7 @@ internal readonly struct Where<T>(DbDialect dialect, Expression<Func<T, bool>> p
         /// <param name="value"></param>
         private void BuildBinary(Operator @operator, string memberName, object? value)
         {
-            ref var handler = ref Unsafe.AsRef<DefaultInterpolatedStringHandler>(this._stringHandlerPointer);
+            ref var handler = ref Unsafe.AsRef(this._stringHandlerPointer);
             ref var bindParameters = ref Unsafe.AsRef<BindParameterCollection>(this._bindParametersPointer);
 
             //--- Build sql
@@ -322,7 +322,7 @@ internal readonly struct Where<T>(DbDialect dialect, Expression<Func<T, bool>> p
                 .ToArray();
 
             //--- Build sql
-            ref var handler = ref Unsafe.AsRef<DefaultInterpolatedStringHandler>(this._stringHandlerPointer);
+            ref var handler = ref Unsafe.AsRef(this._stringHandlerPointer);
             if (source.Length == 0)
             {
                 //--- There is no element in the in clause, it is forced to false.
@@ -353,7 +353,7 @@ internal readonly struct Where<T>(DbDialect dialect, Expression<Func<T, bool>> p
         /// <param name="value"></param>
         private void BuildBoolean(bool value)
         {
-            ref var handler = ref Unsafe.AsRef<DefaultInterpolatedStringHandler>(this._stringHandlerPointer);
+            ref var handler = ref Unsafe.AsRef(this._stringHandlerPointer);
             var sql = value ? "1 = 1" : "1 = 0";
             handler.Append(sql);
         }
