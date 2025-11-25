@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -38,7 +39,7 @@ public sealed class TableMappingInfo
     /// <summary>
     /// Gets the column mapping information.
     /// </summary>
-    public ReadOnlyMemory<ColumnMappingInfo> Columns { get; }
+    public ImmutableArray<ColumnMappingInfo> Columns { get; }
 
 
     /// <summary>
@@ -56,7 +57,7 @@ public sealed class TableMappingInfo
     /// <param name="type"></param>
     /// <param name="table"></param>
     /// <param name="columns"></param>
-    private TableMappingInfo(Type type, TableAttribute? table, ColumnMappingInfo[] columns)
+    private TableMappingInfo(Type type, TableAttribute? table, ImmutableArray<ColumnMappingInfo> columns)
     {
         this.Type = type;
         this.Schema = table?.Schema;
@@ -99,7 +100,7 @@ public sealed class TableMappingInfo
         {
             var type = typeof(T);
             var table = type.GetCustomAttributes<TableAttribute>(true).FirstOrDefault();
-            var columns = getColumns().ToArray();
+            var columns = getColumns().ToImmutableArray();
             Instance = new(type, table, columns);
 
             #region Local Functions

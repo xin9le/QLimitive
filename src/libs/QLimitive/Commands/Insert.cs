@@ -24,7 +24,7 @@ internal readonly struct Insert<T>(DbDialect dialect, bool useAmbientValue)
     public void Build(ref DefaultInterpolatedStringHandler handler, ref BindParameterCollection? parameters)
     {
         var table = TableMappingInfo.Get<T>();
-        var columns = table.Columns.Span;
+        var columns = table.Columns.AsSpan();
         var bracket = this._dialect.KeywordBracket;
         var prefix = this._dialect.BindParameterPrefix;
 
