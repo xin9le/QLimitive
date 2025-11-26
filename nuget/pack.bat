@@ -1,1 +1,1 @@
-dotnet pack ../src/QLimitive/QLimitive.csproj -c Release -o ./packages
+dotnet pack ../src/libs/QLimitive/QLimitive.csproj -c Release -o ./packages
