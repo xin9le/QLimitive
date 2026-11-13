@@ -2,9 +2,6 @@
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using QLimitive.Commands;
-#if !NET10_0_OR_GREATER
-using QLimitive.Internals;
-#endif
 
 namespace QLimitive;
 
