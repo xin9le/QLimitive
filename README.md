@@ -11,7 +11,7 @@
 
 ## Support Platform
 
-- .NET 8.0+
+- .NET 10.0+
 
 
 
